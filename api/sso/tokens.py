@@ -5,11 +5,13 @@ from cfg import eve_api
 from cfg import application as application_cfg
 import json
 import threading
+import logging
 
 data_folder = "data"
 filename = data_folder + "/refresh_token"
 expires_safe_zone = 20
 refresh_token_file_lock = threading.Lock()
+
 
 class Tokens:
     def __init__(self, access_token=None, refresh_token=None, expires=None):
@@ -65,6 +67,7 @@ class Tokens:
         self.__store()
 
     def __refresh_tokens(self):
+        logging.info("Refreshing token")
         resp = requests.post(eve_api.oauth_base_url_v2 + "/token",
                              auth=(application_cfg.client_id, application_cfg.secret_key),
                              headers={'Content-Type': 'application/x-www-form-urlencoded',

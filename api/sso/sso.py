@@ -1,4 +1,5 @@
 import json
+import logging
 import queue
 import urllib.parse
 import uuid
@@ -14,6 +15,8 @@ from .tokens import Tokens
 
 class EveAuth:
     def authenticate(self):
+
+        logging.info("Requesting new authentication informations")
         code = self.__resquest_authorization_code()
         return self.__request_new_tokens(code)
 
