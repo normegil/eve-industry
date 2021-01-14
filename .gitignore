@@ -3,3 +3,4 @@ venv/
 data/
 
 cfg/application.py
+__pycache__
