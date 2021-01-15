@@ -7,7 +7,7 @@ import webbrowser
 
 import requests
 
-from api.sso.httpserver import Server
+from dao.api.sso.httpserver import Server
 from cfg import application as application_cfg
 from cfg import eve_api
 from .tokens import Tokens

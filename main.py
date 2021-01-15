@@ -4,22 +4,34 @@
 # Output
 # Results and Calculations
 # Shopping List
-from db import connect
 
 import logging
-from api import CharacterAPI, MarketAPI
-from api.sso import EveAuth, Tokens
+import os.path
+
+from redislite import Redis
+
+from dao import CharacterDAO, UniverseDAO, MarketDAO
+from dao.api import CharacterAPI, UniverseAPI, MarketAPI
+from dao.api.sso import EveAuth, Tokens
+from dao.redis import CharacterCache, UniverseCache
+from reports import report_assets
 
 logging.basicConfig(level=logging.INFO)
 
-t = Tokens()
+if not os.path.exists("data"):
+    os.mkdir("data")
 
+conn = Redis("data/redis.db", decode_responses=True)
+
+print(conn.keys())
+
+t = Tokens()
 if not t.load():
     auth = EveAuth()
     t = auth.authenticate()
 
-char = CharacterAPI(t).load()
-MarketAPI(t).load_character_order_history(char.id)
+character_dao = CharacterDAO(CharacterCache(conn, CharacterAPI(t)), MarketDAO(MarketAPI(t)))
+char = character_dao.load()
 
-with connect("data/eve-industry.db") as db:
-    pass
+universe_dao = UniverseDAO(UniverseCache(conn, UniverseAPI(t)))
+report_assets(char, universe_dao, group_name="Mineral")

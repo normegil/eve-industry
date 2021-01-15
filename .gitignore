@@ -1,6 +1,11 @@
 venv/
 .idea/*
-data/
-
-cfg/application.py
 __pycache__
+lib/
+pyvenv.cfg
+
+data/
+cfg/application.py
+bin/
+share/
+lib64
