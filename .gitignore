@@ -9,3 +9,4 @@ cfg/application.py
 bin/
 share/
 lib64
+*.pyproject*
