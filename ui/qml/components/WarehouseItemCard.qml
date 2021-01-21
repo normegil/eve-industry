@@ -18,15 +18,19 @@ Rectangle {
 
     property color itemPriceTagColor: Colors.grey4
     property color iconDetailsColor: Colors.grey5
-    property color shadowColor: Colors.grey0
+    property color shadowColor: Colors.grey6
 
     property string fontFamily: FontFamilies.family0
 
     property color bgMainColor: Colors.grey9
-    property color bgIconColor: Colors.grey7
 
     property int iconWidth: 18
     property int iconHeight: iconWidth
+
+    QtObject {
+        id: internal
+        property color bgIconColor: btnWarehouseItemCard.hovered ? Colors.grey7 : Colors.grey8
+    }
 
     implicitWidth: 230
     implicitHeight: 60
@@ -130,7 +134,7 @@ Rectangle {
 
             background: Rectangle {
                 id: bgBtnWarehouseItemCard
-                color: warehouseItemCard.bgIconColor
+                color: internal.bgIconColor
             }
 
             Image {
