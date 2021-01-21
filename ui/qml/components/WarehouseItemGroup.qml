@@ -1,5 +1,6 @@
-import QtQuick 2.0
+import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
 import QtGraphicalEffects 1.0
 
 import "../predefined" 1.0
@@ -45,34 +46,19 @@ Rectangle {
             bottomMargin: 20
         }
 
-        WarehouseItemCard {
-            id: warehouseItemCard
-            x: 0
-            y: 0
-        }
+        GridLayout {
+            id: itemContainerLayout
+            anchors.fill: parent.fill
 
-        WarehouseItemCard {
-            id: warehouseItemCard1
-            x: 0
-            y: 80
-        }
+            columns: 2
+            columnSpacing: 20
+            rowSpacing: itemContainerLayout.columnSpacing
 
-        WarehouseItemCard {
-            id: warehouseItemCard2
-            x: 0
-            y: 160
-        }
-
-        WarehouseItemCard {
-            id: warehouseItemCard4
-            x: 250
-            y: 0
-        }
-
-        WarehouseItemCard {
-            id: warehouseItemCard5
-            x: 250
-            y: 80
+            WarehouseItemCard {}
+            WarehouseItemCard {}
+            WarehouseItemCard {}
+            WarehouseItemCard {}
+            WarehouseItemCard {}
         }
     }
 }

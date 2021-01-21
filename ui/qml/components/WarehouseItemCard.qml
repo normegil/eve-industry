@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtGraphicalEffects 1.0
 
@@ -17,19 +17,33 @@ Rectangle {
     property color itemPriceColor: Colors.grey2
 
     property color itemPriceTagColor: Colors.grey4
-    property color iconDetailsColor: Colors.grey5
     property color shadowColor: Colors.grey6
 
     property string fontFamily: FontFamilies.family0
 
     property color bgMainColor: Colors.grey9
 
+    property color iconDetailsColorDefault: Colors.grey6
+    property color iconDetailsColorHovered: Colors.grey5
+    property color iconDetailsColorPressed: Colors.grey7
+
+    property color bgIconColorDefault: Colors.grey8
+    property color bgIconColorHovered: Colors.grey7
+    property color bgIconColorPressed: Colors.grey9
+
     property int iconWidth: 18
     property int iconHeight: iconWidth
 
     QtObject {
         id: internal
-        property color bgIconColor: btnWarehouseItemCard.hovered ? Colors.grey7 : Colors.grey8
+
+        function buttonHovered() {
+            if (btnWarehouseItemCard.hovered) {
+                bgBtnWarehouseItemCard.color = bgIconColorHovered
+            } else {
+                bgBtnWarehouseItemCard.color = bgIconColorDefault
+            }
+        }
     }
 
     implicitWidth: 230
@@ -125,6 +139,20 @@ Rectangle {
         Button {
             id: btnWarehouseItemCard
 
+            QtObject {
+                id: btnWarehouseItemCardInternal
+
+                function onHovered(hovered) {
+                    if (hovered) {
+                        bgBtnWarehouseItemCard.color = bgIconColorHovered
+                        iconDetailsOverlay.color = iconDetailsColorHovered
+                    } else {
+                        bgBtnWarehouseItemCard.color = bgIconColorDefault
+                        iconDetailsOverlay.color = iconDetailsColorDefault
+                    }
+                }
+            }
+
             anchors {
                 left: mainBgWarehouseItemCard.right
                 top: parent.top
@@ -134,7 +162,25 @@ Rectangle {
 
             background: Rectangle {
                 id: bgBtnWarehouseItemCard
-                color: internal.bgIconColor
+                color: bgIconColorDefault
+            }
+
+            HoverHandler {
+                id: bgBtnWarehouseItemCardHoveredHandler
+                onHoveredChanged: {
+                    btnWarehouseItemCardInternal.onHovered(hovered)
+                }
+            }
+
+            onPressed: {
+                bgBtnWarehouseItemCard.color = bgIconColorPressed
+                iconDetailsOverlay.color = iconDetailsColorPressed
+            }
+
+            onReleased: {
+                bgBtnWarehouseItemCard.color = bgIconColorDefault
+                iconDetailsOverlay.color = iconDetailsColorDefault
+                btnWarehouseItemCardInternal.onHovered(bgBtnWarehouseItemCardHoveredHandler.hovered)
             }
 
             Image {
@@ -155,9 +201,10 @@ Rectangle {
             }
 
             ColorOverlay {
+                id: iconDetailsOverlay
                 anchors.fill: iconDetailsWarehouseItemCard
                 source: iconDetailsWarehouseItemCard
-                color: iconDetailsColor
+                color: iconDetailsColorDefault
                 antialiasing: true
                 anchors.verticalCenter: parent.verticalCenter
                 width: iconWidth
