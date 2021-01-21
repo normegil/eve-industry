@@ -5,16 +5,16 @@ import "components"
 import "predefined" 1.0
 
 Window {
-    width: 640
-    height: 480
+    width: 1200
+    height: 600
     visible: true
     title: qsTr("Hello World")
 
     color: Colors.grey8
 
-    WarehouseItemCard {
+    WarehouseItemGroup {
         id: warehouseItemCard
-        x: 115
-        y: 98
+        x: 50
+        y: 50
     }
 }

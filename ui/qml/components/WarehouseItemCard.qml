@@ -11,7 +11,7 @@ Rectangle {
     property color itemNameColor: Colors.grey4
 
     property string itemQuantity: "50.000k"
-    property color itemQuantityColor: Colors.grey0
+    property color itemQuantityColor: Colors.grey1
 
     property string itemPrice: "2.000k"
     property color itemPriceColor: Colors.grey2
@@ -20,7 +20,7 @@ Rectangle {
     property color iconDetailsColor: Colors.grey5
     property color shadowColor: Colors.grey0
 
-    property string fontFamily: "Roboto"
+    property string fontFamily: FontFamilies.family0
 
     property color bgMainColor: Colors.grey9
     property color bgIconColor: Colors.grey7
@@ -55,7 +55,7 @@ Rectangle {
 
                 font.family: fontFamily
                 font.weight: Font.Normal
-                font.pixelSize : 12
+                font.pixelSize : FontSizes.size1
 
                 verticalAlignment: Text.AlignBottom
 
@@ -71,7 +71,7 @@ Rectangle {
                 text: itemQuantity
                 color: itemQuantityColor
                 font.family: fontFamily
-                font.pixelSize : 24
+                font.pixelSize : FontSizes.size6
 
                 verticalAlignment: Text.AlignBottom
 
@@ -88,7 +88,7 @@ Rectangle {
                 text: itemPrice
                 color: itemPriceColor
                 font.family: fontFamily
-                font.pixelSize : 16
+                font.pixelSize : FontSizes.size3
 
                 horizontalAlignment: Text.AlignRight
                 verticalAlignment: Text.AlignBottom
@@ -105,7 +105,7 @@ Rectangle {
                 text: "ISK/u"
                 color: itemPriceTagColor
                 font.family: fontFamily
-                font.pixelSize : 10
+                font.pixelSize : FontSizes.size0
 
                 verticalAlignment: Text.AlignBottom
 
