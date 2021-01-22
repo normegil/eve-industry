@@ -1,4 +1,5 @@
 import QtQuick 2.15
+import QtQuick.Controls 2.15
 import QtQuick.Window 2.13
 
 import "components"
@@ -8,13 +9,12 @@ Window {
     width: 1200
     height: 600
     visible: true
-    title: qsTr("Hello World")
+    title: qsTr("Eve Industry")
 
     color: Colors.grey8
 
-    WarehouseItemGroup {
-        id: warehouseItemCard
-        x: 50
-        y: 50
-    }
+    Loader {
+            anchors.fill: parent.fill
+            source: "pages/warehouse.qml"
+        }
 }

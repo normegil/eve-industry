@@ -7,6 +7,7 @@ import "../predefined" 1.0
 
 Rectangle {
     id: warehouseItemGroup
+    height: itemContainer.height
     width: 790
     color: "#00000000"
 
@@ -36,14 +37,14 @@ Rectangle {
     Rectangle {
         id: itemContainer
         width: 500
+        height: itemContainerLayout.height
+        color: "#00000000"
 
         anchors {
             top: parent.top
-            bottom: parent.bottom
             right: parent.right
             rightMargin: 20
             topMargin: 20
-            bottomMargin: 20
         }
 
         GridLayout {
