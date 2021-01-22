@@ -3,7 +3,8 @@ import json
 import requests
 
 from cfg import eve_api
-from model import Character, Assets, AssetLocation
+from model.entities import Character
+from model.entities.assets import Assets, AssetLocation
 
 
 class CharacterAPI:

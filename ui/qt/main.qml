@@ -14,7 +14,7 @@ Window {
     color: Colors.grey8
 
     Loader {
-            anchors.fill: parent.fill
-            source: "pages/warehouse.qml"
-        }
+        anchors.fill: parent.fill
+        source: "pages/warehouse.qml"
+    }
 }
