@@ -1,4 +1,4 @@
-from model.assets import Assets
+from model.entities.assets import Assets
 import datetime
 from dateutil.relativedelta import relativedelta
 

@@ -3,7 +3,7 @@ import json
 import requests
 
 from cfg import eve_api
-from model.assets import Order
+from model.entities.assets import Order
 
 
 class MarketAPI:

@@ -49,7 +49,7 @@ if __name__ == "__main__":
     addRobotoFont()
 
     engine = QQmlApplicationEngine()
-    engine.load(os.path.join(os.path.dirname(__file__), "ui/qml/main.qml"))
+    engine.load(os.path.join(os.path.dirname(__file__), "ui/qt/main.qml"))
 
     if not engine.rootObjects():
         sys.exit(-1)

@@ -1,6 +1,6 @@
 from model import Race
-from model.locations import Region, Constellation, Station, System
-from model.types import Type, Group, Category
+from model.entities.locations import Region, Constellation, Station, System
+from model.entities.types import Type, Group, Category
 
 
 class UniverseCache:
