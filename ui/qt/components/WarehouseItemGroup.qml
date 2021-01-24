@@ -11,7 +11,7 @@ Rectangle {
     width: 790
     color: "#00000000"
 
-    property string text: "Minerals"
+    property string name: "Minerals"
 
     Rectangle {
         width: warehouseItemGroup.width
@@ -21,7 +21,7 @@ Rectangle {
     }
 
     Text {
-        text: warehouseItemGroup.text
+        text: warehouseItemGroup.name
         font.family: FontFamilies.family0
         font.pixelSize: FontSizes.size2
         color: Colors.grey3
@@ -55,9 +55,6 @@ Rectangle {
             columnSpacing: 20
             rowSpacing: itemContainerLayout.columnSpacing
 
-            WarehouseItemCard {}
-            WarehouseItemCard {}
-            WarehouseItemCard {}
             WarehouseItemCard {}
             WarehouseItemCard {}
         }

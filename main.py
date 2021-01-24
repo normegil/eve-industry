@@ -1,10 +1,3 @@
-# Warehouse manager
-# Input
-# Display all orders
-# Output
-# Results and Calculations
-# Shopping List
-
 import logging
 import os
 import sys
@@ -15,12 +8,6 @@ from controller import Controller
 from model import Model
 from model.dao.api.sso import EveAuth, Tokens
 from ui.qt import QtView
-
-# character_dao = CharacterDAO(CharacterCache(conn, CharacterAPI(t)), MarketDAO(MarketAPI(t)))
-# char = character_dao.load()
-#
-# universe_dao = UniverseDAO(UniverseCache(conn, UniverseAPI(t)))
-# report_assets(char, universe_dao, group_name="Mineral")
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
@@ -34,6 +21,6 @@ if __name__ == "__main__":
             auth = EveAuth()
             t = auth.authenticate()
         model = Model(conn, t)
-        controller = Controller(model)
-        view = QtView(sys.argv, controller)
+        view = QtView(sys.argv)
+        controller = Controller(model, view)
         sys.exit(view.exec_())

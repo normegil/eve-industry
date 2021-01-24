@@ -5,9 +5,10 @@ from PySide2.QtQml import QQmlApplicationEngine
 
 
 class QtView:
-    def __init__(self, argv, backend):
-        self.argv = argv
-        self.backend = backend
+    def __init__(self, argv):
+        self.app = QGuiApplication(argv)
+        self.__add_roboto_font()
+        self.engine = QQmlApplicationEngine()
 
     def __add_roboto_font(self):
         QFontDatabase.addApplicationFont("ui/resources/fonts/Roboto-Black.ttf")
@@ -24,14 +25,8 @@ class QtView:
         QFontDatabase.addApplicationFont("ui/resources/fonts/Roboto-ThinItalic.ttf")
 
     def exec_(self):
-        app = QGuiApplication(self.argv)
-        self.__add_roboto_font()
+        self.engine.load(os.path.join(os.path.dirname(__file__), "main.qml"))
 
-        engine = QQmlApplicationEngine()
-        engine.rootContext().setContextProperty("backend", self.backend)
-
-        engine.load(os.path.join(os.path.dirname(__file__), "main.qml"))
-
-        if not engine.rootObjects():
+        if not self.engine.rootObjects():
             raise RuntimeError("Could not start QtView")
-        return app.exec_()
+        return self.app.exec_()
