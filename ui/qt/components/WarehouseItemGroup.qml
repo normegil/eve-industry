@@ -7,7 +7,7 @@ import "../predefined" 1.0
 
 Rectangle {
     id: warehouseItemGroup
-    height: itemContainer.height
+    height: itemContainer.height + 40 + 2
     width: 790
     color: "#00000000"
 
@@ -55,6 +55,7 @@ Rectangle {
             columnSpacing: 20
             rowSpacing: itemContainerLayout.columnSpacing
 
+            WarehouseItemCard {}
             WarehouseItemCard {}
             WarehouseItemCard {}
         }

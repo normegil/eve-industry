@@ -10,7 +10,8 @@ class ItemGroupsModel(QAbstractListModel):
         QAbstractListModel.__init__(self, parent)
         self.groups = [
             Group("Tech 1"),
-            Group("Tech 2")
+            Group("Tech 2"),
+            Group("Tech 3")
         ]
         logging.info(f"ItemGroupsModel: Init")
 

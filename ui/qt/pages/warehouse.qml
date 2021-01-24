@@ -3,9 +3,10 @@ import QtQuick 2.15
 import "../components"
 
 Item {
+    anchors.fill: parent
+
     ListView {
-        x: 10
-        y: 10
+        anchors.fill: parent
         model: itemGroupsModel
         delegate: WarehouseItemGroup {
             name: groupName

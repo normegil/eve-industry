@@ -13,36 +13,8 @@ Window {
 
     color: Colors.grey8
 
-//    Rectangle {
-//        width: 1000
-//        height: 800
-//
-//        ListView {
-//            width: 600
-//            height: 600
-//            model: warehouseModel
-//            delegate: Rectangle {
-//                id: rectDel
-//                anchors.centerIn: parent
-//                color: "#000000"
-//
-//                width: 200
-//                height: 100
-//
-//                Text {
-//                    anchors.centerIn: parent
-//                    id: restDelTest
-//
-//                    color: "#FFFFFF"
-//
-//                    text: name
-//                }
-//            }
-//        }
-//    }
-
     Loader {
-        anchors.fill: parent.fill
+        anchors.fill: parent
         source: "pages/warehouse.qml"
     }
 }
