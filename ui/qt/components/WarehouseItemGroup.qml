@@ -12,6 +12,7 @@ Rectangle {
     color: "#00000000"
 
     property string name: "Minerals"
+    property var assets: ListModel{}
 
     Rectangle {
         width: warehouseItemGroup.width
@@ -47,17 +48,14 @@ Rectangle {
             topMargin: 20
         }
 
-        GridLayout {
+        GridView {
             id: itemContainerLayout
             anchors.fill: parent.fill
 
-            columns: 2
-            columnSpacing: 20
-            rowSpacing: itemContainerLayout.columnSpacing
-
-            WarehouseItemCard {}
-            WarehouseItemCard {}
-            WarehouseItemCard {}
+            model: assets
+            delegate: WarehouseItemCard {
+                itemName: itemName
+            }
         }
     }
 }

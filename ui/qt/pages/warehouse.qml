@@ -10,6 +10,7 @@ Item {
         model: itemGroupsModel
         delegate: WarehouseItemGroup {
             name: groupName
+            assets: groupAssets
         }
     }
 }
