@@ -57,7 +57,7 @@ class ItemsModel(QAbstractListModel):
 
     def roleNames(self):
         return {
-            ItemGroupsModel.NameRole: b'itemName',
+            ItemGroupsModel.NameRole: b'name',
         }
 
     def rowCount(self, parent=QModelIndex()):

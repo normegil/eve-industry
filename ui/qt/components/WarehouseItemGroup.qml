@@ -59,7 +59,7 @@ Rectangle {
                 width: 250
                 height:80
                 WarehouseItemCard {
-                    itemName: itemName
+                    itemName: name
                 }
             }
         }
