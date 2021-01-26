@@ -38,7 +38,7 @@ Rectangle {
     Rectangle {
         id: itemContainer
         width: 500
-        height: itemContainerLayout.height
+        height: itemContainerLayout.count / 2 * itemContainerLayout.cellHeight + 20
         color: "#00000000"
 
         anchors {
@@ -50,11 +50,17 @@ Rectangle {
 
         GridView {
             id: itemContainerLayout
-            anchors.fill: parent.fill
+            cellWidth: 250
+            cellHeight: 80
+            anchors.fill: parent
 
             model: assets
-            delegate: WarehouseItemCard {
-                itemName: itemName
+            delegate: Item {
+                width: 250
+                height:80
+                WarehouseItemCard {
+                    itemName: itemName
+                }
             }
         }
     }
