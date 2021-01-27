@@ -17,13 +17,14 @@ class CharacterDAO:
     def load_assets_by_category(self, character_id):
         assets = self.character_api.load_assets(character_id)
         categories = []
-        for asset in assets:
+        for index in assets:
+            asset = assets[index]
             type_ = self.universe_dao.load_type(asset.type_id)
             asset.merge_with(type_)
 
             category = self.find_category(categories, type_.group.category)
             group = category.search_or_add_group(type_.group)
-            group.search_or_add_asset_type(asset)
+            group.search_or_add_asset(asset)
 
         orders = self.market_dao.load_character_order_history(character_id)
         validity = datetime.datetime.now() - relativedelta(years=5)
@@ -34,10 +35,10 @@ class CharacterDAO:
             if validity > issued_order:
                 continue
             type_ = self.universe_dao.load_type(order.type_id)
-            category = self.find_category(categories, order.type.group.category)
-            group = category.search_or_add_group(type_.group)
-            asset = Assets(order.type_id, order.type)
-            asset = group.search_or_add_asset_type(asset)
+            asset = Assets(order.type_id, type_)
+            category = self.find_category(categories, asset.group.category)
+            group = category.search_or_add_group(asset.group)
+            asset = group.search_or_add_asset(asset)
             asset.buy_orders.append(order)
         return categories
 

@@ -35,7 +35,8 @@ class CharacterAPI:
         for asset in content:
             if asset["type_id"] not in assets_grouped:
                 if "is_blueprint_copy" in asset:
-                    assets_grouped[asset["type_id"]] = Assets(asset["type_id"], asset["is_blueprint_copy"])
+                    assets_grouped[asset["type_id"]] = Assets(asset["type_id"],
+                                                              is_blueprint_copy=asset["is_blueprint_copy"])
                 else:
                     assets_grouped[asset["type_id"]] = Assets(asset["type_id"])
 

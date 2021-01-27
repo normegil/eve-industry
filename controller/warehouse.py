@@ -39,7 +39,7 @@ class ItemGroupsModel(QAbstractListModel):
             if role == ItemGroupsModel.NameRole:
                 return self.groups[row].name
             elif role == ItemGroupsModel.AssetsRole:
-                return self.groups[row].assets
+                return ItemsModel(self.groups[row].assets)
 
 
 class ItemsModel(QAbstractListModel):

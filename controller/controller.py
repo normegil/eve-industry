@@ -22,5 +22,6 @@ class Controller(QObject):
         groups = []
         for category in asset_categories:
             for group in category.groups:
-                groups.append(group)
+                if group.name == "Mineral":
+                    groups.append(group)
         return groups
