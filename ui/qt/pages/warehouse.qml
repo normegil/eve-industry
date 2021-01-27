@@ -32,7 +32,7 @@ Item {
 
             font.family: FontFamilies.family0
             font.weight: Font.Normal
-            font.pixelSize : FontSizes.size5
+            font.pixelSize : FontSizes.size6
         }
 
         ScrollView {
@@ -68,5 +68,20 @@ Item {
         }
         border.width: 1
         border.color: Colors.grey7
+    }
+
+    Item {
+        id: detailsScreenPart
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+            left: verticalSeparator.right
+            right: parent.right
+        }
+
+        Loader {
+            anchors.fill: parent
+            source: "warehouse/ItemDetails.qml"
+        }
     }
 }

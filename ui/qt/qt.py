@@ -26,7 +26,7 @@ class QtView:
 
     def exec_(self):
         self.engine.load(os.path.join(os.path.dirname(__file__), "main.qml"))
-
+        
         if not self.engine.rootObjects():
             raise RuntimeError("Could not start QtView")
         return self.app.exec_()
