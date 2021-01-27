@@ -43,6 +43,7 @@ class Assets:
             price += order.total_price_acted()
         return price
 
+    @property
     def average_price_per_unit(self):
         quantity_buyed = self.quantity_buyed()
         if quantity_buyed == 0:

@@ -60,6 +60,8 @@ Rectangle {
                 height:80
                 WarehouseItemCard {
                     itemName: name
+                    itemQuantity: quantity
+                    itemPrice: price
                 }
             }
         }

@@ -1,3 +1,5 @@
+import locale
+
 from PySide2.QtCore import QAbstractListModel, Qt, QModelIndex
 
 
@@ -33,7 +35,7 @@ class ItemGroupsModel(QAbstractListModel):
             return 0
         return len(self.groups)
 
-    def data(self, index, role=Qt.DisplayRole):
+    def data(self, index: QModelIndex, role=Qt.DisplayRole):
         if index.isValid():
             row = index.row()
             if role == ItemGroupsModel.NameRole:
@@ -44,6 +46,8 @@ class ItemGroupsModel(QAbstractListModel):
 
 class ItemsModel(QAbstractListModel):
     NameRole = Qt.UserRole + 1
+    QuantityRole = Qt.UserRole + 2
+    PriceRole = Qt.UserRole + 3
 
     def __init__(self, items, parent=None):
         QAbstractListModel.__init__(self, parent)
@@ -51,7 +55,9 @@ class ItemsModel(QAbstractListModel):
 
     def roleNames(self):
         return {
-            ItemGroupsModel.NameRole: b'name',
+            ItemsModel.NameRole: b'name',
+            ItemsModel.QuantityRole: b'quantity',
+            ItemsModel.PriceRole: b'price',
         }
 
     def rowCount(self, parent=QModelIndex()):
@@ -62,5 +68,10 @@ class ItemsModel(QAbstractListModel):
     def data(self, index, role=Qt.DisplayRole):
         if index.isValid():
             row = index.row()
-            if role == ItemGroupsModel.NameRole:
+            if role == ItemsModel.NameRole:
                 return self.items[row].name
+            elif role == ItemsModel.QuantityRole:
+                q = self.items[row].quantity
+                return f"{q:n}"
+            elif role == ItemsModel.PriceRole:
+                return locale.format_string("%.2f", self.items[row].average_price_per_unit, True)

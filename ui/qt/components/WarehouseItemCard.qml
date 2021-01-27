@@ -10,10 +10,10 @@ Rectangle {
     property string itemName: "Tritanium"
     property color itemNameColor: Colors.grey4
 
-    property string itemQuantity: "50.000k"
+    property string itemQuantity: "0"
     property color itemQuantityColor: Colors.grey1
 
-    property string itemPrice: "2.000k"
+    property string itemPrice: "0"
     property color itemPriceColor: Colors.grey2
 
     property color itemPriceTagColor: Colors.grey4
