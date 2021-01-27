@@ -46,7 +46,7 @@ Rectangle {
         }
     }
 
-    implicitWidth: 230
+    implicitWidth: 380
     implicitHeight: 60
     color: "#00000000"
 
@@ -58,7 +58,7 @@ Rectangle {
         Rectangle {
             id: mainBgWarehouseItemCard
 
-            width: 195
+            width: 345
             anchors {
                 left: parent.left
                 top: parent.top

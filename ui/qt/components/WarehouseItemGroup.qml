@@ -8,7 +8,7 @@ import "../predefined" 1.0
 Rectangle {
     id: warehouseItemGroup
     height: itemContainer.height + 40 + 2
-    width: 790
+    width: itemContainer.width + 300
     color: "#00000000"
 
     property string name: "Minerals"
@@ -37,7 +37,7 @@ Rectangle {
 
     Rectangle {
         id: itemContainer
-        width: 500
+        width: itemContainerLayout.cellWidth * 2
         height: itemContainerLayout.count / 2 * itemContainerLayout.cellHeight + 20
         color: "#00000000"
 
@@ -50,19 +50,15 @@ Rectangle {
 
         GridView {
             id: itemContainerLayout
-            cellWidth: 250
+            cellWidth: 400
             cellHeight: 80
             anchors.fill: parent
 
             model: assets
-            delegate: Item {
-                width: 250
-                height:80
-                WarehouseItemCard {
-                    itemName: name
-                    itemQuantity: quantity
-                    itemPrice: price
-                }
+            delegate: WarehouseItemCard {
+                itemName: name
+                itemQuantity: quantity
+                itemPrice: price
             }
         }
     }

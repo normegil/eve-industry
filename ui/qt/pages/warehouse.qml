@@ -9,6 +9,7 @@ Item {
     Text {
         id: stockTitle
         height: 50
+        width: WarehouseItemGroup.width
 
         anchors {
             top: parent.top

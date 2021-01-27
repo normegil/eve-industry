@@ -74,4 +74,7 @@ class ItemsModel(QAbstractListModel):
                 q = self.items[row].quantity
                 return f"{q:n}"
             elif role == ItemsModel.PriceRole:
-                return locale.format_string("%.2f", self.items[row].average_price_per_unit, True)
+                avg = self.items[row].average_price_per_unit
+                if avg is None:
+                    return "???"
+                return locale.format_string("%.2f", avg, True)
