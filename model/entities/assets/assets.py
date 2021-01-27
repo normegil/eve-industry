@@ -1,11 +1,26 @@
 class Assets:
-    def __init__(self, type_id, is_blueprint_copy=False, by_locations=None):
+    def __init__(self, type_id, type=None, is_blueprint_copy=False, by_locations=None):
         if by_locations is None:
             by_locations = []
         self.type_id = type_id
         self.is_blueprint_copy = is_blueprint_copy
         self.by_locations = by_locations
         self.buy_orders = []
+        if type is not None:
+            self.id = None
+            self.name = None
+            self.description = None
+            self.volume = None
+            self.packaged_volume = None
+            self.group = None
+
+    def merge_with(self, type_):
+        self.id = type_.id
+        self.name = type_.name
+        self.description = type_.description
+        self.volume = type_.volume
+        self.packaged_volume = type_.packaged_volume
+        self.group = type_.group
 
     @property
     def quantity(self):

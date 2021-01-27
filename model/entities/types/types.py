@@ -1,6 +1,6 @@
 class Type:
-    def __init__(self, character_id=None, name=None, description=None, volume=None, packaged_volume=None, group=None):
-        self.id = character_id
+    def __init__(self, id_=None, name=None, description=None, volume=None, packaged_volume=None, group=None):
+        self.id = id_
         self.name = name
         self.description = description
         self.volume = volume

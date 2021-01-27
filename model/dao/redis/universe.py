@@ -1,4 +1,4 @@
-from model import Race
+from model.entities import Race
 from model.entities.locations import Region, Constellation, Station, System
 from model.entities.types import Type, Group, Category
 

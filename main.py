@@ -6,7 +6,7 @@ from redislite import Redis
 
 from controller import Controller
 from model import Model
-from model.dao.api.sso import EveAuth, Tokens
+from model.dao.eveapi.sso import EveAuth, Tokens
 from ui.qt import QtView
 
 if __name__ == "__main__":

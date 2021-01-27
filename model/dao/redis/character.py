@@ -1,4 +1,4 @@
-from model import Character
+from model.entities import Character
 
 
 class CharacterCache:

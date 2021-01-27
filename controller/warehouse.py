@@ -1,5 +1,3 @@
-import logging
-
 from PySide2.QtCore import QAbstractListModel, Qt, QModelIndex
 
 
@@ -9,22 +7,20 @@ class Group:
         self.assets = assets
 
 
-class Item:
-    def __init__(self, name):
-        self.name = name
-
-
 class ItemGroupsModel(QAbstractListModel):
     NameRole = Qt.UserRole + 1
     AssetsRole = Qt.UserRole + 2
 
-    def __init__(self, parent=None):
+    def __init__(self, groups=None, parent=None):
         QAbstractListModel.__init__(self, parent)
-        self.groups = [
-            Group("Tech 1", ItemsModel([Item("A"), Item("B"), Item("C")])),
-            Group("Tech 2", ItemsModel([Item("D")])),
-            Group("Tech 3", ItemsModel([Item("E"), Item("F"), Item("G"), Item("H"), Item("I")]))
-        ]
+        if groups is None:
+            groups = []
+        self.setModel(groups)
+
+    def setModel(self, groups):
+        self.beginResetModel()
+        self.groups = groups
+        self.endResetModel()
 
     def roleNames(self):
         return {
@@ -41,10 +37,8 @@ class ItemGroupsModel(QAbstractListModel):
         if index.isValid():
             row = index.row()
             if role == ItemGroupsModel.NameRole:
-                logging.info("Group: Name")
                 return self.groups[row].name
             elif role == ItemGroupsModel.AssetsRole:
-                logging.info("Group: Assets")
                 return self.groups[row].assets
 
 

@@ -10,6 +10,7 @@ class Order:
         self.type_id = type_id
         self.volume_remain = volume_remain
         self.volume_total = volume_total
+        self.type = None
 
     def volume_acted(self):
         return self.volume_total - self.volume_remain

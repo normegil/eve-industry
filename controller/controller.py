@@ -7,8 +7,20 @@ class Controller(QObject):
     def __init__(self, model, view):
         QObject.__init__(self)
         self.model = model
-        self.register_warehouse(view)
+        self.view_model = ItemGroupsModel()
 
-    def register_warehouse(self, view):
-        self.model = ItemGroupsModel()
-        view.engine.rootContext().setContextProperty("itemGroupsModel", self.model)
+        self.refresh_warehouse()
+        view.engine.rootContext().setContextProperty("itemGroupsModel", self.view_model)
+
+
+    def refresh_warehouse(self):
+        asset_categories = self.model.characters.assets()
+        qt_group_format = self.toQtGroupFormat(asset_categories)
+        self.view_model.setModel(qt_group_format)
+
+    def toQtGroupFormat(self, asset_categories):
+        groups = []
+        for category in asset_categories:
+            for group in category.groups:
+                groups.append(group)
+        return groups
