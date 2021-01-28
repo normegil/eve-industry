@@ -4,9 +4,22 @@ import QtQuick.Controls 2.15
 import "../../predefined" 1.0
 
 Item {
+    id: itemsDetail
     anchors.fill: parent
 
     property string title: "Item Name"
+
+    Component.onCompleted: {
+        warehouseItemDetails.reloadUI()
+    }
+
+    Connections {
+        target: warehouseItemDetails
+
+        function onNameChanged() {
+            title = warehouseItemDetails.name
+        }
+    }
 
     Text {
         id: detailsTitle
@@ -19,18 +32,25 @@ Item {
             right: parent.right
         }
 
-        text: warehouseItemDetails.name
+        text: title
 
         font.family: FontFamilies.family0
         font.weight: Font.Normal
         font.pixelSize : FontSizes.size4
     }
 
-    Connections {
-        target: warehouseItemDetails
-    }
-
-    Component.onCompleted: {
-
+    ListView {
+        id: assetRegionView
+        height: 500
+        anchors {
+            top: detailsTitle.top
+            left: parent.left
+            leftMargin: 50
+            right: parent.right
+        }
+        model: warehouseItemDetailsLocations
+        delegate: Text {
+            text: "Test"
+        }
     }
 }

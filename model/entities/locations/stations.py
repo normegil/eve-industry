@@ -6,17 +6,8 @@ class Station:
         self.system = system
         self.type = type
         self.race = race
-        self.assets = []
+        self.asset = None
         self.buy_orders = []
-
-    def add_asset(self, asset):
-        self.assets.append(asset)
-
-    def asset(self, asset_id):
-        for asset in self.assets:
-            if asset.asset_id == asset_id:
-                return asset
-        return None
 
     def add_buy_order(self, buy_order):
         self.buy_orders.append(buy_order)

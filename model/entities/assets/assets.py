@@ -50,6 +50,7 @@ class Assets:
             return None
         return self.total_price_buyed() / quantity_buyed
 
+    @property
     def by_region(self):
         regions = self.__assets_by_region()
         return self.__buy_orders_by_region(regions)
@@ -58,8 +59,7 @@ class Assets:
         regions = []
         for asset_by_location in self.by_locations:
             found_station = find_station(regions, asset_by_location.station)
-            if None is found_station.asset(asset_by_location.asset_id):
-                found_station.add_asset(asset_by_location)
+            found_station.asset = asset_by_location
         return regions
 
     def __buy_orders_by_region(self, regions=None):
@@ -85,11 +85,11 @@ def find_station(regions, station):
     if system is None:
         system = station.system
         constellation.add_system(system)
-    station = system.station(station.id)
-    if station is None:
-        station = station
-        system.add_station(station)
-    return station
+    found_station = system.station(station.id)
+    if found_station is None:
+        found_station = station
+        system.add_station(found_station)
+    return found_station
 
 
 def find_region(regions, region_id):

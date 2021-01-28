@@ -13,9 +13,8 @@ class Controller(QObject):
         self.refresh_warehouse()
         self.view.engine.rootContext().setContextProperty("itemGroupsModel", self.view_model)
 
-        asset = self.model.characters.find_asset(34)
-        self.current_displayed_item_details = AssetDetail(asset)
-        self.view.engine.rootContext().setContextProperty("warehouseItemDetails", self.current_displayed_item_details)
+        self.current_displayed_item_details = AssetDetail(self.model, self.view)
+
 
     def refresh_warehouse(self):
         asset_categories = self.model.characters.assets()
