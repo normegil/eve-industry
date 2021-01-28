@@ -7,9 +7,8 @@ class Category:
     def add_group(self, group):
         self.groups.append(group)
 
-    def search_or_add_group(self, searched_group):
+    def group(self, searched_group_id):
         for group in self.groups:
-            if searched_group.id == group.id:
+            if searched_group_id == group.id:
                 return group
-        self.groups.append(searched_group)
-        return searched_group
+        return None
