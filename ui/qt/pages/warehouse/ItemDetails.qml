@@ -6,6 +6,8 @@ import "../../predefined" 1.0
 Item {
     anchors.fill: parent
 
+    property string title: "Item Name"
+
     Text {
         id: detailsTitle
         height: 50
@@ -17,10 +19,18 @@ Item {
             right: parent.right
         }
 
-        text: "Details"
+        text: warehouseItemDetails.name
 
         font.family: FontFamilies.family0
         font.weight: Font.Normal
         font.pixelSize : FontSizes.size4
+    }
+
+    Connections {
+        target: warehouseItemDetails
+    }
+
+    Component.onCompleted: {
+
     }
 }

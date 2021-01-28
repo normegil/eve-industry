@@ -3,12 +3,6 @@ import locale
 from PySide2.QtCore import QAbstractListModel, Qt, QModelIndex
 
 
-class Group:
-    def __init__(self, name, assets):
-        self.name = name
-        self.assets = assets
-
-
 class ItemGroupsModel(QAbstractListModel):
     NameRole = Qt.UserRole + 1
     AssetsRole = Qt.UserRole + 2

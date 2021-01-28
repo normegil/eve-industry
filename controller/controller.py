@@ -1,16 +1,21 @@
 from PySide2.QtCore import QObject
 
-from .warehouse import ItemGroupsModel
+from controller.warehouse import ItemGroupsModel, AssetDetail
 
 
 class Controller(QObject):
     def __init__(self, model, view):
         QObject.__init__(self)
         self.model = model
-        self.view_model = ItemGroupsModel()
+        self.view = view
 
+        self.view_model = ItemGroupsModel()
         self.refresh_warehouse()
-        view.engine.rootContext().setContextProperty("itemGroupsModel", self.view_model)
+        self.view.engine.rootContext().setContextProperty("itemGroupsModel", self.view_model)
+
+        asset = self.model.characters.find_asset(34)
+        self.current_displayed_item_details = AssetDetail(asset)
+        self.view.engine.rootContext().setContextProperty("warehouseItemDetails", self.current_displayed_item_details)
 
     def refresh_warehouse(self):
         asset_categories = self.model.characters.assets()
