@@ -6,25 +6,20 @@ import "../../components"
 import "../../predefined" 1.0
 
 Item {
-    id: itemsDetail
     anchors.fill: parent
 
     property color titlesColor: Colors.grey3
 
     property string fontFamily: FontFamilies.family0
-
     property color buyOrderHeaderColor: Colors.grey4
     property int buyOrderHeaderSize: FontSizes.size2
     property int buyOrderHeaderWeight: Font.Normal
-    property color shadowColor: Colors.grey6
 
     Component.onCompleted: {
         warehouseAssetDetails.reloadUI()
     }
-
     Connections {
         target: warehouseAssetDetails
-
         function onNameChanged() {
             detailsTitle.text = warehouseAssetDetails.name
         }
@@ -32,6 +27,7 @@ Item {
 
     Text {
         id: detailsTitle
+
         anchors {
             top: parent.top
             left: parent.left
@@ -41,7 +37,6 @@ Item {
 
         text: ""
         color: Colors.grey2
-
         font.family: FontFamilies.family0
         font.weight: Font.Normal
         font.pixelSize : FontSizes.size4
@@ -49,6 +44,7 @@ Item {
 
     Text {
         id: detailsLocationTitle
+
         anchors {
             top: detailsTitle.bottom
             left: parent.left
@@ -59,7 +55,6 @@ Item {
 
         text: "Locations"
         color: titlesColor
-
         font.family: FontFamilies.family0
         font.weight: Font.Normal
         font.pixelSize : FontSizes.size2
@@ -151,10 +146,10 @@ Item {
                     bottom: parent.bottom
                 }
                 text: "Issued"
-                color: itemsDetail.buyOrderHeaderColor
-                font.family: itemsDetail.fontFamily
-                font.weight: itemsDetail.buyOrderHeaderWeight
-                font.pixelSize: itemsDetail.buyOrderHeaderSize
+                color: buyOrderHeaderColor
+                font.family: fontFamily
+                font.weight: buyOrderHeaderWeight
+                font.pixelSize: buyOrderHeaderSize
             }
             Text {
                 id: locationHeader
@@ -166,10 +161,10 @@ Item {
                     bottom: parent.bottom
                 }
                 text: "Location"
-                color: itemsDetail.buyOrderHeaderColor
-                font.family: itemsDetail.fontFamily
-                font.weight: itemsDetail.buyOrderHeaderWeight
-                font.pixelSize: itemsDetail.buyOrderHeaderSize
+                color: buyOrderHeaderColor
+                font.family: fontFamily
+                font.weight: buyOrderHeaderWeight
+                font.pixelSize: buyOrderHeaderSize
             }
             Text {
                 anchors {
@@ -184,10 +179,10 @@ Item {
                 text: "Price & Volume"
 
                 horizontalAlignment: Text.AlignRight
-                color: itemsDetail.buyOrderHeaderColor
-                font.family: itemsDetail.fontFamily
-                font.weight: itemsDetail.buyOrderHeaderWeight
-                font.pixelSize: itemsDetail.buyOrderHeaderSize
+                color: buyOrderHeaderColor
+                font.family: fontFamily
+                font.weight: buyOrderHeaderWeight
+                font.pixelSize: buyOrderHeaderSize
             }
         }
         Rectangle {
@@ -249,7 +244,7 @@ Item {
         horizontalOffset: 2
         verticalOffset: 2
         radius: 3
-        color: shadowColor
+        color: Colors.grey6
         z: 0
     }
 }

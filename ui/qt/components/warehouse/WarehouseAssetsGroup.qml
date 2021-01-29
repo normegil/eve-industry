@@ -3,16 +3,17 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import QtGraphicalEffects 1.0
 
-import "../predefined" 1.0
+import "../../predefined" 1.0
 
-Rectangle {
+Item {
     id: warehouseItemGroup
-    height: itemContainer.height + 40 + 2
-    width: itemContainer.width + 200
-    color: "#00000000"
 
     property string name: "Minerals"
     property var assets: ListModel{}
+
+    height: itemContainer.height + 40 + 2
+    width: itemContainer.width + 200
+
 
     Rectangle {
         width: warehouseItemGroup.width
@@ -22,25 +23,24 @@ Rectangle {
     }
 
     Text {
-        text: warehouseItemGroup.name
-        font.family: FontFamilies.family0
-        font.pixelSize: FontSizes.size2
-        color: Colors.grey3
-
         anchors {
             top: parent.top
             left: parent.left
             topMargin: 20
             leftMargin: 20
         }
+        text: warehouseItemGroup.name
+        color: Colors.grey3
+        font.family: FontFamilies.family0
+        font.pixelSize: FontSizes.size2
+
     }
 
-    Rectangle {
+    Item {
         id: itemContainer
+
         width: itemContainerLayout.cellWidth * 2
         height: itemContainerLayout.count / 2 * itemContainerLayout.cellHeight + 20
-        color: "#00000000"
-
         anchors {
             top: parent.top
             right: parent.right
@@ -50,9 +50,11 @@ Rectangle {
 
         GridView {
             id: itemContainerLayout
+
+            anchors.fill: parent
+
             cellWidth: 400
             cellHeight: 80
-            anchors.fill: parent
 
             model: assets
             delegate: WarehouseItemCard {
@@ -64,9 +66,3 @@ Rectangle {
         }
     }
 }
-
-/*##^##
-Designer {
-    D{i:0;autoSize:true;formeditorZoom:1.3300000429153442;height:480;width:640}
-}
-##^##*/

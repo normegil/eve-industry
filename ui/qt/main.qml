@@ -13,7 +13,17 @@ Window {
     color: Colors.grey8
 
     Loader {
-        anchors.fill: parent
-        source: "pages/warehouse.qml"
+        property int margin: 20
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+            left: parent.left
+            right: parent.right
+            topMargin: margin
+            bottomMargin: margin
+            leftMargin: margin
+            rightMargin: margin
+        }
+        source: "pages/warehouse/Warehouse.qml"
     }
 }
