@@ -14,4 +14,5 @@ QtObject {
     property color grey7: "#c2c2c2"
     property color grey8: "#dbdbdb"
     property color grey9: "#F7F7F7"
+    property color transparent: "#00000000"
 }

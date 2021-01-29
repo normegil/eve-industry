@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtGraphicalEffects 1.0
 
 import "../../components"
 import "../../predefined" 1.0
@@ -9,6 +10,13 @@ Item {
     anchors.fill: parent
 
     property string title: "Item Name"
+
+    property string fontFamily: FontFamilies.family0
+
+    property color buyOrderHeaderColor: Colors.grey4
+    property int buyOrderHeaderSize: FontSizes.size2
+    property int buyOrderHeaderWeight: Font.Normal
+    property color shadowColor: Colors.grey6
 
     Component.onCompleted: {
         warehouseItemDetails.reloadUI()
@@ -103,5 +111,144 @@ Item {
         font.family: FontFamilies.family0
         font.weight: Font.Normal
         font.pixelSize : FontSizes.size3
+    }
+
+    Rectangle {
+        id: detailsBuyOrdersContainer
+        z: 10
+
+        color: Colors.transparent
+
+        anchors {
+            top: detailsBuyOrdersTitle.bottom
+            left: parent.left
+            leftMargin: assetRegionView.anchors.leftMargin
+            right: parent.right
+            rightMargin: 20
+            bottom: parent.bottom
+            bottomMargin: 20
+        }
+
+        Rectangle {
+            id: detailsBuyOrdersViewHeader
+            color: Colors.grey9
+            anchors {
+                top: parent.top
+                left: parent.left
+                right: parent.right
+            }
+            height: 30
+
+            Text {
+                id: issuedHeader
+                width: 150
+                anchors {
+                    left: parent.left
+                    leftMargin: 15
+                    top: parent.top
+                    topMargin: 8
+                    bottom: parent.bottom
+                }
+                text: "Issued"
+                color: itemsDetail.buyOrderHeaderColor
+                font.family: itemsDetail.fontFamily
+                font.weight: itemsDetail.buyOrderHeaderWeight
+                font.pixelSize: itemsDetail.buyOrderHeaderSize
+            }
+            Text {
+                id: locationHeader
+                width: 300
+                anchors {
+                    left: issuedHeader.right
+                    top: parent.top
+                    topMargin: 8
+                    bottom: parent.bottom
+                }
+                text: "Location"
+                color: itemsDetail.buyOrderHeaderColor
+                font.family: itemsDetail.fontFamily
+                font.weight: itemsDetail.buyOrderHeaderWeight
+                font.pixelSize: itemsDetail.buyOrderHeaderSize
+            }
+            Text {
+                id: priceHeader
+                anchors {
+                    left: locationHeader.right
+                    top: parent.top
+                    topMargin: 8
+                    bottom: parent.bottom
+                    right: parent.right
+                    rightMargin: 15
+                }
+
+                text: "Price & Volume"
+
+                horizontalAlignment: Text.AlignRight
+                color: itemsDetail.buyOrderHeaderColor
+                font.family: itemsDetail.fontFamily
+                font.weight: itemsDetail.buyOrderHeaderWeight
+                font.pixelSize: itemsDetail.buyOrderHeaderSize
+            }
+        }
+        Rectangle {
+            id: detailsBuyOrdersViewHeaderSeparator
+            anchors {
+                top: detailsBuyOrdersViewHeader.bottom
+                left: parent.left
+                right: parent.right
+            }
+            width: detailsBuyOrdersViewHeader.width
+            height: 2
+            border.width: 1
+            border.color: Colors.grey7
+        }
+        ScrollView {
+            id: detailsBuyOrdersView
+            clip: true
+            width: 675
+            anchors {
+                top: detailsBuyOrdersViewHeaderSeparator.bottom
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+            }
+            ListView {
+                anchors.fill: parent
+
+                model: warehouseItemDetailsBuyOrders
+                delegate: WarehouseItemBuyOrderRow {
+                    expiredOrder: expired
+                    issuedDate: issued
+                    price: pricePerUnit
+
+                    regionName: region
+                    regionID: regionIdentifier
+                    constellationName: constellation
+                    constellationID: constellationIdentifier
+                    systemName: system
+                    systemID: systemIdentifier
+                    stationName: station
+                    stationID: stationIdentifier
+                }
+            }
+        }
+    }
+
+    DropShadow {
+        anchors {
+            top: detailsBuyOrdersTitle.bottom
+            left: parent.left
+            leftMargin: assetRegionView.anchors.leftMargin
+            right: parent.right
+            rightMargin: 20
+            bottom: parent.bottom
+            bottomMargin: 20
+        }
+        source: detailsBuyOrdersContainer
+        horizontalOffset: 2
+        verticalOffset: 2
+        radius: 3
+        color: shadowColor
+        z: 0
     }
 }

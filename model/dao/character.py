@@ -34,12 +34,11 @@ class CharacterDAO:
         return categories
 
     def __order_in_categories(self, categories, orders: []) -> []:
-        validity = datetime.datetime.now() - relativedelta(years=5)
+        validity = datetime.datetime.now(datetime.timezone.utc) - relativedelta(years=5)
         for order in orders:
             if not order.is_buy_order:
                 continue
-            issued_order = datetime.datetime.strptime(order.issued, "%Y-%m-%dT%H:%M:%SZ")
-            if validity > issued_order:
+            if validity > order.issued:
                 continue
             type_ = self.universe_dao.load_type(order.type_id)
             current_asset = Assets(order.type_id, type_)

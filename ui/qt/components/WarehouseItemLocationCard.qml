@@ -29,7 +29,7 @@ Item {
     property color bgMainColor: Colors.grey9
 
     height: 45
-    width: 640
+    width: 675
 
     Rectangle {
         id: bgContainer
@@ -149,8 +149,8 @@ Item {
     DropShadow {
         anchors.fill: parent
         source: bgContainer
-        horizontalOffset: 1
-        verticalOffset: 1
+        horizontalOffset: 2
+        verticalOffset: 2
         radius: 3
         color: shadowColor
         z: 0

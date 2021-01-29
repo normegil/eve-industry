@@ -44,26 +44,26 @@ class LocationModel(QAbstractListModel):
 
     def data(self, index: QModelIndex, role=Qt.DisplayRole):
         if index.isValid():
-            row = index.row()
+            row = self.model[index.row()]
             if role == LocationModel.QuantityRole:
-                q = self.model[row].quantity
+                q = row.quantity
                 return f"{q:n}"
-            elif self.model[row].station is None:
+            elif row.station is None:
                 return None
 
             if role == LocationModel.StationRole:
-                return self.model[row].station.name
+                return row.station.name
             elif role == LocationModel.SystemRole:
-                return self.model[row].station.system.name
+                return row.station.system.name
             elif role == LocationModel.ConstellationRole:
-                return self.model[row].station.system.constellation.name
+                return row.station.system.constellation.name
             elif role == LocationModel.RegionRole:
-                return self.model[row].station.system.constellation.region.name
+                return row.station.system.constellation.region.name
             elif role == LocationModel.StationIDRole:
-                return self.model[row].station.id
+                return row.station.id
             elif role == LocationModel.SystemIDRole:
-                return self.model[row].station.system.id
+                return row.station.system.id
             elif role == LocationModel.ConstellationIDRole:
-                return self.model[row].station.system.constellation.id
+                return row.station.system.constellation.id
             elif role == LocationModel.RegionIDRole:
-                return self.model[row].station.system.constellation.region.id
+                return row.station.system.constellation.region.id
