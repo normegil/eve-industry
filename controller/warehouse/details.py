@@ -4,26 +4,22 @@ import webbrowser
 from PySide2.QtCore import QObject, Signal, Property, Slot
 
 from model.entities.locations import LocationType
-from .assetlocations import LocationModel
-from .assetbuyorder import BuyOrdersModel
+from .asset_locations import LocationModel
+from .buy_orders import BuyOrdersModel
 
 dotlan_base_url = "https://evemaps.dotlan.net/"
 
 
 # noinspection PyPep8Naming
-class AssetDetail(QObject):
+class AssetDetails(QObject):
     nameChanged = Signal()
 
-    def __init__(self, model, view):
+    def __init__(self, model):
         QObject.__init__(self)
         self.model = model
-        self.view = view
         self._asset = self.model.character.find_asset(34)
-        self.view.engine.rootContext().setContextProperty("warehouseItemDetails", self)
-        self._assets_locations = LocationModel(self._asset.by_locations)
-        self.view.engine.rootContext().setContextProperty("warehouseItemDetailsLocations", self._assets_locations)
-        self._assets_buy_orders = BuyOrdersModel(self._asset.buy_orders)
-        self.view.engine.rootContext().setContextProperty("warehouseItemDetailsBuyOrders", self._assets_buy_orders)
+        self.asset_locations = LocationModel(self._asset.by_locations)
+        self.asset_buy_orders = BuyOrdersModel(self._asset.buy_orders)
 
     @Property(str, notify=nameChanged)
     def name(self):
@@ -37,9 +33,9 @@ class AssetDetail(QObject):
     def loadAsset(self, asset_id):
         logging.info(f"Reload asset details: {asset_id}")
         asset = self.model.character.find_asset(asset_id)
-        self.set_asset(asset)
+        self.setAsset(asset)
 
-    def set_asset(self, asset):
+    def setAsset(self, asset):
         self._asset = asset
         self._assets_locations.setModel(self._asset.by_locations)
         self._assets_buy_orders.setModel(self._asset.buy_orders)
