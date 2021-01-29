@@ -16,18 +16,19 @@ class WarehouseController(QObject):
 
         self.current_asset = AssetDetails(self.model)
 
-        self.view.engine.rootContext().setContextProperty(ContextProperties.WAREHOUSE_ASSETS_GROUPS, self.view_model)
-        self.view.engine.rootContext().setContextProperty(ContextProperties.WAREHOUSE_ASSET_DETAILS_NAME,
-                                                          self.current_asset.name)
-        self.view.engine.rootContext().setContextProperty(ContextProperties.WAREHOUSE_ASSET_DETAILS_LOCATIONS,
+        self.view.engine.rootContext().setContextProperty(ContextProperties.WAREHOUSE_ASSETS_GROUPS.value,
+                                                          self.assets_grouped)
+        self.view.engine.rootContext().setContextProperty(ContextProperties.WAREHOUSE_ASSET_DETAILS.value,
+                                                          self.current_asset)
+        self.view.engine.rootContext().setContextProperty(ContextProperties.WAREHOUSE_ASSET_DETAILS_LOCATIONS.value,
                                                           self.current_asset.asset_locations)
-        self.view.engine.rootContext().setContextProperty(ContextProperties.WAREHOUSE_ASSET_DETAILS_BUY_ORDERS,
+        self.view.engine.rootContext().setContextProperty(ContextProperties.WAREHOUSE_ASSET_DETAILS_BUY_ORDERS.value,
                                                           self.current_asset.asset_buy_orders)
 
     def refresh_assets_groups(self):
         asset_categories = self.model.character.assets()
         qt_group_format = to_qt_group_format(asset_categories)
-        self.view_model.setModel(qt_group_format)
+        self.assets_grouped.setModel(qt_group_format)
 
 
 def to_qt_group_format(asset_categories):

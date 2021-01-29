@@ -192,7 +192,7 @@ Rectangle {
             }
 
             Connections {
-                target: warehouseItemDetails
+                target: warehouseAssetDetails
             }
 
             MouseArea {
@@ -208,7 +208,7 @@ Rectangle {
                     bgBtnWarehouseItemCard.color = bgIconColorDefault
                     iconDetailsOverlay.color = iconDetailsColorDefault
                     btnWarehouseItemCardInternal.onHovered(bgBtnWarehouseItemCardHoveredHandler.hovered)
-                    warehouseItemDetails.loadAsset(assetID)
+                    warehouseAssetDetails.loadAsset(assetID)
                 }
             }
 

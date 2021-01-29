@@ -11,9 +11,9 @@ class LocationModel(LocationAbstractModelList):
         LocationAbstractModelList.__init__(self, model)
 
     def roleNames(self):
-        return super().roleNames() | {
+        return {**super().roleNames(), **{
             LocationModel.QuantityRole: b'quantity',
-        }
+        }}
 
     def data(self, index: QModelIndex, role: int = ...):
         if index.isValid():
@@ -22,4 +22,4 @@ class LocationModel(LocationAbstractModelList):
                 q = row.quantity
                 return f"{q:n}"
             else:
-                return super().data(self, index, role)
+                return super().data(index, role)

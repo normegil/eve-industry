@@ -9,7 +9,6 @@ Item {
     id: itemsDetail
     anchors.fill: parent
 
-    property string title: "Item Name"
     property color titlesColor: Colors.grey3
 
     property string fontFamily: FontFamilies.family0
@@ -20,14 +19,14 @@ Item {
     property color shadowColor: Colors.grey6
 
     Component.onCompleted: {
-        warehouseItemDetails.reloadUI()
+        warehouseAssetDetails.reloadUI()
     }
 
     Connections {
-        target: warehouseItemDetails
+        target: warehouseAssetDetails
 
         function onNameChanged() {
-            title = warehouseItemDetails.name
+            detailsTitle.text = warehouseAssetDetails.name
         }
     }
 
@@ -40,7 +39,7 @@ Item {
             right: parent.right
         }
 
-        text: title
+        text: ""
         color: Colors.grey2
 
         font.family: FontFamilies.family0
@@ -81,7 +80,7 @@ Item {
             anchors.fill: parent
             spacing: 10
 
-            model: warehouseItemDetailsLocations
+            model: warehouseAssetDetailsLocations
             delegate: WarehouseItemLocationCard {
                 regionName: region
                 regionID: regionIdentifier
@@ -215,7 +214,7 @@ Item {
             ListView {
                 anchors.fill: parent
 
-                model: warehouseItemDetailsBuyOrders
+                model: warehouseAssetDetailsBuyOrders
                 delegate: WarehouseItemBuyOrderRow {
                     expiredOrder: expired
                     issuedDate: issued

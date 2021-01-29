@@ -37,8 +37,8 @@ class AssetDetails(QObject):
 
     def setAsset(self, asset):
         self._asset = asset
-        self._assets_locations.setModel(self._asset.by_locations)
-        self._assets_buy_orders.setModel(self._asset.buy_orders)
+        self.asset_locations.setModel(self._asset.by_locations)
+        self.asset_buy_orders.setModel(self._asset.buy_orders)
         self.reloadUI()
 
     @Slot(int, int)

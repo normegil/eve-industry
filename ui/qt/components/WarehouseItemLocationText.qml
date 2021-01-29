@@ -40,11 +40,11 @@ Text {
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
         onPressed: {
-            warehouseItemDetails.showInBrowser(locationType, locationID)
+            warehouseAssetDetails.showInBrowser(locationType, locationID)
         }
     }
 
     Connections {
-        target: warehouseItemDetails
+        target: warehouseAssetDetails
     }
 }

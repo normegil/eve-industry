@@ -9,8 +9,8 @@ Item {
 
     Item {
         id: stockScreenPart
-        width: groupsView.width + 60
 
+        width: groupsView.width + 60
         anchors {
             top: parent.top
             bottom: parent.bottom
@@ -49,7 +49,7 @@ Item {
             ListView {
                 id: groupListView
                 anchors.fill: parent
-                model: warehouseAssetsGroups
+                model: itemGroupsModel
                 delegate: WarehouseItemGroup {
                     name: groupName
                     assets: groupAssets

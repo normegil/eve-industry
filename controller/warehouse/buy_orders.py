@@ -15,13 +15,13 @@ class BuyOrdersModel(LocationAbstractModelList):
         LocationAbstractModelList.__init__(self, model)
 
     def roleNames(self):
-        return super().roleNames() | {
+        return {**super().roleNames(), **{
             BuyOrdersModel.IssuedRole: b'issued',
             BuyOrdersModel.ExpiredRole: b'expired',
             BuyOrdersModel.PricePerUnitRole: b'pricePerUnit',
             BuyOrdersModel.VolumeRemainingRole: b'volumeRem',
             BuyOrdersModel.VolumeTotalRole: b'volumeTot',
-        }
+        }}
 
     def data(self, index: QModelIndex, role: int = ...):
         if index.isValid():

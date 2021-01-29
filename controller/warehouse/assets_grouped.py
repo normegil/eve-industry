@@ -20,7 +20,7 @@ class AssetGroupsModel(ResetableModelList):
 
     def data(self, index: QModelIndex, role=Qt.DisplayRole):
         if index.isValid():
-            row = self.groups[index.row()]
+            row = self.model[index.row()]
             if role == AssetGroupsModel.NameRole:
                 return row.name
             elif role == AssetGroupsModel.AssetsRole:
@@ -46,7 +46,7 @@ class ItemsModel(ResetableModelList):
 
     def data(self, index, role=Qt.DisplayRole):
         if index.isValid():
-            row = self.items[index.row()]
+            row = self.model[index.row()]
             if role == ItemsModel.IDRole:
                 return row.id
             elif role == ItemsModel.NameRole:
