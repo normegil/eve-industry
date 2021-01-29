@@ -72,8 +72,9 @@ def find_asset(categories, asset):
         category.add_group(group)
     found_asset = group.asset(asset.id)
     if found_asset is None:
-        group.add_asset(asset)
-    return asset
+        found_asset = asset
+        group.add_asset(found_asset)
+    return found_asset
 
 
 def find_category(categories, category_id):

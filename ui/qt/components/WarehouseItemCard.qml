@@ -86,6 +86,7 @@ Rectangle {
             }
 
             Text {
+                id: itemQuantityWarehouseItemCard
                 text: itemQuantity
                 color: itemQuantityColor
                 font.family: fontFamily
@@ -94,10 +95,26 @@ Rectangle {
                 verticalAlignment: Text.AlignBottom
 
                 anchors {
-                    left: parent.left
-                    leftMargin: 10
+                    right: parent.right
+                    rightMargin: 35
                     bottom: parent.bottom
                     bottomMargin: 5
+                }
+            }
+
+            Text {
+                text: "Units"
+                color: itemPriceTagColor
+                font.family: fontFamily
+                font.pixelSize : FontSizes.size0
+
+                verticalAlignment: Text.AlignBottom
+
+                anchors {
+                    left: itemQuantityWarehouseItemCard.right
+                    leftMargin: 4
+                    bottom: parent.bottom
+                    bottomMargin: 8
                 }
             }
 

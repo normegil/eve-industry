@@ -80,6 +80,8 @@ class UniverseCache:
         id = self.conn.get(base_key + ".id")
         if id is not None:
             name = self.conn.get(base_key + ".name")
+            if name is None:
+                return None  # Invalid query
             services_joined = self.conn.get(base_key + ".services")
             services = services_joined.split(";")
             system_id = self.conn.get(base_key + ".system_id")
@@ -91,7 +93,12 @@ class UniverseCache:
             s.race_id = race_id
             return s
 
-        station = self.api.load_stations(station_id)
+        station = None
+        try:
+            station = self.api.load_stations(station_id)
+        except RuntimeError:
+            self.conn.set(base_key + ".id", station_id)
+            return None
         self.conn.set(base_key + ".id", station.id)
         self.conn.set(base_key + ".name", station.name)
         self.conn.set(base_key + ".services", ";".join(station.services))

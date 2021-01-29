@@ -58,24 +58,12 @@ Item {
         }
     }
 
-    Rectangle {
-        id: verticalSeparator
-        width: 2
-        anchors {
-            top: parent.top
-            bottom: parent.bottom
-            left: stockScreenPart.right
-        }
-        border.width: 1
-        border.color: Colors.grey7
-    }
-
     Item {
         id: detailsScreenPart
         anchors {
             top: parent.top
             bottom: parent.bottom
-            left: verticalSeparator.right
+            left: stockScreenPart.right
             right: parent.right
         }
 

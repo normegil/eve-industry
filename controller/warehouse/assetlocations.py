@@ -2,8 +2,8 @@ from PySide2.QtCore import QAbstractListModel, Qt, QModelIndex
 
 
 class BaseLocationModel(QAbstractListModel):
-    def __init__(self, model=None, parent=None):
-        QAbstractListModel.__init__(self, parent)
+    def __init__(self, model=None):
+        QAbstractListModel.__init__(self)
         if model is None:
             model = []
         self.setModel(model)
@@ -34,11 +34,11 @@ class AssetRegion(BaseLocationModel):
             row = index.row()
             if role == AssetRegion.NameRole:
                 return self.model[row].name
-            elif role == AssetRegion.AssetsRole:
+            elif role == AssetRegion.ConstellationsRole:
                 return AssetConstellation(self.model[row].constellations)
 
 
-class AssetConstellation(QAbstractListModel):
+class AssetConstellation(BaseLocationModel):
     NameRole = Qt.UserRole + 1
     SystemsRole = Qt.UserRole + 2
 
@@ -57,7 +57,7 @@ class AssetConstellation(QAbstractListModel):
                 return AssetSystem(self.model[row].systems)
 
 
-class AssetSystem(QAbstractListModel):
+class AssetSystem(BaseLocationModel):
     NameRole = Qt.UserRole + 1
     StationsRole = Qt.UserRole + 2
 
@@ -76,7 +76,7 @@ class AssetSystem(QAbstractListModel):
                 return AssetStations(self.model[row].stations)
 
 
-class AssetStations(QAbstractListModel):
+class AssetStations(BaseLocationModel):
     NameRole = Qt.UserRole + 1
     AssetQuantityRole = Qt.UserRole + 2
 
