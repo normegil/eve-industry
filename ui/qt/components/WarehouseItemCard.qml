@@ -189,6 +189,11 @@ Rectangle {
                 }
             }
 
+            MouseArea {
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+            }
+
             onPressed: {
                 bgBtnWarehouseItemCard.color = bgIconColorPressed
                 iconDetailsOverlay.color = iconDetailsColorPressed

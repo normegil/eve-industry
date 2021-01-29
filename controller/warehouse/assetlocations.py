@@ -38,7 +38,8 @@ class LocationModel(QAbstractListModel):
         if index.isValid():
             row = index.row()
             if role == LocationModel.QuantityRole:
-                return self.model[row].quantity
+                q = self.model[row].quantity
+                return f"{q:n}"
             elif self.model[row].station is None:
                 return "???"
 
@@ -46,7 +47,7 @@ class LocationModel(QAbstractListModel):
                 return self.model[row].station.name
             elif role == LocationModel.SystemRole:
                 return self.model[row].station.system.name
-            elif role == LocationModel.ConstellationsRole:
+            elif role == LocationModel.ConstellationRole:
                 return self.model[row].station.system.constellation.name
             elif role == LocationModel.RegionRole:
                 return self.model[row].station.system.constellation.region.name
