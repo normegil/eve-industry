@@ -25,7 +25,7 @@ Item {
     property color bgMainColor: Colors.grey9
 
     height: 45
-    width: 600
+    width: 640
     anchors {
         left: parent.left
     }

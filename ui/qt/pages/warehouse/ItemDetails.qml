@@ -58,17 +58,17 @@ Item {
     }
 
     ScrollView {
+        id: assetRegionView
         clip: true
         height: 300
         anchors {
             top: detailsLocationTitle.bottom
             left: parent.left
-            leftMargin: detailsLocationTitle.anchors.leftMargin + 40
+            leftMargin: detailsLocationTitle.anchors.leftMargin + 20
             right: parent.right
-            rightMargin: 75
+            rightMargin: 20
         }
         ListView {
-            id: assetRegionView
             anchors.fill: parent
             spacing: 10
 
@@ -81,5 +81,23 @@ Item {
                 itemQuantity: quantity
             }
         }
+    }
+
+    Text {
+        id: detailsBuyOrdersTitle
+        height: 30
+        anchors {
+            top: assetRegionView.bottom
+            left: parent.left
+            topMargin: 10
+            leftMargin: 20
+            right: parent.right
+        }
+
+        text: "Buy Orders"
+
+        font.family: FontFamilies.family0
+        font.weight: Font.Normal
+        font.pixelSize : FontSizes.size3
     }
 }

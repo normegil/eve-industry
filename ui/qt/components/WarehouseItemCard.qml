@@ -7,6 +7,8 @@ import "../predefined" 1.0
 Rectangle {
     id: warehouseItemCard
 
+    property int assetID: -1
+
     property string itemName: "Tritanium"
     property color itemNameColor: Colors.grey4
 
@@ -25,11 +27,11 @@ Rectangle {
 
     property color iconDetailsColorDefault: Colors.grey6
     property color iconDetailsColorHovered: Colors.grey5
-    property color iconDetailsColorPressed: Colors.grey7
+    property color iconDetailsColorPressed: Colors.grey6
 
     property color bgIconColorDefault: Colors.grey8
     property color bgIconColorHovered: Colors.grey7
-    property color bgIconColorPressed: Colors.grey9
+    property color bgIconColorPressed: Colors.grey8
 
     property int iconWidth: 18
     property int iconHeight: iconWidth
@@ -189,20 +191,25 @@ Rectangle {
                 }
             }
 
+            Connections {
+                target: warehouseItemDetails
+            }
+
             MouseArea {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
-            }
 
-            onPressed: {
-                bgBtnWarehouseItemCard.color = bgIconColorPressed
-                iconDetailsOverlay.color = iconDetailsColorPressed
-            }
+                onPressed: {
+                    bgBtnWarehouseItemCard.color = bgIconColorPressed
+                    iconDetailsOverlay.color = iconDetailsColorPressed
+                }
 
-            onReleased: {
-                bgBtnWarehouseItemCard.color = bgIconColorDefault
-                iconDetailsOverlay.color = iconDetailsColorDefault
-                btnWarehouseItemCardInternal.onHovered(bgBtnWarehouseItemCardHoveredHandler.hovered)
+                onReleased: {
+                    bgBtnWarehouseItemCard.color = bgIconColorDefault
+                    iconDetailsOverlay.color = iconDetailsColorDefault
+                    btnWarehouseItemCardInternal.onHovered(bgBtnWarehouseItemCardHoveredHandler.hovered)
+                    warehouseItemDetails.loadAsset(assetID)
+                }
             }
 
             Image {

@@ -42,6 +42,7 @@ class ItemsModel(QAbstractListModel):
     NameRole = Qt.UserRole + 1
     QuantityRole = Qt.UserRole + 2
     PriceRole = Qt.UserRole + 3
+    IDRole = Qt.UserRole + 4
 
     def __init__(self, items, parent=None):
         QAbstractListModel.__init__(self, parent)
@@ -49,6 +50,7 @@ class ItemsModel(QAbstractListModel):
 
     def roleNames(self):
         return {
+            ItemsModel.IDRole: b'typeID',
             ItemsModel.NameRole: b'name',
             ItemsModel.QuantityRole: b'quantity',
             ItemsModel.PriceRole: b'price',
@@ -62,7 +64,9 @@ class ItemsModel(QAbstractListModel):
     def data(self, index, role=Qt.DisplayRole):
         if index.isValid():
             row = index.row()
-            if role == ItemsModel.NameRole:
+            if role == ItemsModel.IDRole:
+                return self.items[row].id
+            elif role == ItemsModel.NameRole:
                 return self.items[row].name
             elif role == ItemsModel.QuantityRole:
                 q = self.items[row].quantity

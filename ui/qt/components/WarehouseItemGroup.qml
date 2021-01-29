@@ -56,6 +56,7 @@ Rectangle {
 
             model: assets
             delegate: WarehouseItemCard {
+                assetID: typeID
                 itemName: name
                 itemQuantity: quantity
                 itemPrice: price

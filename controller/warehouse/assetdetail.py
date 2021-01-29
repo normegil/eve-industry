@@ -1,6 +1,9 @@
+
+import logging
 from PySide2.QtCore import QObject, Signal, Property, Slot
 
 from .assetlocations import LocationModel
+
 
 # noinspection PyPep8Naming
 class AssetDetail(QObject):
@@ -22,6 +25,12 @@ class AssetDetail(QObject):
     @Slot()
     def reloadUI(self):
         self.nameChanged.emit()
+
+    @Slot(int)
+    def loadAsset(self, asset_id):
+        logging.info(f"Reload asset details: {asset_id}")
+        asset = self.model.characters.find_asset(asset_id)
+        self.set_asset(asset)
 
     def set_asset(self, asset):
         self._asset = asset
