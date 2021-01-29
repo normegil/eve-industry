@@ -9,6 +9,8 @@ Item {
     property bool expiredOrder: False
     property string issuedDate: ""
     property string price: ""
+    property string volumeRemaining: ""
+    property string volumeTotal: ""
 
     property int regionID: -1
     property string regionName: "???"
@@ -23,11 +25,11 @@ Item {
     property color separatorColor: Colors.grey4
 
     property string fontFamily: FontFamilies.family0
-    property color itemColor: Colors.grey4
+    property color itemColor: Colors.grey2
     property int itemSize: FontSizes.size2
     property int itemWeight: Font.Normal
 
-    width: 675
+    width: 715
     height: 60
 
     Rectangle {
@@ -155,30 +157,83 @@ Item {
         }
 
         Item {
-            id: priceCell
+            id: priceVolCell
             anchors {
                 left: locationCell.right
                 top: parent.top
-                topMargin: 20
                 bottom: parent.bottom
+                right: parent.right
+                rightMargin: 15
             }
 
             Text {
+                id: priceText
                 width: 80
                 anchors {
-                    left: parent.left
                     right: parent.right
                     rightMargin: 20
                     top: parent.top
-                    bottom: parent.bottom
+                    topMargin: 13
                 }
 
                 text: warehouseItemBuyOrderRow.price
+                horizontalAlignment: Text.AlignRight
 
-                color: warehouseItemBuyOrderRow.itemColor
+                color: Colors.grey2
                 font.family: warehouseItemBuyOrderRow.fontFamily
                 font.weight: warehouseItemBuyOrderRow.itemWeight
-                font.pixelSize: warehouseItemBuyOrderRow.itemSize
+                font.pixelSize: FontSizes.size3
+            }
+
+            Text {
+                text: "ISK/u"
+                color: Colors.grey3
+                font.family: warehouseItemBuyOrderRow.fontFamily
+                font.pixelSize : FontSizes.size0
+
+                verticalAlignment: Text.AlignBottom
+
+                anchors {
+                    left: volumeText.right
+                    leftMargin: 4
+                    top: parent.top
+                    topMargin: 17
+                }
+            }
+
+            Text {
+                id: volumeText
+                width: 80
+                anchors {
+                    right: parent.right
+                    rightMargin: 20
+                    bottom: parent.bottom
+                    bottomMargin: 12
+                }
+
+                text: warehouseItemBuyOrderRow.volumeRemaining + " / " + warehouseItemBuyOrderRow.volumeTotal
+                horizontalAlignment: Text.AlignRight
+
+                color: Colors.grey2
+                font.family: warehouseItemBuyOrderRow.fontFamily
+                font.weight: warehouseItemBuyOrderRow.itemWeight
+                font.pixelSize: FontSizes.size1
+            }
+
+            Text {
+                text: "Units"
+                color: Colors.grey3
+                font.family: warehouseItemBuyOrderRow.fontFamily
+                font.pixelSize : FontSizes.size0
+
+                verticalAlignment: Text.AlignBottom
+
+                anchors {
+                    left: volumeText.right
+                    leftMargin: 4
+                    bottom: parent.bottom
+                    bottomMargin: 13
+                }
             }
         }
     }

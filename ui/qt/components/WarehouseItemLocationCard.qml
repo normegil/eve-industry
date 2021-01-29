@@ -29,7 +29,7 @@ Item {
     property color bgMainColor: Colors.grey9
 
     height: 45
-    width: 675
+    width: 715
 
     Rectangle {
         id: bgContainer

@@ -8,7 +8,7 @@ import "../predefined" 1.0
 Rectangle {
     id: warehouseItemGroup
     height: itemContainer.height + 40 + 2
-    width: itemContainer.width + 300
+    width: itemContainer.width + 200
     color: "#00000000"
 
     property string name: "Minerals"

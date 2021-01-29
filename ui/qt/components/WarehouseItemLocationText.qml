@@ -8,8 +8,8 @@ Text {
     id: label
     property string name: "???"
 
-    property color nameColorNormal: Colors.grey4
-    property color nameColorHover: Colors.grey1
+    property color nameColorNormal: Colors.grey2
+    property color nameColorHover: Colors.grey0
 
     property int fontSize: FontSizes.size1
 

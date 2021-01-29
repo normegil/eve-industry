@@ -33,8 +33,8 @@ class BuyOrdersModel(QAbstractListModel):
             BuyOrdersModel.IssuedRole: b'issued',
             BuyOrdersModel.ExpiredRole: b'expired',
             BuyOrdersModel.PricePerUnitRole: b'pricePerUnit',
-            BuyOrdersModel.VolumeRemainingRole: b'volumeRemaining',
-            BuyOrdersModel.VolumeTotalRole: b'volumeTotal',
+            BuyOrdersModel.VolumeRemainingRole: b'volumeRem',
+            BuyOrdersModel.VolumeTotalRole: b'volumeTot',
             BuyOrdersModel.RegionRole: b'region',
             BuyOrdersModel.RegionIDRole: b'regionIdentifier',
             BuyOrdersModel.ConstellationRole: b'constellation',
@@ -60,9 +60,9 @@ class BuyOrdersModel(QAbstractListModel):
             elif role == BuyOrdersModel.PricePerUnitRole:
                 return locale.format_string("%.2f", order.price_per_unit, True)
             elif role == BuyOrdersModel.VolumeRemainingRole:
-                return order.volume_remain
+                return f"{order.volume_remain:n}"
             elif role == BuyOrdersModel.VolumeTotalRole:
-                return order.volume_total
+                return f"{order.volume_total:n}"
             else:
                 if order.station is None:
                     return None

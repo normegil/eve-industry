@@ -10,6 +10,7 @@ Item {
     anchors.fill: parent
 
     property string title: "Item Name"
+    property color titlesColor: Colors.grey3
 
     property string fontFamily: FontFamilies.family0
 
@@ -32,15 +33,15 @@ Item {
 
     Text {
         id: detailsTitle
-        height: 50
         anchors {
             top: parent.top
             left: parent.left
-            topMargin: 30
+            topMargin: 40
             right: parent.right
         }
 
         text: title
+        color: Colors.grey2
 
         font.family: FontFamilies.family0
         font.weight: Font.Normal
@@ -49,7 +50,6 @@ Item {
 
     Text {
         id: detailsLocationTitle
-        height: 30
         anchors {
             top: detailsTitle.bottom
             left: parent.left
@@ -59,10 +59,11 @@ Item {
         }
 
         text: "Locations"
+        color: titlesColor
 
         font.family: FontFamilies.family0
         font.weight: Font.Normal
-        font.pixelSize : FontSizes.size3
+        font.pixelSize : FontSizes.size2
     }
 
     ScrollView {
@@ -71,10 +72,10 @@ Item {
         height: 300
         anchors {
             top: detailsLocationTitle.bottom
+            topMargin: 5
             left: parent.left
-            leftMargin: detailsLocationTitle.anchors.leftMargin + 20
             right: parent.right
-            rightMargin: 20
+            rightMargin: 15
         }
         ListView {
             anchors.fill: parent
@@ -97,7 +98,7 @@ Item {
 
     Text {
         id: detailsBuyOrdersTitle
-        height: 30
+        height: 22
         anchors {
             top: assetRegionView.bottom
             left: parent.left
@@ -107,10 +108,11 @@ Item {
         }
 
         text: "Buy Orders"
+        color: titlesColor
 
         font.family: FontFamilies.family0
         font.weight: Font.Normal
-        font.pixelSize : FontSizes.size3
+        font.pixelSize : FontSizes.size2
     }
 
     Rectangle {
@@ -171,7 +173,6 @@ Item {
                 font.pixelSize: itemsDetail.buyOrderHeaderSize
             }
             Text {
-                id: priceHeader
                 anchors {
                     left: locationHeader.right
                     top: parent.top
@@ -205,7 +206,6 @@ Item {
         ScrollView {
             id: detailsBuyOrdersView
             clip: true
-            width: 675
             anchors {
                 top: detailsBuyOrdersViewHeaderSeparator.bottom
                 left: parent.left
@@ -220,6 +220,8 @@ Item {
                     expiredOrder: expired
                     issuedDate: issued
                     price: pricePerUnit
+                    volumeRemaining: volumeRem
+                    volumeTotal: volumeTot
 
                     regionName: region
                     regionID: regionIdentifier
