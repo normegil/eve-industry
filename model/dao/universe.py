@@ -25,6 +25,8 @@ class UniverseDAO:
 
     def load_stations(self, station_id):
         station = self.universe_api.load_stations(station_id)
+        if station is None:
+            return None
 
         system = self.load_system(station.system_id)
         station.system = system

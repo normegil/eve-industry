@@ -1,7 +1,14 @@
 from PySide2.QtCore import QAbstractListModel, Qt, QModelIndex
 
 
-class BaseLocationModel(QAbstractListModel):
+# noinspection PyPep8Naming
+class LocationModel(QAbstractListModel):
+    RegionRole = Qt.UserRole + 2
+    ConstellationRole = Qt.UserRole + 3
+    SystemRole = Qt.UserRole + 4
+    StationRole = Qt.UserRole + 5
+    QuantityRole = Qt.UserRole + 6
+
     def __init__(self, model=None):
         QAbstractListModel.__init__(self)
         if model is None:
@@ -18,78 +25,28 @@ class BaseLocationModel(QAbstractListModel):
             return 0
         return len(self.model)
 
-
-class AssetRegion(BaseLocationModel):
-    NameRole = Qt.UserRole + 1
-    ConstellationsRole = Qt.UserRole + 2
-
     def roleNames(self):
         return {
-            AssetRegion.NameRole: b'name',
-            AssetRegion.ConstellationsRole: b'constellations',
+            LocationModel.RegionRole: b'region',
+            LocationModel.ConstellationRole: b'constellation',
+            LocationModel.SystemRole: b'system',
+            LocationModel.StationRole: b'station',
+            LocationModel.QuantityRole: b'quantity',
         }
 
     def data(self, index: QModelIndex, role=Qt.DisplayRole):
         if index.isValid():
             row = index.row()
-            if role == AssetRegion.NameRole:
-                return self.model[row].name
-            elif role == AssetRegion.ConstellationsRole:
-                return AssetConstellation(self.model[row].constellations)
+            if role == LocationModel.QuantityRole:
+                return self.model[row].quantity
+            elif self.model[row].station is None:
+                return "???"
 
-
-class AssetConstellation(BaseLocationModel):
-    NameRole = Qt.UserRole + 1
-    SystemsRole = Qt.UserRole + 2
-
-    def roleNames(self):
-        return {
-            AssetConstellation.NameRole: b'name',
-            AssetConstellation.SystemsRole: b'systems',
-        }
-
-    def data(self, index: QModelIndex, role=Qt.DisplayRole):
-        if index.isValid():
-            row = index.row()
-            if role == AssetConstellation.NameRole:
-                return self.model[row].name
-            elif role == AssetConstellation.SystemsRole:
-                return AssetSystem(self.model[row].systems)
-
-
-class AssetSystem(BaseLocationModel):
-    NameRole = Qt.UserRole + 1
-    StationsRole = Qt.UserRole + 2
-
-    def roleNames(self):
-        return {
-            AssetSystem.NameRole: b'name',
-            AssetSystem.StationsRole: b'stations',
-        }
-
-    def data(self, index: QModelIndex, role=Qt.DisplayRole):
-        if index.isValid():
-            row = index.row()
-            if role == AssetSystem.NameRole:
-                return self.model[row].name
-            elif role == AssetSystem.StationsRole:
-                return AssetStations(self.model[row].stations)
-
-
-class AssetStations(BaseLocationModel):
-    NameRole = Qt.UserRole + 1
-    AssetQuantityRole = Qt.UserRole + 2
-
-    def roleNames(self):
-        return {
-            AssetStations.NameRole: b'name',
-            AssetStations.AssetQuantityRole: b'assetQuantity',
-        }
-
-    def data(self, index: QModelIndex, role=Qt.DisplayRole):
-        if index.isValid():
-            row = index.row()
-            if role == AssetStations.NameRole:
-                return self.model[row].name
-            elif role == AssetStations.AssetQuantityRole:
-                return self.model[row].asset.quantity
+            if role == LocationModel.StationRole:
+                return self.model[row].station.name
+            elif role == LocationModel.SystemRole:
+                return self.model[row].station.system.name
+            elif role == LocationModel.ConstellationsRole:
+                return self.model[row].station.system.constellation.name
+            elif role == LocationModel.RegionRole:
+                return self.model[row].station.system.constellation.region.name

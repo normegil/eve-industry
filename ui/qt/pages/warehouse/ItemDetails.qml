@@ -58,74 +58,7 @@ Item {
             }
             Text {
                 id: regionName
-                text: name
-            }
-            ListView {
-                height: 75
-                anchors {
-                    top: regionName.bottom
-                    left: parent.left
-                    right: parent.right
-                }
-                model: constellations
-                delegate: Item {
-                    height: 25
-                    anchors {
-                        left: parent.left
-                        leftMargin: 50
-                        right: parent.right
-                    }
-                    Text {
-                        id: constellationName
-                        text: name
-                    }
-                    ListView {
-                        height: 50
-                        anchors {
-                            top: constellationName.bottom
-                            left: parent.left
-                            right: parent.right
-                        }
-                        model: systems
-                        delegate: Item {
-                            height: 25
-                            anchors {
-                                left: parent.left
-                                leftMargin: 50
-                                right: parent.right
-                            }
-                            Text {
-                                id: systemName
-                                text: name
-                            }
-                            ListView {
-                                height: 25
-                                anchors {
-                                    top: systemName.bottom
-                                    left: parent.left
-                                    right: parent.right
-                                }
-                                model: stations
-                                delegate: Item {
-                                    height: 50
-                                    anchors {
-                                        left: parent.left
-                                        leftMargin: 50
-                                        right: parent.right
-                                    }
-                                    Text {
-                                        id: stationsName
-                                        text: name
-                                    }
-                                    Text {
-                                        id: stationsQuantity
-                                        text: assetQuantity
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                text: station
             }
         }
     }

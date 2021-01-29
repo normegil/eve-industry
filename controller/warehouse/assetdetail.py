@@ -1,7 +1,6 @@
 from PySide2.QtCore import QObject, Signal, Property, Slot
 
-from .assetlocations import AssetRegion
-
+from .assetlocations import LocationModel
 
 # noinspection PyPep8Naming
 class AssetDetail(QObject):
@@ -13,8 +12,8 @@ class AssetDetail(QObject):
         self.view = view
         self._asset = self.model.characters.find_asset(34)
         self.view.engine.rootContext().setContextProperty("warehouseItemDetails", self)
-        self._asset_region = AssetRegion(self._asset.by_region)
-        self.view.engine.rootContext().setContextProperty("warehouseItemDetailsLocations", self._asset_region)
+        self._assets_locations = LocationModel(self._asset.by_locations)
+        self.view.engine.rootContext().setContextProperty("warehouseItemDetailsLocations", self._assets_locations)
 
     @Property(str, notify=nameChanged)
     def name(self):
@@ -26,5 +25,5 @@ class AssetDetail(QObject):
 
     def set_asset(self, asset):
         self._asset = asset
-        self._asset_region.setModel(self._asset.by_region)
+        self._assets_locations.setModel(self._asset.by_locations)
         self.reloadUI()
