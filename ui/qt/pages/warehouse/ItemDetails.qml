@@ -75,9 +75,13 @@ Item {
             model: warehouseItemDetailsLocations
             delegate: WarehouseItemLocationCard {
                 regionName: region
+                regionID: regionIdentifier
                 constellationName: constellation
+                constellationID: constellationIdentifier
                 systemName: system
+                systemID: systemIdentifier
                 stationName: station
+                stationID: stationIdentifier
                 itemQuantity: quantity
             }
         }

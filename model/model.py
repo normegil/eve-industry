@@ -1,7 +1,7 @@
 from model.dao import CharacterDAO, MarketDAO, UniverseDAO
 from model.dao.eveapi import CharacterAPI, MarketAPI, UniverseAPI
 from model.dao.redis import CharacterCache, UniverseCache
-from .api import Characters
+from .api import Characters, Universe
 
 
 class Model:
@@ -10,8 +10,5 @@ class Model:
         universe_dao = UniverseDAO(UniverseCache(redis, UniverseAPI(tokens)))
         character_dao = CharacterDAO(CharacterCache(redis, CharacterAPI(tokens)), market_dao, universe_dao)
 
-        self.characters = Characters(character_dao)
-
-    @property
-    def character(self):
-        return self.characters
+        self.character = Characters(character_dao)
+        self.universe = Universe(universe_dao)

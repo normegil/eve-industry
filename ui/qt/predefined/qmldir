@@ -1,3 +1,4 @@
 singleton Colors 1.0 colors.qml
 singleton FontSizes 1.0 font_sizes.qml
 singleton FontFamilies 1.0 font_families.qml
+singleton LocationsType 1.0 locations.qml

@@ -16,12 +16,12 @@ class Controller(QObject):
         self.current_displayed_item_details = AssetDetail(self.model, self.view)
 
     def refresh_warehouse(self):
-        asset_categories = self.model.characters.assets()
+        asset_categories = self.model.character.assets()
         qt_group_format = to_qt_group_format(asset_categories)
         self.view_model.setModel(qt_group_format)
 
     def details_for(self, type_id):
-        asset = self.model.characters.find_asset(type_id)
+        asset = self.model.character.find_asset(type_id)
         self.current_displayed_item_details.set_asset(asset)
 
 

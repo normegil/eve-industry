@@ -8,6 +8,10 @@ class LocationModel(QAbstractListModel):
     SystemRole = Qt.UserRole + 4
     StationRole = Qt.UserRole + 5
     QuantityRole = Qt.UserRole + 6
+    RegionIDRole = Qt.UserRole + 7
+    ConstellationIDRole = Qt.UserRole + 8
+    SystemIDRole = Qt.UserRole + 9
+    StationIDRole = Qt.UserRole + 10
 
     def __init__(self, model=None):
         QAbstractListModel.__init__(self)
@@ -28,9 +32,13 @@ class LocationModel(QAbstractListModel):
     def roleNames(self):
         return {
             LocationModel.RegionRole: b'region',
+            LocationModel.RegionIDRole: b'regionIdentifier',
             LocationModel.ConstellationRole: b'constellation',
+            LocationModel.ConstellationIDRole: b'constellationIdentifier',
             LocationModel.SystemRole: b'system',
+            LocationModel.SystemIDRole: b'systemIdentifier',
             LocationModel.StationRole: b'station',
+            LocationModel.StationIDRole: b'stationIdentifier',
             LocationModel.QuantityRole: b'quantity',
         }
 
@@ -41,7 +49,7 @@ class LocationModel(QAbstractListModel):
                 q = self.model[row].quantity
                 return f"{q:n}"
             elif self.model[row].station is None:
-                return "???"
+                return None
 
             if role == LocationModel.StationRole:
                 return self.model[row].station.name
@@ -51,3 +59,11 @@ class LocationModel(QAbstractListModel):
                 return self.model[row].station.system.constellation.name
             elif role == LocationModel.RegionRole:
                 return self.model[row].station.system.constellation.region.name
+            elif role == LocationModel.StationIDRole:
+                return self.model[row].station.id
+            elif role == LocationModel.SystemIDRole:
+                return self.model[row].station.system.id
+            elif role == LocationModel.ConstellationIDRole:
+                return self.model[row].station.system.constellation.id
+            elif role == LocationModel.RegionIDRole:
+                return self.model[row].station.system.constellation.region.id

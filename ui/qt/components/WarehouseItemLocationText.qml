@@ -13,6 +13,9 @@ Text {
 
     property int fontSize: FontSizes.size1
 
+    property int locationType: -1
+    property int locationID: -1
+
     text: name
     color: nameColorNormal
 
@@ -36,5 +39,12 @@ Text {
     MouseArea {
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
+        onPressed: {
+            warehouseItemDetails.showInBrowser(locationType, locationID)
+        }
+    }
+
+    Connections {
+        target: warehouseItemDetails
     }
 }

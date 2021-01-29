@@ -7,9 +7,13 @@ import "../predefined" 1.0
 Item {
     id: warehouseItemLocationCard
 
+    property int regionID: -1
     property string regionName: "???"
+    property int constellationID: -1
     property string constellationName: "???"
+    property int systemID: -1
     property string systemName: "???"
+    property int stationID: -1
     property string stationName: "???"
 
     property string itemQuantity: "0"
@@ -26,9 +30,6 @@ Item {
 
     height: 45
     width: 640
-    anchors {
-        left: parent.left
-    }
 
     Rectangle {
         id: bgContainer
@@ -40,6 +41,8 @@ Item {
         WarehouseItemLocationText {
             id: systemNameWarehouseItemLocationCard
             name: systemName
+            locationType: LocationsType.system
+            locationID: systemID
             fontSize : FontSizes.size3
             anchors {
                 left: parent.left
@@ -71,6 +74,8 @@ Item {
         WarehouseItemLocationText {
             id: constellationNameWarehouseItemLocationCard
             name: constellationName
+            locationType: LocationsType.constellation
+            locationID: constellationID
             anchors {
                 left: systemConstellationSeparator.right
                 leftMargin: 5
@@ -100,6 +105,8 @@ Item {
 
         WarehouseItemLocationText {
             name: regionName
+            locationType: LocationsType.region
+            locationID: regionID
             anchors {
                 left: constellationRegionSeparator.right
                 leftMargin: 5
@@ -110,6 +117,8 @@ Item {
 
         WarehouseItemLocationText {
             name: stationName
+            locationType: LocationsType.station
+            locationID: stationID
             anchors {
                 left: parent.left
                 leftMargin: 10
