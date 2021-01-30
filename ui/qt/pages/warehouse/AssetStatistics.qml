@@ -44,12 +44,12 @@ Item {
             color: Colors.grey2
             font.family: FontFamilies.family0
             font.weight: Font.Normal
-            font.pixelSize : FontSizes.size3
+            font.pixelSize : FontSizes.size2
         }
 
         TextField {
             id: minimumField
-            height: 30
+            height: 25
             width: 150
             anchors {
                 top: parent.top
@@ -58,6 +58,7 @@ Item {
             }
             text: "50000"
             horizontalAlignment: TextInput.AlignRight
+            font.pixelSize: FontSizes.size2
         }
     }
 }
