@@ -42,13 +42,25 @@ Item {
         font.pixelSize : FontSizes.size4
     }
 
+    AssetStatistics {
+        id: assetStatisticsID
+
+        height: 100
+        anchors {
+            top: detailsTitle.bottom
+            topMargin: 15
+            left: parent.left
+            right: parent.right
+        }
+    }
+
     AssetLocations {
         id: assetLocationsID
 
         height: 350
         anchors {
-            top: detailsTitle.bottom
-            topMargin: 10
+            top: assetStatisticsID.bottom
+            topMargin: 15
             left: parent.left
             right: parent.right
         }
@@ -57,7 +69,7 @@ Item {
     AssetBuyOrders {
         anchors {
             top: assetLocationsID.bottom
-            topMargin: 10
+            topMargin: 15
             left: parent.left
             right: parent.right
             bottom: parent.bottom
