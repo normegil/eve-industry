@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtGraphicalEffects 1.0
 
 import "../../components/warehouse"
 import "../../predefined" 1.0
@@ -23,10 +24,87 @@ Item {
         font.pixelSize : FontSizes.size5
     }
 
-    ScrollView {
-        clip: true
+    Item {
+        id: controls
+
+        height: 40
         anchors {
             top: title.bottom
+            left: parent.left
+            right: parent.right
+        }
+
+        Item {
+            anchors {
+                top: parent.top
+                topMargin: 5
+                bottom: parent.bottom
+                left: parent.left
+                leftMargin: 750
+            }
+
+            Button {
+                id: refreshBtn
+                flat: true
+
+                contentItem: Text {
+                    text: "Refresh"
+                    color: refreshBtn.down ? Colors.grey2 : Colors.grey4
+                    font: FontFamilies.family0
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                }
+
+                height: 30
+            }
+
+            Button {
+                id: buyingListBtn
+
+                anchors {
+                    top: parent.top
+                    left: refreshBtn.right
+                    leftMargin: 10
+                }
+
+                contentItem: Text {
+                    text: "Buying List"
+                    color: buyingListBtn.down ? Colors.grey2 : Colors.grey3
+                    font: FontFamilies.family0
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                }
+
+                background: Rectangle {
+                    id: buyingListBtnBackground
+                    implicitWidth: 100
+                    implicitHeight: 30
+                    color: buyingListBtn.down ? Colors.grey8 : Colors.grey9
+                }
+            }
+
+            DropShadow {
+                anchors {
+                    top: parent.top
+                    left: refreshBtn.right
+                    leftMargin: 10
+                }
+                source: buyingListBtnBackground
+                horizontalOffset: 2
+                verticalOffset: 2
+                radius: 3
+                color: Colors.grey6
+                z: 0
+            }
+        }
+    }
+
+    ScrollView {
+        id: groupsView
+        clip: true
+        anchors {
+            top: controls.bottom
+            topMargin: 10
             bottom: parent.bottom
             left: parent.left
             right: parent.right
