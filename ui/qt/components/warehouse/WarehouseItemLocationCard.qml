@@ -2,7 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtGraphicalEffects 1.0
 
-import "../predefined" 1.0
+import "../../predefined" 1.0
 
 Item {
     id: warehouseItemLocationCard
@@ -17,51 +17,40 @@ Item {
     property string stationName: "???"
 
     property string itemQuantity: "0"
-    property color itemQuantityColor: Colors.grey1
 
     property string separator: "<"
     property color separatorColor: Colors.grey4
 
-    property color shadowColor: Colors.grey6
-
     property string fontFamily: FontFamilies.family0
-
-    property color bgMainColor: Colors.grey9
 
     height: 45
     width: 715
 
     Rectangle {
-        id: bgContainer
+        id: backgroundContainer
         anchors.fill: parent
         z: 10
 
-        color: warehouseItemLocationCard.bgMainColor
+        color: Colors.grey9
 
         WarehouseItemLocationText {
             id: systemNameWarehouseItemLocationCard
-            name: systemName
-            locationType: LocationsType.system
-            locationID: systemID
-            fontSize : FontSizes.size3
+
             anchors {
                 left: parent.left
                 leftMargin: 10
                 top: parent.top
                 topMargin: 5
             }
+
+            name: systemName
+            locationType: LocationsType.system
+            locationID: systemID
+            fontSize : FontSizes.size3
         }
 
         Text {
             id: systemConstellationSeparator
-            text: separator
-            color: separatorColor
-
-            font.family: fontFamily
-            font.weight: Font.Normal
-            font.pixelSize : FontSizes.size0
-
-            verticalAlignment: Text.AlignVCenter
 
             anchors {
                 left: systemNameWarehouseItemLocationCard.right
@@ -69,31 +58,32 @@ Item {
                 top: parent.top
                 topMargin: 8
             }
+
+            text: separator
+            color: separatorColor
+            verticalAlignment: Text.AlignVCenter
+            font.family: fontFamily
+            font.weight: Font.Normal
+            font.pixelSize : FontSizes.size0
         }
 
         WarehouseItemLocationText {
             id: constellationNameWarehouseItemLocationCard
-            name: constellationName
-            locationType: LocationsType.constellation
-            locationID: constellationID
+
             anchors {
                 left: systemConstellationSeparator.right
                 leftMargin: 5
                 top: parent.top
                 topMargin: 8
             }
+
+            name: constellationName
+            locationType: LocationsType.constellation
+            locationID: constellationID
         }
 
         Text {
             id: constellationRegionSeparator
-            text: separator
-            color: separatorColor
-
-            font.family: fontFamily
-            font.weight: Font.Normal
-            font.pixelSize : FontSizes.size0
-
-            verticalAlignment: Text.AlignVCenter
 
             anchors {
                 left: constellationNameWarehouseItemLocationCard.right
@@ -101,64 +91,62 @@ Item {
                 top: parent.top
                 topMargin: 8
             }
+
+            text: separator
+            color: separatorColor
+            verticalAlignment: Text.AlignVCenter
+            font.family: fontFamily
+            font.weight: Font.Normal
+            font.pixelSize : FontSizes.size0
         }
 
         WarehouseItemLocationText {
-            name: regionName
-            locationType: LocationsType.region
-            locationID: regionID
             anchors {
                 left: constellationRegionSeparator.right
                 leftMargin: 5
                 top: parent.top
                 topMargin: 8
             }
+            name: regionName
+            locationType: LocationsType.region
+            locationID: regionID
         }
 
         WarehouseItemLocationText {
-            name: stationName
-            locationType: LocationsType.station
-            locationID: stationID
             anchors {
                 left: parent.left
                 leftMargin: 10
                 bottom: parent.bottom
                 bottomMargin: 5
             }
+            name: stationName
+            locationType: LocationsType.station
+            locationID: stationID
         }
 
         Text {
-            text: itemQuantity
-            color: itemQuantityColor
-
-            font.family: fontFamily
-            font.weight: Font.Normal
-            font.pixelSize : FontSizes.size5
-
-            verticalAlignment: Text.AlignVCenter
-
             anchors {
                 right: parent.right
                 rightMargin: 10
                 bottom: parent.bottom
                 bottomMargin: 11
             }
+            text: itemQuantity
+            color: Colors.grey1
+            verticalAlignment: Text.AlignVCenter
+            font.family: fontFamily
+            font.weight: Font.Normal
+            font.pixelSize : FontSizes.size5
         }
     }
 
     DropShadow {
         anchors.fill: parent
-        source: bgContainer
+        source: backgroundContainer
         horizontalOffset: 2
         verticalOffset: 2
         radius: 3
-        color: shadowColor
+        color: Colors.grey6
         z: 0
     }
 }
-
-/*##^##
-Designer {
-    D{i:0;autoSize:true;formeditorZoom:1.3300000429153442;height:480;width:640}
-}
-##^##*/

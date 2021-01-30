@@ -42,209 +42,25 @@ Item {
         font.pixelSize : FontSizes.size4
     }
 
-    Text {
-        id: detailsLocationTitle
+    AssetLocations {
+        id: assetLocationsID
 
+        height: 350
         anchors {
             top: detailsTitle.bottom
-            left: parent.left
             topMargin: 10
-            leftMargin: 20
-            right: parent.right
-        }
-
-        text: "Locations"
-        color: titlesColor
-        font.family: FontFamilies.family0
-        font.weight: Font.Normal
-        font.pixelSize : FontSizes.size2
-    }
-
-    ScrollView {
-        id: assetRegionView
-        clip: true
-        height: 300
-        anchors {
-            top: detailsLocationTitle.bottom
-            topMargin: 5
             left: parent.left
             right: parent.right
-            rightMargin: 15
-        }
-        ListView {
-            anchors.fill: parent
-            spacing: 10
-
-            model: warehouseAssetDetailsLocations
-            delegate: WarehouseItemLocationCard {
-                regionName: region
-                regionID: regionIdentifier
-                constellationName: constellation
-                constellationID: constellationIdentifier
-                systemName: system
-                systemID: systemIdentifier
-                stationName: station
-                stationID: stationIdentifier
-                itemQuantity: quantity
-            }
         }
     }
 
-    Text {
-        id: detailsBuyOrdersTitle
-        height: 22
+    AssetBuyOrders {
         anchors {
-            top: assetRegionView.bottom
-            left: parent.left
+            top: assetLocationsID.bottom
             topMargin: 10
-            leftMargin: 20
-            right: parent.right
-        }
-
-        text: "Buy Orders"
-        color: titlesColor
-
-        font.family: FontFamilies.family0
-        font.weight: Font.Normal
-        font.pixelSize : FontSizes.size2
-    }
-
-    Rectangle {
-        id: detailsBuyOrdersContainer
-        z: 10
-
-        color: Colors.transparent
-
-        anchors {
-            top: detailsBuyOrdersTitle.bottom
             left: parent.left
-            leftMargin: assetRegionView.anchors.leftMargin
             right: parent.right
-            rightMargin: 20
             bottom: parent.bottom
-            bottomMargin: 20
         }
-
-        Rectangle {
-            id: detailsBuyOrdersViewHeader
-            color: Colors.grey9
-            anchors {
-                top: parent.top
-                left: parent.left
-                right: parent.right
-            }
-            height: 30
-
-            Text {
-                id: issuedHeader
-                width: 150
-                anchors {
-                    left: parent.left
-                    leftMargin: 15
-                    top: parent.top
-                    topMargin: 8
-                    bottom: parent.bottom
-                }
-                text: "Issued"
-                color: buyOrderHeaderColor
-                font.family: fontFamily
-                font.weight: buyOrderHeaderWeight
-                font.pixelSize: buyOrderHeaderSize
-            }
-            Text {
-                id: locationHeader
-                width: 300
-                anchors {
-                    left: issuedHeader.right
-                    top: parent.top
-                    topMargin: 8
-                    bottom: parent.bottom
-                }
-                text: "Location"
-                color: buyOrderHeaderColor
-                font.family: fontFamily
-                font.weight: buyOrderHeaderWeight
-                font.pixelSize: buyOrderHeaderSize
-            }
-            Text {
-                anchors {
-                    left: locationHeader.right
-                    top: parent.top
-                    topMargin: 8
-                    bottom: parent.bottom
-                    right: parent.right
-                    rightMargin: 15
-                }
-
-                text: "Price & Volume"
-
-                horizontalAlignment: Text.AlignRight
-                color: buyOrderHeaderColor
-                font.family: fontFamily
-                font.weight: buyOrderHeaderWeight
-                font.pixelSize: buyOrderHeaderSize
-            }
-        }
-        Rectangle {
-            id: detailsBuyOrdersViewHeaderSeparator
-            anchors {
-                top: detailsBuyOrdersViewHeader.bottom
-                left: parent.left
-                right: parent.right
-            }
-            width: detailsBuyOrdersViewHeader.width
-            height: 2
-            border.width: 1
-            border.color: Colors.grey7
-        }
-        ScrollView {
-            id: detailsBuyOrdersView
-            clip: true
-            anchors {
-                top: detailsBuyOrdersViewHeaderSeparator.bottom
-                left: parent.left
-                right: parent.right
-                bottom: parent.bottom
-            }
-            ListView {
-                anchors.fill: parent
-
-                model: warehouseAssetDetailsBuyOrders
-                delegate: WarehouseItemBuyOrderRow {
-                    expiredOrder: expired
-                    issuedDate: issued
-                    price: pricePerUnit
-                    volumeRemaining: volumeRem
-                    volumeTotal: volumeTot
-
-                    regionName: region
-                    regionID: regionIdentifier
-                    constellationName: constellation
-                    constellationID: constellationIdentifier
-                    systemName: system
-                    systemID: systemIdentifier
-                    stationName: station
-                    stationID: stationIdentifier
-                }
-            }
-        }
-    }
-
-    DropShadow {
-        anchors {
-            top: detailsBuyOrdersTitle.bottom
-            left: parent.left
-            leftMargin: assetRegionView.anchors.leftMargin
-            right: parent.right
-            rightMargin: 20
-            bottom: parent.bottom
-            bottomMargin: 20
-        }
-        source: detailsBuyOrdersContainer
-        horizontalOffset: 2
-        verticalOffset: 2
-        radius: 3
-        color: Colors.grey6
-        z: 0
     }
 }

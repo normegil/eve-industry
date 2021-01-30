@@ -2,7 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtGraphicalEffects 1.0
 
-import "../predefined" 1.0
+import "../../predefined" 1.0
 
 Text {
     id: label
