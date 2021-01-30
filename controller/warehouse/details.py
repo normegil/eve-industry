@@ -29,6 +29,9 @@ class AssetDetails(QObject):
     def reloadUI(self):
         self.nameChanged.emit()
 
+    def refreshAsset(self):
+        self.loadAsset(self._asset.id)
+
     @Slot(int)
     def loadAsset(self, asset_id):
         logging.info(f"Reload asset details: {asset_id}")

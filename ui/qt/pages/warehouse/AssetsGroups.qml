@@ -46,6 +46,9 @@ Item {
             Button {
                 id: refreshBtn
                 flat: true
+                onClicked: {
+                    warehouseController.refresh()
+                }
 
                 contentItem: Text {
                     text: "Refresh"
@@ -60,6 +63,9 @@ Item {
 
             Button {
                 id: buyingListBtn
+                onClicked: {
+
+                }
 
                 anchors {
                     top: parent.top
@@ -83,18 +89,8 @@ Item {
                 }
             }
 
-            DropShadow {
-                anchors {
-                    top: parent.top
-                    left: refreshBtn.right
-                    leftMargin: 10
-                }
-                source: buyingListBtnBackground
-                horizontalOffset: 2
-                verticalOffset: 2
-                radius: 3
-                color: Colors.grey6
-                z: 0
+            Connections {
+                target: warehouseController
             }
         }
     }
