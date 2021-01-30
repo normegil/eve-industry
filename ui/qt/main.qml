@@ -10,6 +10,9 @@ Window {
     visible: true
     title: qsTr("Eve Industry")
 
+    minimumHeight: 300
+    minimumWidth: 1300
+
     color: Colors.grey8
 
     Loader {

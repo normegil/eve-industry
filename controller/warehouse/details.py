@@ -9,10 +9,20 @@ from .buy_orders import BuyOrdersModel
 
 dotlan_base_url = "https://evemaps.dotlan.net/"
 
+measurementPrefixesPower = {
+    "k": 3,
+    "K": 3,
+    "m": 6,
+    "M": 6,
+    "g": 9,
+    "G": 9
+}
+
 
 # noinspection PyPep8Naming
 class AssetDetails(QObject):
     nameChanged = Signal()
+    minimumStockChanged = Signal()
 
     def __init__(self, model):
         QObject.__init__(self)
@@ -25,9 +35,33 @@ class AssetDetails(QObject):
     def name(self):
         return self._asset.name
 
+    @Property(str, notify=minimumStockChanged)
+    def minimumStock(self):
+        try:
+            return self._asset.minimumInStock
+        except AttributeError:
+            return "0"
+
+    @Slot(str)
+    def setMinimumStock(self, minimumInStock):
+        if not minimumInStock:
+            self.model.character.save_asset_minimum_stock(self._asset.id, 0)
+            return
+        last_char = minimumInStock[-1:]
+        power = 0
+        numberStr = minimumInStock
+        if not last_char.isnumeric():
+            power = measurementPrefixesPower[last_char]
+            numberStr = minimumInStock[:-1]
+            if power is None:
+                power = 0
+        finalMinimumInStock = int(numberStr) * 10 ** power
+        self.model.character.save_asset_minimum_stock(self._asset.id, finalMinimumInStock)
+
     @Slot()
     def reloadUI(self):
         self.nameChanged.emit()
+        self.minimumStockChanged.emit()
 
     def refreshAsset(self):
         self.loadAsset(self._asset.id)

@@ -1,3 +1,6 @@
+import logging
+
+
 class Characters:
     def __init__(self, character_dao):
         self.character_dao = character_dao
@@ -25,6 +28,10 @@ class Characters:
 
     def load_assets(self):
         self.assets_category = self.character_dao.load_assets_by_category(self.current_character.id)
+
+    def save_asset_minimum_stock(self, asset_id, minimum_stock):
+        logging.info(f"Update minimum stock: {asset_id} - {minimum_stock:n}")
+
 
 def load_average_price_per_unit(asset):
     avg = asset.average_price_per_unit

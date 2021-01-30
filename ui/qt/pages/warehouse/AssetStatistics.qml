@@ -8,6 +8,13 @@ import "../../predefined" 1.0
 Item {
     property string fontFamily: FontFamilies.family0
 
+    Connections {
+        target: warehouseAssetDetails
+        function onMinimumStockChanged() {
+            minimumField.text = warehouseAssetDetails.minimumStock
+        }
+    }
+
     Text {
         id: title
         anchors {
@@ -56,10 +63,12 @@ Item {
                 left: minimumText.right
                 leftMargin: 10
             }
-            text: "50000"
             horizontalAlignment: TextInput.AlignRight
             font.pixelSize: FontSizes.size2
             validator: RegularExpressionValidator { regularExpression: /^[0-9]+[kKmMgG]?$/ }
+            onTextEdited: {
+                warehouseAssetDetails.setMinimumStock(minimumField.text)
+            }
         }
     }
 }
