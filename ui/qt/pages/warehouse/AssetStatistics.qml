@@ -59,6 +59,7 @@ Item {
             text: "50000"
             horizontalAlignment: TextInput.AlignRight
             font.pixelSize: FontSizes.size2
+            validator: RegularExpressionValidator { regularExpression: /^[0-9]+[kKmMgG]?$/ }
         }
     }
 }
