@@ -17,7 +17,7 @@ Item {
             leftMargin: 25
         }
 
-        text: "Stock"
+        text: "Warehouse"
         color: Colors.grey3
         font.family: FontFamilies.family0
         font.weight: Font.Normal

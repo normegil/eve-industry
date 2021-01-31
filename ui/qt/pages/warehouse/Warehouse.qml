@@ -8,7 +8,7 @@ Item {
     anchors.fill: parent
     Item {
         id: assetsGroups
-        width: 1125
+        width: 1050
         anchors {
             top: parent.top
             bottom: parent.bottom

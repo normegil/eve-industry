@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Window 2.15
+import QtGraphicalEffects 1.0
 
 import "components"
 import "predefined" 1.0
@@ -15,12 +16,38 @@ Window {
 
     color: Colors.grey8
 
+    Rectangle {
+        id: leftMenu
+        z: 10
+        width: 75
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+            left: parent.left
+        }
+        color: Colors.grey6
+    }
+
+    DropShadow {
+        z: 0
+        width: 75
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+            left: parent.left
+        }
+        source: leftMenu
+        horizontalOffset: 1
+        radius: 5
+        color: Colors.grey7
+    }
+
     Loader {
         property int margin: 20
         anchors {
             top: parent.top
             bottom: parent.bottom
-            left: parent.left
+            left: leftMenu.right
             right: parent.right
             topMargin: margin
             bottomMargin: margin
