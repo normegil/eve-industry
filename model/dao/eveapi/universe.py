@@ -120,3 +120,12 @@ class UniverseAPI:
         category = json.loads(resp.content)
 
         return Category(category["category_id"], category["name"])
+
+    def load_all_groups_ids(self):
+        logging.info(f"Requesting all group IDs")
+        resp = requests.get(self.base_url + "groups/",
+                            headers={'Authorization': F"Bearer {self.tokens.access_token}"})
+        if resp.status_code >= 300:
+            raise RuntimeError(f"Wrong response code: {str(resp.status_code)}")
+
+        return json.loads(resp.content)

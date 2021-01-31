@@ -28,7 +28,7 @@ class Versioner:
         if count == 0:
             return -1
         version_result = cursor.execute(
-            "SELECT version FROM versions ORDER BY date(changed_datetime) DESC LIMIT 1;").fetchone()
+            "SELECT version FROM versions ORDER BY datetime(changed_datetime) DESC LIMIT 1;").fetchone()
         cursor.close()
         return version_result[0]
 

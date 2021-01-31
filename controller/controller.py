@@ -3,6 +3,7 @@ import logging
 from PySide2.QtCore import QObject, Signal, Slot, Property
 
 from controller.general import ContextProperties
+from controller.settings import SettingsController
 from controller.warehouse import WarehouseController
 
 pageSources = {
@@ -21,6 +22,7 @@ class Controller(QObject):
 
         self._pageSource = pageSources["settings"]
         self.warehouse_controller = WarehouseController(self.model, self.view)
+        self.settings_controller = SettingsController(self.model, self.view)
         self.view.engine.rootContext().setContextProperty(ContextProperties.MAIN_CONTROLLER.value,
                                                           self)
 

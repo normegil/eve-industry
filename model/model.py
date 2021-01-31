@@ -13,4 +13,4 @@ class Model:
                                      universe_dao)
 
         self.character = Characters(character_dao)
-        self.universe = Universe(universe_dao)
+        self.universe = Universe(universe_dao, character_dao)

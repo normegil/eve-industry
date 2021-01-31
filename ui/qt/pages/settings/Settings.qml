@@ -8,8 +8,8 @@ import "../../predefined" 1.0
 Item {
     anchors.fill: parent
 
-    property int borderWidth: 1000
-    property int settingsControlWidth: 560
+    property int borderWidth: 1200
+    property int settingsControlWidth: 780
     property int settingsControlTopMargin: 24
     property int settingsControlLeftMargin: 400
 
@@ -92,9 +92,79 @@ Item {
             Text {
                 id: assetGroupsSelectorLabel
                 text: "Select asset groups to show:"
+                anchors {
+                    left: parent.left
+                    leftMargin: 20
+                }
                 color: Colors.grey3
                 font.family: FontFamilies.family0
                 font.pixelSize: FontSizes.size2
+            }
+
+            Item {
+                height: 400
+                anchors {
+                    top: assetGroupsSelectorLabel.bottom
+                    topMargin: 10
+                    left: parent.left
+                    right: parent.right
+                }
+
+                Item {
+                    anchors {
+                        top: parent.top
+                        left: parent.left
+                        bottom: parent.bottom
+                        right: parent.horizontalCenter
+                        rightMargin: 5
+                    }
+
+                    Text {
+                        id: warehouseGroupsNotDisplayedLabel
+                        anchors {
+                            top: parent.top
+                            horizontalCenter: parent.horizontalCenter
+                        }
+                        text: "Not Displayed"
+                        color: Colors.grey3
+                        font.family: FontFamilies.family0
+                        font.pixelSize: FontSizes.size1
+                    }
+
+                    Rectangle {
+                        color: Colors.grey9
+                        anchors {
+                            top: warehouseGroupsNotDisplayedLabel.bottom
+                            topMargin: 5
+                            left: parent.left
+                            right: parent.right
+                            bottom: parent.bottom
+                        }
+                        ScrollView {
+                            clip: true
+                            anchors.fill: parent
+                            ListView {
+                                anchors.fill: parent
+                                model: settingsWarehouseGroupsNotFollowed
+                                delegate: Text {
+                                    anchors {
+                                        left: parent.left
+                                        right: parent.right
+                                    }
+                                    text: name
+                                    color: Colors.grey1
+                                    font.family: FontFamilies.family0
+                                    font.pixelSize: FontSizes.size3
+
+                                    MouseArea {
+                                        anchors.fill: parent
+                                        cursorShape: Qt.PointingHandCursor
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }

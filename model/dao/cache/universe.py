@@ -156,3 +156,6 @@ class UniverseCache:
         self.cache[base_key + ".id"] = category.id
         self.cache[base_key + ".name"] = category.name
         return category
+
+    def load_all_groups_ids(self):
+        return self.api.load_all_groups_ids()

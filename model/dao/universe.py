@@ -53,3 +53,10 @@ class UniverseDAO:
 
     def load_category(self, category_id):
         return self.universe_api.load_category(category_id)
+
+    def load_all_groups(self):
+        group_ids = self.universe_api.load_all_groups_ids()
+        groups = []
+        for id_ in group_ids:
+            groups.append(self.load_group(id_))
+        return groups
