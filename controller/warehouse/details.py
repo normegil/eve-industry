@@ -38,25 +38,29 @@ class AssetDetails(QObject):
     @Property(str, notify=minimumStockChanged)
     def minimumStock(self):
         try:
-            return self._asset.minimumInStock
+            mStock = self._asset.minimum_stock
+            if mStock is None:
+                return "0"
+            return str(mStock)
         except AttributeError:
             return "0"
 
     @Slot(str)
-    def setMinimumStock(self, minimumInStock):
-        if not minimumInStock:
+    def setMinimumStock(self, minimum_stock):
+        if not minimum_stock:
             self.model.character.save_asset_minimum_stock(self._asset.id, 0)
             return
-        last_char = minimumInStock[-1:]
+        last_char = minimum_stock[-1:]
         power = 0
-        numberStr = minimumInStock
+        numberStr = minimum_stock
         if not last_char.isnumeric():
             power = measurementPrefixesPower[last_char]
-            numberStr = minimumInStock[:-1]
+            numberStr = minimum_stock[:-1]
             if power is None:
                 power = 0
-        finalMinimumInStock = int(numberStr) * 10 ** power
-        self.model.character.save_asset_minimum_stock(self._asset.id, finalMinimumInStock)
+        final_minimum_stock = int(numberStr) * 10 ** power
+        self._asset.minimum_stock = final_minimum_stock
+        self.model.character.save_asset_minimum_stock(self._asset.id, final_minimum_stock)
 
     @Slot()
     def reloadUI(self):

@@ -3,12 +3,14 @@ import logging
 
 from dateutil.relativedelta import relativedelta
 
+from model.dao.database import CharacterDB
 from model.entities.assets import Assets
 
 
 class CharacterDAO:
-    def __init__(self, character_api, market_dao, universe_dao):
+    def __init__(self, character_api, character_db: CharacterDB, market_dao, universe_dao):
         self.character_api = character_api
+        self.character_db = character_db
         self.market_dao = market_dao
         self.universe_dao = universe_dao
 
@@ -20,6 +22,7 @@ class CharacterDAO:
         categories = self.__asset_in_categories(assets)
         orders = self.market_dao.load_character_order_history(character_id)
         categories = self.__order_in_categories(categories, orders)
+        self.__load_minimum_stocks(categories)
         self.__load_locations(categories)
         return categories
 
@@ -46,6 +49,12 @@ class CharacterDAO:
             found_asset.buy_orders.append(order)
         return categories
 
+    def __load_minimum_stocks(self, categories):
+        for category in categories:
+            for group in category.groups:
+                for asset in group.assets:
+                    asset.minimum_stock = self.character_db.load_asset_minimum_stock(asset.id)
+
     def __load_locations(self, categories):
         for category in categories:
             for group in category.groups:
@@ -57,7 +66,11 @@ class CharacterDAO:
                         try:
                             buy_order.station = self.universe_dao.load_stations(buy_order.location_id)
                         except RuntimeError as err:
-                            logging.info(f"Could not load station[{buy_order.location_id}] from buy order[{buy_order.id}]: {err}")
+                            logging.info(
+                                f"Could not load station[{buy_order.location_id}] from buy order[{buy_order.id}]: {err}")
+
+    def save_asset_minimum_stock(self, asset_id: int, minimum_stock: int):
+        self.character_db.save_asset_minimum_stock(asset_id, minimum_stock)
 
 
 def find_asset(categories, asset):

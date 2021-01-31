@@ -30,7 +30,7 @@ class Characters:
         self.assets_category = self.character_dao.load_assets_by_category(self.current_character.id)
 
     def save_asset_minimum_stock(self, asset_id, minimum_stock):
-        logging.info(f"Update minimum stock: {asset_id} - {minimum_stock:n}")
+        self.character_dao.save_asset_minimum_stock(asset_id, minimum_stock)
 
 
 def load_average_price_per_unit(asset):
