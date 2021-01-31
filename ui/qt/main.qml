@@ -4,6 +4,7 @@ import QtQuick.Window 2.15
 import QtGraphicalEffects 1.0
 
 import "components"
+import "pages"
 import "predefined" 1.0
 
 Window {
@@ -16,16 +17,14 @@ Window {
 
     color: Colors.grey8
 
-    Rectangle {
+    MainMenu {
         id: leftMenu
         z: 10
-        width: 75
         anchors {
             top: parent.top
             bottom: parent.bottom
             left: parent.left
         }
-        color: Colors.grey6
     }
 
     DropShadow {
@@ -43,6 +42,7 @@ Window {
     }
 
     Loader {
+        id: mainLoader
         property int margin: 20
         anchors {
             top: parent.top
@@ -55,5 +55,13 @@ Window {
             rightMargin: margin
         }
         source: "pages/warehouse/Warehouse.qml"
+    }
+
+    Connections {
+        target: mainController
+
+        function onPageSourceChanged() {
+            mainLoader.source = mainController.pageSource
+        }
     }
 }

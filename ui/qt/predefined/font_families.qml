@@ -5,4 +5,5 @@ QtObject {
     id: singleton
 
     property string family0: "Roboto"
+    property string icons0: "Line Awesome"
 }
