@@ -54,7 +54,10 @@ Window {
             leftMargin: margin
             rightMargin: margin
         }
-        source: "pages/warehouse/Warehouse.qml"
+    }
+
+    Component.onCompleted: {
+        mainLoader.source = mainController.pageSource
     }
 
     Connections {
