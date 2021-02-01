@@ -26,6 +26,15 @@ class CharacterDAO:
         self.__load_locations(categories)
         return categories
 
+    def load_warehouse_displayed_asset(self):
+        return self.character_db.load_warehouse_displayed_asset()
+
+    def add_warehouse_displayed_asset(self, group_id: int):
+        self.character_db.add_warehouse_displayed_asset(group_id)
+
+    def remove_warehouse_displayed_asset(self, group_id: int):
+        self.character_db.remove_warehouse_displayed_asset(group_id)
+
     def __asset_in_categories(self, assets: []) -> []:
         categories = []
         for index in assets:

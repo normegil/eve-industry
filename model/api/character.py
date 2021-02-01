@@ -1,6 +1,3 @@
-import logging
-
-
 class Characters:
     def __init__(self, character_dao):
         self.character_dao = character_dao
@@ -31,6 +28,15 @@ class Characters:
 
     def save_asset_minimum_stock(self, asset_id, minimum_stock):
         self.character_dao.save_asset_minimum_stock(asset_id, minimum_stock)
+
+    def load_warehouse_displayed_asset(self):
+        return self.character_dao.load_warehouse_displayed_asset()
+
+    def add_warehouse_displayed_asset(self, group_id: int):
+        self.character_dao.add_warehouse_displayed_asset(group_id)
+
+    def remove_warehouse_displayed_asset(self, group_id: int):
+        self.character_dao.remove_warehouse_displayed_asset(group_id)
 
 
 def load_average_price_per_unit(asset):

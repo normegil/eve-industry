@@ -1,5 +1,3 @@
-import logging
-
 from PySide2.QtCore import QObject
 
 from controller.general import ContextProperties
@@ -14,17 +12,26 @@ class SettingsController(QObject):
         self.view = view
 
         groups = self.model.universe.all_character_groups()
+        ids = self.model.character.load_warehouse_displayed_asset()
 
-        groups_model = GroupsModel(groups)
+        displayed = []
+        not_displayed = []
+        for group in groups:
+            if group.id in ids:
+                displayed.append(group.id)
+            else:
+                not_displayed.append(group.id)
+
+        groups_model = GroupsModel(groups, not_displayed)
         self.notDisplayedGroupModel = GroupsModelSorter()
         self.notDisplayedGroupModel.setSourceModel(groups_model)
         self.notDisplayedGroupModel.setSortRole(GroupsModel.NameRole)
         self.notDisplayedGroupModel.sort(0)
 
         self.displayedGroupModel = GroupsModelSorter()
-        displayedModel = GroupsModel(groups, [])
-        displayedModel.setOnGroupAdded(lambda id_: logging.info(f"Added: {id_}"))
-        displayedModel.setOnGroupRemoved(lambda id_: logging.info(f"Removed: {id_}"))
+        displayedModel = GroupsModel(groups, displayed)
+        displayedModel.setOnGroupAdded(lambda id_: self.model.character.add_warehouse_displayed_asset(id_))
+        displayedModel.setOnGroupRemoved(lambda id_: self.model.character.remove_warehouse_displayed_asset(id_))
         self.displayedGroupModel.setSourceModel(displayedModel)
         self.displayedGroupModel.setSortRole(GroupsModel.NameRole)
         self.displayedGroupModel.sort(0)

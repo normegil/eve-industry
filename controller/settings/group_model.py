@@ -8,14 +8,14 @@ class GroupsModel(ResetableModelList):
     IDRole = Qt.UserRole + 1
     NameRole = Qt.UserRole + 2
 
-    def __init__(self, model=None, displayed=None):
+    def __init__(self, model=None, displayed_ids=None):
         ResetableModelList.__init__(self, model)
         self.onGroupAdded = neutralFunction
         self.onGroupRemoved = neutralFunction
-        if displayed is None:
-            self.displayed = self.model.copy()
+        if displayed_ids is None:
+            self.displayed_ids = []
         else:
-            self.displayed = displayed
+            self.displayed_ids = displayed_ids
 
     def setOnGroupAdded(self, onGroupAdded):
         self.onGroupAdded = onGroupAdded
@@ -26,7 +26,7 @@ class GroupsModel(ResetableModelList):
     def rowCount(self, parent=QModelIndex()):
         if parent.isValid():
             return 0
-        return len(self.displayed)
+        return len(self.displayed_ids)
 
     def roleNames(self):
         return {
@@ -36,20 +36,18 @@ class GroupsModel(ResetableModelList):
 
     def data(self, index: QModelIndex, role=Qt.DisplayRole):
         if index.isValid():
-            row = self.displayed[index.row()]
+            row = self.displayed_ids[index.row()]
             if role == GroupsModel.IDRole:
-                return row.id
+                return row
             elif role == GroupsModel.NameRole:
-                return row.name
+                return self.__find_model_group(row).name
 
     @Slot(int)
     def addItem(self, id_: int):
-        group = self.__find_model_group(id_)
-        if group is not None:
-            count = self.rowCount()
-            self.beginInsertRows(QModelIndex(), count, count)
-            self.displayed.append(group)
-            self.endInsertRows()
+        count = self.rowCount()
+        self.beginInsertRows(QModelIndex(), count, count)
+        self.displayed_ids.append(id_)
+        self.endInsertRows()
         self.onGroupAdded(id_)
 
     @Slot(int)
@@ -57,8 +55,9 @@ class GroupsModel(ResetableModelList):
         index = self.__find_displayed_group_index(id_)
         if index is not None:
             self.beginRemoveRows(QModelIndex(), index, index)
-            del self.displayed[index]
+            del self.displayed_ids[index]
             self.endRemoveRows()
+        self.onGroupRemoved(id_)
 
     def __find_model_group(self, searched_id: int):
         for group in self.model:

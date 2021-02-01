@@ -16,7 +16,6 @@ class CharacterDB:
         return result[0]
 
     def save_asset_minimum_stock(self, asset_id: int, minimum_stock: int):
-        logging.info(f"{asset_id}: {minimum_stock}")
         cursor = self.__db.cursor()
         result = cursor.execute("SELECT COUNT(1) FROM asset_minimum_stock WHERE asset_id = ?",
                                 (asset_id,)).fetchone()
@@ -27,4 +26,23 @@ class CharacterDB:
             cursor.execute("UPDATE asset_minimum_stock SET minimum_stock=? WHERE asset_id=?",
                            (minimum_stock, asset_id))
         self.__db.commit()
+        cursor.close()
+
+    def load_warehouse_displayed_asset(self):
+        cursor = self.__db.cursor()
+        results = cursor.execute("SELECT group_id FROM warehouse_asset_displayed").fetchall()
+        cursor.close()
+        group_ids = []
+        for result in results:
+            group_ids.append(result)
+        return group_ids
+
+    def add_warehouse_displayed_asset(self, group_id: int):
+        cursor = self.__db.cursor()
+        cursor.execute("INSERT INTO warehouse_asset_displayed (group_id) VALUES (?)", (group_id, ))
+        cursor.close()
+
+    def remove_warehouse_displayed_asset(self, group_id: int):
+        cursor = self.__db.cursor()
+        cursor.execute("DELETE FROM warehouse_asset_displayed WHERE (?)", (group_id,))
         cursor.close()

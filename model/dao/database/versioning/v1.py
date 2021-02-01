@@ -7,3 +7,7 @@ def upgrade_to_v1(cursor: Cursor):
         "asset_id INTEGER PRIMARY KEY, "
         "minimum_stock INTEGER"
         ")")
+    cursor.execute(
+        "CREATE TABLE IF NOT EXISTS warehouse_asset_displayed ("
+        "group_id INTEGER PRIMARY KEY"
+        ")")
