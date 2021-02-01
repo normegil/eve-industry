@@ -1,3 +1,5 @@
+import logging
+
 from PySide2.QtCore import QObject
 
 from controller.general import ContextProperties
@@ -20,7 +22,10 @@ class SettingsController(QObject):
         self.notDisplayedGroupModel.sort(0)
 
         self.displayedGroupModel = GroupsModelSorter()
-        self.displayedGroupModel.setSourceModel(GroupsModel(groups, []))
+        displayedModel = GroupsModel(groups, [])
+        displayedModel.setOnGroupAdded(lambda id_: logging.info(f"Added: {id_}"))
+        displayedModel.setOnGroupRemoved(lambda id_: logging.info(f"Removed: {id_}"))
+        self.displayedGroupModel.setSourceModel(displayedModel)
         self.displayedGroupModel.setSortRole(GroupsModel.NameRole)
         self.displayedGroupModel.sort(0)
 

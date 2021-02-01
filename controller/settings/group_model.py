@@ -1,20 +1,27 @@
-import logging
-
 from PySide2.QtCore import Qt, QModelIndex, Slot, QSortFilterProxyModel
 
 from controller.general import ResetableModelList
 
 
+# noinspection PyPep8Naming
 class GroupsModel(ResetableModelList):
     IDRole = Qt.UserRole + 1
     NameRole = Qt.UserRole + 2
 
     def __init__(self, model=None, displayed=None):
         ResetableModelList.__init__(self, model)
+        self.onGroupAdded = neutralFunction
+        self.onGroupRemoved = neutralFunction
         if displayed is None:
             self.displayed = self.model.copy()
         else:
             self.displayed = displayed
+
+    def setOnGroupAdded(self, onGroupAdded):
+        self.onGroupAdded = onGroupAdded
+
+    def setOnGroupRemoved(self, onGroupRemoved):
+        self.onGroupRemoved = onGroupRemoved
 
     def rowCount(self, parent=QModelIndex()):
         if parent.isValid():
@@ -37,17 +44,16 @@ class GroupsModel(ResetableModelList):
 
     @Slot(int)
     def addItem(self, id_: int):
-        logging.info(f"Group: {id_}")
         group = self.__find_model_group(id_)
         if group is not None:
             count = self.rowCount()
             self.beginInsertRows(QModelIndex(), count, count)
             self.displayed.append(group)
             self.endInsertRows()
+        self.onGroupAdded(id_)
 
     @Slot(int)
     def removeItem(self, id_):
-        logging.info(f"Removing Group: {id_}")
         index = self.__find_displayed_group_index(id_)
         if index is not None:
             self.beginRemoveRows(QModelIndex(), index, index)
@@ -79,3 +85,7 @@ class GroupsModelSorter(QSortFilterProxyModel):
     @Slot(int)
     def removeItem(self, id_: int):
         self.sourceModel().removeItem(id_)
+
+
+def neutralFunction(id_):
+    pass
