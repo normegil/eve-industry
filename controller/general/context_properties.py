@@ -10,4 +10,5 @@ class ContextProperties(Enum):
     WAREHOUSE_ASSET_DETAILS_LOCATIONS = "warehouseAssetDetailsLocations"
     WAREHOUSE_ASSET_DETAILS_BUY_ORDERS = "warehouseAssetDetailsBuyOrders"
 
-    SETTINGS_WAREHOUSE_GROUPS_NOT_FOLLOWED = "settingsWarehouseGroupsNotFollowed"
+    SETTINGS_WAREHOUSE_GROUPS_NOT_DISPLAYED = "settingsWarehouseGroupsNotDisplayed"
+    SETTINGS_WAREHOUSE_GROUPS_DISPLAYED = "settingsWarehouseGroupsDisplayed"

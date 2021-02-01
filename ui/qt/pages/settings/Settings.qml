@@ -2,7 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtGraphicalEffects 1.0
 
-import "../../components"
+import "../../components/controls"
 import "../../predefined" 1.0
 
 Item {
@@ -101,7 +101,14 @@ Item {
                 font.pixelSize: FontSizes.size2
             }
 
-            Item {
+            DoubleList {
+
+                titleLeft: "Not displayed"
+                titleRight: "Displayed"
+
+                listModelLeft: settingsWarehouseGroupsNotDisplayed
+                listModelRight: settingsWarehouseGroupsDisplayed
+
                 height: 400
                 anchors {
                     top: assetGroupsSelectorLabel.bottom
@@ -109,63 +116,12 @@ Item {
                     left: parent.left
                     right: parent.right
                 }
-
-                Item {
-                    anchors {
-                        top: parent.top
-                        left: parent.left
-                        bottom: parent.bottom
-                        right: parent.horizontalCenter
-                        rightMargin: 5
-                    }
-
-                    Text {
-                        id: warehouseGroupsNotDisplayedLabel
-                        anchors {
-                            top: parent.top
-                            horizontalCenter: parent.horizontalCenter
-                        }
-                        text: "Not Displayed"
-                        color: Colors.grey3
-                        font.family: FontFamilies.family0
-                        font.pixelSize: FontSizes.size1
-                    }
-
-                    Rectangle {
-                        color: Colors.grey9
-                        anchors {
-                            top: warehouseGroupsNotDisplayedLabel.bottom
-                            topMargin: 5
-                            left: parent.left
-                            right: parent.right
-                            bottom: parent.bottom
-                        }
-                        ScrollView {
-                            clip: true
-                            anchors.fill: parent
-                            ListView {
-                                anchors.fill: parent
-                                model: settingsWarehouseGroupsNotFollowed
-                                delegate: Text {
-                                    anchors {
-                                        left: parent.left
-                                        right: parent.right
-                                    }
-                                    text: name
-                                    color: Colors.grey1
-                                    font.family: FontFamilies.family0
-                                    font.pixelSize: FontSizes.size3
-
-                                    MouseArea {
-                                        anchors.fill: parent
-                                        cursorShape: Qt.PointingHandCursor
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
             }
         }
     }
 }
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/

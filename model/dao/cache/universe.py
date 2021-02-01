@@ -97,7 +97,7 @@ class UniverseCache:
         try:
             station = self.api.load_stations(station_id)
         except RuntimeError:
-            self.cache[base_key + ".race_id"] = station_id
+            self.cache[base_key + ".id"] = station_id
             return None
         self.cache[base_key + ".id"] = station.id
         self.cache[base_key + ".name"] = station.name

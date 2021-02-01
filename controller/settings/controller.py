@@ -12,7 +12,11 @@ class SettingsController(QObject):
         self.view = view
 
         groups = self.model.universe.all_character_groups()
-        self.groupModel = GroupsModel(groups)
+        self.notDisplayedGroupModel = GroupsModel(groups)
+        self.displayedGroupModel = GroupsModel(groups, [])
         self.view.engine.rootContext().setContextProperty(
-            ContextProperties.SETTINGS_WAREHOUSE_GROUPS_NOT_FOLLOWED.value,
-            self.groupModel)
+            ContextProperties.SETTINGS_WAREHOUSE_GROUPS_NOT_DISPLAYED.value,
+            self.notDisplayedGroupModel)
+        self.view.engine.rootContext().setContextProperty(
+            ContextProperties.SETTINGS_WAREHOUSE_GROUPS_DISPLAYED.value,
+            self.displayedGroupModel)
