@@ -11,3 +11,5 @@ def upgrade_to_v1(cursor: Cursor):
         "CREATE TABLE IF NOT EXISTS warehouse_asset_displayed ("
         "group_id INTEGER PRIMARY KEY"
         ")")
+    cursor.execute(
+        "INSERT INTO warehouse_asset_displayed (group_id) VALUES (18)")
