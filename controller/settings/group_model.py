@@ -1,6 +1,6 @@
 import logging
 
-from PySide2.QtCore import Qt, QModelIndex, Slot
+from PySide2.QtCore import Qt, QModelIndex, Slot, QSortFilterProxyModel
 
 from controller.general import ResetableModelList
 
@@ -65,3 +65,17 @@ class GroupsModel(ResetableModelList):
             if group.id == searched_id:
                 return index
         return None
+
+
+# noinspection PyPep8Naming
+class GroupsModelSorter(QSortFilterProxyModel):
+    def __init__(self):
+        QSortFilterProxyModel.__init__(self)
+
+    @Slot(int)
+    def addItem(self, id_: int):
+        self.sourceModel().addItem(id_)
+
+    @Slot(int)
+    def removeItem(self, id_: int):
+        self.sourceModel().removeItem(id_)
