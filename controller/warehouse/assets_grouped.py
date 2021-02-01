@@ -1,5 +1,3 @@
-import locale
-
 from PySide2.QtCore import Qt, QModelIndex
 
 from controller.general import ResetableModelList, format_integer, format_real
@@ -8,23 +6,53 @@ from controller.general import ResetableModelList, format_integer, format_real
 class AssetGroupsModel(ResetableModelList):
     NameRole = Qt.UserRole + 1
     AssetsRole = Qt.UserRole + 2
+    IDRole = Qt.UserRole + 3
 
-    def __init__(self, model=None):
+    def __init__(self, model=None, accepted_group_ids=None):
         ResetableModelList.__init__(self, model)
+        self.filteredModel = []
+        if accepted_group_ids is None:
+            accepted_group_ids = []
+        self.accepted_group_ids = accepted_group_ids
+        self.__refreshFilteredData()
 
     def roleNames(self):
         return {
             AssetGroupsModel.NameRole: b'groupName',
             AssetGroupsModel.AssetsRole: b'groupAssets',
+            AssetGroupsModel.IDRole: b'identifier'
         }
 
     def data(self, index: QModelIndex, role=Qt.DisplayRole):
         if index.isValid():
-            row = self.model[index.row()]
+            row = self.filteredModel[index.row()]
+            if role == AssetGroupsModel.IDRole:
+                return row.id
             if role == AssetGroupsModel.NameRole:
                 return row.name
             elif role == AssetGroupsModel.AssetsRole:
                 return ItemsModel(row.assets)
+
+    def setModel(self, model):
+        self.model = model
+        self.__refreshFilteredData()
+
+    def setAcceptedGroupIDs(self, accepted_group_ids):
+        self.accepted_group_ids = accepted_group_ids
+        self.__refreshFilteredData()
+
+    def __refreshFilteredData(self):
+        self.beginResetModel()
+        self.filteredModel = []
+        for group in self.model:
+            if group.id in self.accepted_group_ids:
+                self.filteredModel.append(group)
+        self.endResetModel()
+
+    def rowCount(self, parent=QModelIndex()):
+        if parent.isValid():
+            return 0
+        return len(self.filteredModel)
 
 
 class ItemsModel(ResetableModelList):

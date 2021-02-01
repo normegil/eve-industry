@@ -14,6 +14,7 @@ class WarehouseController(QObject):
 
         self.assets_grouped = AssetGroupsModel()
         self.refreshAssetsGroups()
+        self.refreshAssetFilter()
 
         self.current_asset = AssetDetails(self.model)
 
@@ -31,6 +32,7 @@ class WarehouseController(QObject):
     @Slot()
     def refresh(self):
         self.refreshAssetsGroups()
+        self.refreshAssetFilter()
         self.current_asset.refreshAsset()
 
     def refreshAssetsGroups(self):
@@ -38,11 +40,15 @@ class WarehouseController(QObject):
         qt_group_format = to_qt_group_format(asset_categories)
         self.assets_grouped.setModel(qt_group_format)
 
+    @Slot()
+    def refreshAssetFilter(self):
+        displayed_group_ids = self.model.character.load_warehouse_displayed_asset()
+        self.assets_grouped.setAcceptedGroupIDs(displayed_group_ids)
+
 
 def to_qt_group_format(asset_categories):
     groups = []
     for category in asset_categories:
         for group in category.groups:
-            if group.name == "Mineral":
-                groups.append(group)
+            groups.append(group)
     return groups

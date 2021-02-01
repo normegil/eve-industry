@@ -1,6 +1,7 @@
+import logging
+import time
 from datetime import datetime
 from sqlite3 import Connection, Cursor
-import logging
 
 from .versioning import upgrades
 
@@ -19,6 +20,7 @@ class Versioner:
             update_version(cursor, current_version)
             self._db.commit()
             cursor.close()
+            time.sleep(1)
 
     def __load_db_version(self):
         cursor = self._db.cursor()

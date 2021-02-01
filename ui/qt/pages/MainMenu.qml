@@ -17,6 +17,10 @@ Rectangle {
         target: mainController
     }
 
+    Connections {
+        target: warehouseController
+    }
+
     Button {
         id: warehouseBtn
         height: buttonHeight
@@ -27,6 +31,7 @@ Rectangle {
 
         flat: true
         onClicked: {
+            warehouseController.refreshAssetFilter()
             mainController.changePage("warehouse")
         }
 
