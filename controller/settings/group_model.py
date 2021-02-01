@@ -66,8 +66,8 @@ class GroupsModel(ResetableModelList):
         return None
 
     def __find_displayed_group_index(self, searched_id: int):
-        for index, group in enumerate(self.displayed):
-            if group.id == searched_id:
+        for index, id_ in enumerate(self.displayed_ids):
+            if id_ == searched_id:
                 return index
         return None
 

@@ -34,15 +34,17 @@ class CharacterDB:
         cursor.close()
         group_ids = []
         for result in results:
-            group_ids.append(result)
+            group_ids.append(result[0])
         return group_ids
 
     def add_warehouse_displayed_asset(self, group_id: int):
         cursor = self.__db.cursor()
         cursor.execute("INSERT INTO warehouse_asset_displayed (group_id) VALUES (?)", (group_id, ))
+        self.__db.commit()
         cursor.close()
 
     def remove_warehouse_displayed_asset(self, group_id: int):
         cursor = self.__db.cursor()
-        cursor.execute("DELETE FROM warehouse_asset_displayed WHERE (?)", (group_id,))
+        cursor.execute("DELETE FROM warehouse_asset_displayed WHERE group_id = ?", (group_id,))
+        self.__db.commit()
         cursor.close()
