@@ -2,29 +2,43 @@ class Characters:
     def __init__(self, character_dao):
         self.character_dao = character_dao
         self.current_character = self.character_dao.load()
-        self.assets_category = []
+        self.categories = []
+        self.refresh()
 
-    def assets(self):
-        self.load_assets()
-        for category in self.assets_category:
+    def refresh(self):
+        self.categories = self.character_dao.load_assets_by_category(self.current_character.id)
+
+    def all_groups(self):
+        groups = []
+        for category in self.categories:
             for group in category.groups:
-                group.assets.sort(key=lambda asset: load_average_price_per_unit(asset))
+                groups.append(group)
+        return groups
 
-        return self.assets_category
+    def all_displayed_groups(self):
+        displayed = []
+        displayed_group_ids = self.load_warehouse_displayed_asset()
+        for group in self.all_groups():
+            if group.id in displayed_group_ids:
+                displayed.append(group)
+        return displayed
+
+    def all_assets_to_buy(self):
+        groups = self.all_displayed_groups()
+        assets = []
+        for group in groups:
+            for asset in group.assets:
+                if asset.minimum_stock - asset.quantity > 0:
+                    assets.append(asset)
+        return assets
 
     def find_asset(self, type_id):
-        if not self.assets_category:
-            self.load_assets()
-
-        for category in self.assets_category:
+        for category in self.categories:
             for group in category.groups:
                 for asset in group.assets:
                     if asset.id == type_id:
                         return asset
         return None
-
-    def load_assets(self):
-        self.assets_category = self.character_dao.load_assets_by_category(self.current_character.id)
 
     def save_asset_minimum_stock(self, asset_id, minimum_stock):
         self.character_dao.save_asset_minimum_stock(asset_id, minimum_stock)
