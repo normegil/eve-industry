@@ -15,14 +15,8 @@ Item {
     property int buyOrderHeaderSize: FontSizes.size2
     property int buyOrderHeaderWeight: Font.Normal
 
-    Component.onCompleted: {
-        warehouseAssetDetails.reloadUI()
-    }
     Connections {
         target: warehouseAssetDetails
-        function onNameChanged() {
-            detailsTitle.text = warehouseAssetDetails.name
-        }
     }
 
     Text {
@@ -35,7 +29,7 @@ Item {
             right: parent.right
         }
 
-        text: ""
+        text: warehouseAssetDetails.name
         color: Colors.grey2
         font.family: FontFamilies.family0
         font.weight: Font.Normal

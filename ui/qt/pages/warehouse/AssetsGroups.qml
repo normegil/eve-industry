@@ -7,6 +7,11 @@ import "../../predefined" 1.0
 
 Item {
     anchors.fill: parent
+
+    Connections {
+        target: warehouseController
+    }
+
     Text {
         id: title
 
@@ -64,7 +69,7 @@ Item {
             Button {
                 id: buyingListBtn
                 onClicked: {
-
+                    warehouseController.changePage("buylist")
                 }
 
                 anchors {
@@ -87,10 +92,6 @@ Item {
                     implicitHeight: 30
                     color: buyingListBtn.down ? Colors.grey8 : Colors.grey9
                 }
-            }
-
-            Connections {
-                target: warehouseController
             }
         }
     }

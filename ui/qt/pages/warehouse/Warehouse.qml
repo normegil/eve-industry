@@ -6,6 +6,11 @@ import "../../predefined" 1.0
 
 Item {
     anchors.fill: parent
+
+    Connections {
+        target: warehouseController
+    }
+
     Item {
         id: assetsGroups
         width: 1050
@@ -28,7 +33,7 @@ Item {
 
         Loader {
             anchors.fill: parent
-            source: "./ItemDetails.qml"
+            source: warehouseController.detailsPageSource
         }
     }
 }

@@ -20,7 +20,7 @@ class Controller(QObject):
         self.model = model
         self.view = view
 
-        self._pageSource = pageSources["settings"]
+        self._pageSource = pageSources["warehouse"]
         self.warehouse_controller = WarehouseController(self.model, self.view)
         self.settings_controller = SettingsController(self.model, self.view)
         self.view.engine.rootContext().setContextProperty(ContextProperties.MAIN_CONTROLLER.value,

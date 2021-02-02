@@ -162,7 +162,7 @@ Item {
             }
 
             Connections {
-                target: warehouseAssetDetails
+                target: warehouseController
             }
 
             MouseArea {
@@ -178,7 +178,7 @@ Item {
                     btnBackground.color = bgIconColorDefault
                     iconOverlay.color = iconDetailsColorDefault
                     btnInternal.onHovered(btnHoveredHandler.hovered)
-                    warehouseAssetDetails.loadAsset(assetID)
+                    warehouseController.loadAsset(assetID)
                 }
             }
 
