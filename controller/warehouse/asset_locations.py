@@ -18,7 +18,9 @@ class LocationModel(LocationAbstractModelList):
         self.refresh()
 
     def refresh(self):
+        self.beginResetModel()
         self.__internal = self.__model.character.asset_locations(self.__displayed_asset_id)
+        self.endResetModel()
 
     def roleNames(self):
         return {**super().roleNames(), **{

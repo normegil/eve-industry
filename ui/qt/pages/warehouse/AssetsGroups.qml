@@ -52,7 +52,7 @@ Item {
                 id: refreshBtn
                 flat: true
                 onClicked: {
-                    warehouseController.refresh()
+                    warehouseController.refreshData()
                 }
 
                 contentItem: Text {

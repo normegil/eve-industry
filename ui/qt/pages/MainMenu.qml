@@ -31,7 +31,7 @@ Rectangle {
 
         flat: true
         onClicked: {
-            warehouseController.refreshAssetFilter()
+            warehouseController.refresh()
             mainController.changePage("warehouse")
         }
 

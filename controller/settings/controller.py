@@ -8,18 +8,16 @@ from .group_model import GroupsModel, GroupsModelSorter
 class SettingsController(QObject):
     def __init__(self, model, view):
         QObject.__init__(self)
-        self.model = model
+        self.__model = model
         self.view = view
 
-        not_displayed_model = GroupsModel(self.model, False)
+        not_displayed_model = GroupsModel(self.__model, False)
         self.not_displayed_group_model = GroupsModelSorter()
         self.not_displayed_group_model.setSourceModel(not_displayed_model)
         self.not_displayed_group_model.setSortRole(GroupsModel.NameRole)
         self.not_displayed_group_model.sort(0)
 
-        displayed_model = GroupsModel(self.model, True)
-        displayed_model.setOnGroupAdded(lambda id_: self.model.character.add_warehouse_displayed_asset(id_))
-        displayed_model.setOnGroupRemoved(lambda id_: self.model.character.remove_warehouse_displayed_asset(id_))
+        displayed_model = GroupsModel(self.__model, True)
         self.displayed_group_model = GroupsModelSorter()
         self.displayed_group_model.setSourceModel(displayed_model)
         self.displayed_group_model.setSortRole(GroupsModel.NameRole)

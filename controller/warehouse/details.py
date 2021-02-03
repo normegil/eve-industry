@@ -34,7 +34,7 @@ class AssetDetails(QObject):
 
     @Slot()
     def refresh(self):
-        self.__internal = self.model.character.find_asset(self.__displayed_asset_id)
+        self.__internal = self.__model.character.find_asset(self.__displayed_asset_id)
         self.nameChanged.emit()
         self.minimumStockChanged.emit()
         self.asset_locations.refresh()
@@ -57,7 +57,7 @@ class AssetDetails(QObject):
     @Slot(str)
     def setMinimumStock(self, minimum_stock):
         if not minimum_stock:
-            self.model.character.save_asset_minimum_stock(self.__internal.id, 0)
+            self.__model.character.save_asset_minimum_stock(self.__internal.id, 0)
             return
         last_char = minimum_stock[-1:]
         power = 0
@@ -69,7 +69,7 @@ class AssetDetails(QObject):
                 power = 0
         final_minimum_stock = int(numberStr) * 10 ** power
         self.__internal.minimum_stock = final_minimum_stock
-        self.model.character.save_asset_minimum_stock(self.__internal.id, final_minimum_stock)
+        self.__model.character.save_asset_minimum_stock(self.__internal.id, final_minimum_stock)
 
     @Slot(int)
     def set_displayed_asset_id(self, asset_id):
@@ -86,20 +86,20 @@ class AssetDetails(QObject):
             return
         url = dotlan_base_url
         if location_type == LocationType.REGION.value:
-            region = self.model.universe.region(location_id)
+            region = self.__model.universe.region(location_id)
             url_region_name = region.name.replace(" ", "_")
             url += f"region/{url_region_name}"
         elif location_type == LocationType.CONSTELLATION.value:
-            constellation = self.model.universe.constellation(location_id)
+            constellation = self.__model.universe.constellation(location_id)
             url_constellation_name = constellation.name.replace(" ", "_")
             url_region_name = constellation.region.name.replace(" ", "_")
             url += f"map/{url_region_name}/{url_constellation_name}"
         elif location_type == LocationType.SYSTEM.value:
-            system = self.model.universe.system(location_id)
+            system = self.__model.universe.system(location_id)
             url_system_name = system.name.replace(" ", "_")
             url += f"system/{url_system_name}"
         elif location_type == LocationType.STATION.value:
-            station = self.model.universe.station(location_id)
+            station = self.__model.universe.station(location_id)
             url_station_name = station.name.replace(" ", "_")
             url += f"station/{url_station_name}"
         webbrowser.open(url, new=2)

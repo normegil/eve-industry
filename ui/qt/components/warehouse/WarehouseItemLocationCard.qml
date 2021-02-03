@@ -24,7 +24,7 @@ Item {
     property string fontFamily: FontFamilies.family0
 
     height: 45
-    width: 715
+    width: 655
 
     Rectangle {
         id: backgroundContainer

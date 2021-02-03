@@ -17,7 +17,7 @@ class Characters:
 
     def all_displayed_groups(self):
         displayed = []
-        displayed_group_ids = self.load_warehouse_displayed_asset()
+        displayed_group_ids = self.all_displayed_groups_ids()
         for group in self.all_groups():
             if group.id in displayed_group_ids:
                 displayed.append(group)
@@ -25,9 +25,9 @@ class Characters:
 
     def all_not_displayed_groups(self):
         not_displayed = []
-        displayed_group_ids = self.load_warehouse_displayed_asset()
+        not_displayed_group_ids = self.all_not_displayed_groups_ids()
         for group in self.all_groups():
-            if group.id not in displayed_group_ids:
+            if group.id in not_displayed_group_ids:
                 not_displayed.append(group)
         return not_displayed
 
@@ -48,21 +48,44 @@ class Characters:
                         return asset
         return None
 
+    def load_group(self, id_):
+        for category in self.categories:
+            for group in category.groups:
+                if group.id == id_:
+                    return group
+        return None
+
     def asset_locations(self, asset_id):
+        if asset_id is None:
+            return []
         asset = self.find_asset(asset_id)
         return asset.by_locations
+
+    def asset_buy_orders(self, asset_id):
+        if asset_id is None:
+            return []
+        asset = self.find_asset(asset_id)
+        return asset.buy_orders
 
     def save_asset_minimum_stock(self, asset_id, minimum_stock):
         self.character_dao.save_asset_minimum_stock(asset_id, minimum_stock)
 
-    def load_warehouse_displayed_asset(self):
-        return self.character_dao.load_warehouse_displayed_asset()
+    def all_displayed_groups_ids(self):
+        return self.character_dao.all_displayed_groups_ids()
 
-    def add_warehouse_displayed_asset(self, group_id: int):
-        self.character_dao.add_warehouse_displayed_asset(group_id)
+    def all_not_displayed_groups_ids(self):
+        not_displayed_ids = []
+        displayed_ids = self.character_dao.all_displayed_groups_ids()
+        for group in self.all_groups():
+            if group.id not in displayed_ids:
+                not_displayed_ids.append(group.id)
+        return not_displayed_ids
 
-    def remove_warehouse_displayed_asset(self, group_id: int):
-        self.character_dao.remove_warehouse_displayed_asset(group_id)
+    def add_displayed_groups_ids(self, group_id: int):
+        self.character_dao.add_displayed_groups_ids(group_id)
+
+    def remove_displayed_groups_ids(self, group_id: int):
+        self.character_dao.remove_displayed_groups_ids(group_id)
 
 
 def load_average_price_per_unit(asset):

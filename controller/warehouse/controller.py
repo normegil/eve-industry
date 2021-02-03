@@ -16,16 +16,15 @@ class WarehouseController(QObject):
 
     def __init__(self, model, view):
         QObject.__init__(self)
-        self.model = model
+        self.__model = model
         self.view = view
 
         self.__details_page_source = pageSources["buylist"]
 
-        self.assets_grouped = AssetGroupsModel(self.model)
-        self.current_asset = AssetDetails(self.model)
+        self.assets_grouped = AssetGroupsModel(self.__model)
+        self.current_asset = AssetDetails(self.__model)
 
-        self.view.engine.rootContext().setContextProperty(ContextProperties.WAREHOUSE_CONTROLLER.value,
-                                                          self)
+        self.view.engine.rootContext().setContextProperty(ContextProperties.WAREHOUSE_CONTROLLER.value, self)
         self.view.engine.rootContext().setContextProperty(ContextProperties.WAREHOUSE_ASSETS_GROUPS.value,
                                                           self.assets_grouped)
         self.view.engine.rootContext().setContextProperty(ContextProperties.WAREHOUSE_ASSET_DETAILS.value,
@@ -36,9 +35,14 @@ class WarehouseController(QObject):
                                                           self.current_asset.asset_buy_orders)
 
     @Slot()
+    def refreshData(self):
+        self.__model.character.refresh()
+        self.current_asset.refreshAsset()
+
+    @Slot()
     def refresh(self):
         self.assets_grouped.refresh()
-        self.current_asset.refreshAsset()
+        self.current_asset.refresh()
 
     @Property(str, notify=detailsPageSourceChanged)
     def detailsPageSource(self):

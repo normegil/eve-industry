@@ -178,7 +178,8 @@ Item {
                     btnBackground.color = bgIconColorDefault
                     iconOverlay.color = iconDetailsColorDefault
                     btnInternal.onHovered(btnHoveredHandler.hovered)
-                    warehouseController.loadAsset(assetID)
+
+                    warehouseController.set_displayed_asset_id(assetID)
                 }
             }
 

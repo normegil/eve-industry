@@ -1,4 +1,4 @@
-from PySide2.QtCore import Qt, QModelIndex, QAbstractListModel
+from PySide2.QtCore import Qt, QModelIndex, QAbstractListModel, QSortFilterProxyModel
 
 from controller.general import format_integer, format_real
 
@@ -35,7 +35,11 @@ class AssetGroupsModel(QAbstractListModel):
             if role == AssetGroupsModel.NameRole:
                 return group.name
             elif role == AssetGroupsModel.AssetsRole:
-                return ItemsModel(group.assets)
+                model = QSortFilterProxyModel()
+                model.setSourceModel(ItemsModel(group.assets))
+                model.setSortRole(ItemsModel.PriceAsIntRole)
+                model.sort(0)
+                return model
 
     def refresh(self):
         groups = self.__model.character.all_displayed_groups()
@@ -49,6 +53,7 @@ class ItemsModel(QAbstractListModel):
     QuantityRole = Qt.UserRole + 2
     PriceRole = Qt.UserRole + 3
     IDRole = Qt.UserRole + 4
+    PriceAsIntRole = Qt.UserRole + 11
 
     def __init__(self, model):
         QAbstractListModel.__init__(self)
@@ -60,6 +65,7 @@ class ItemsModel(QAbstractListModel):
             ItemsModel.NameRole: b'name',
             ItemsModel.QuantityRole: b'quantity',
             ItemsModel.PriceRole: b'price',
+            ItemsModel.PriceAsIntRole: b'priceAsInt',
         }
 
     def rowCount(self, parent=QModelIndex()):
@@ -81,3 +87,5 @@ class ItemsModel(QAbstractListModel):
                 if avg is None:
                     return "???"
                 return format_real(avg)
+            elif role == ItemsModel.PriceAsIntRole:
+                return item.average_price_per_unit

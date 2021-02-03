@@ -29,7 +29,7 @@ Item {
     property int itemSize: FontSizes.size2
     property int itemWeight: Font.Normal
 
-    width: 715
+    width: 655
     height: 60
 
     Rectangle {
