@@ -23,6 +23,14 @@ class Characters:
                 displayed.append(group)
         return displayed
 
+    def all_not_displayed_groups(self):
+        not_displayed = []
+        displayed_group_ids = self.load_warehouse_displayed_asset()
+        for group in self.all_groups():
+            if group.id not in displayed_group_ids:
+                not_displayed.append(group)
+        return not_displayed
+
     def all_assets_to_buy(self):
         groups = self.all_displayed_groups()
         assets = []
@@ -39,6 +47,10 @@ class Characters:
                     if asset.id == type_id:
                         return asset
         return None
+
+    def asset_locations(self, asset_id):
+        asset = self.find_asset(asset_id)
+        return asset.by_locations
 
     def save_asset_minimum_stock(self, asset_id, minimum_stock):
         self.character_dao.save_asset_minimum_stock(asset_id, minimum_stock)

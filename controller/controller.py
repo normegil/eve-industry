@@ -12,6 +12,7 @@ pageSources = {
 }
 
 
+# noinspection PyPep8Naming
 class Controller(QObject):
     pageSourceChanged = Signal()
 
@@ -23,8 +24,7 @@ class Controller(QObject):
         self._pageSource = pageSources["warehouse"]
         self.warehouse_controller = WarehouseController(self.model, self.view)
         self.settings_controller = SettingsController(self.model, self.view)
-        self.view.engine.rootContext().setContextProperty(ContextProperties.MAIN_CONTROLLER.value,
-                                                          self)
+        self.view.engine.rootContext().setContextProperty(ContextProperties.MAIN_CONTROLLER.value, self)
 
     @Property(str, notify=pageSourceChanged)
     def pageSource(self):

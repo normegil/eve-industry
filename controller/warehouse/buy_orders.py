@@ -11,8 +11,18 @@ class BuyOrdersModel(LocationAbstractModelList):
     VolumeRemainingRole = Qt.UserRole + 5
     VolumeTotalRole = Qt.UserRole + 6
 
-    def __init__(self, model=None):
-        LocationAbstractModelList.__init__(self, model)
+    def __init__(self, model):
+        LocationAbstractModelList.__init__(self)
+        self.__model = model
+        self.__displayed_asset_id = None
+        self.__internal = None
+
+    def set_displayed_asset_id(self, asset_id):
+        self.__displayed_asset_id = asset_id
+        self.refresh()
+
+    def refresh(self):
+        self.__internal = self.__model.character.asset_buy_orders(self.__displayed_asset_id)
 
     def roleNames(self):
         return {**super().roleNames(), **{
@@ -25,7 +35,7 @@ class BuyOrdersModel(LocationAbstractModelList):
 
     def data(self, index: QModelIndex, role: int = ...):
         if index.isValid():
-            order = self.model[index.row()]
+            order = self.__internal[index.row()]
             if role == BuyOrdersModel.IssuedRole:
                 return format_datetime(order.issued)
             elif role == BuyOrdersModel.ExpiredRole:
@@ -37,4 +47,10 @@ class BuyOrdersModel(LocationAbstractModelList):
             elif role == BuyOrdersModel.VolumeTotalRole:
                 return format_integer(order.volume_total)
             else:
-                return super().data(index, role)
+                return super().data(order, role)
+
+    def rowCount(self, parent=QModelIndex()):
+        if parent.isValid():
+            return 0
+        return len(self.__internal)
+

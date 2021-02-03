@@ -26,19 +26,28 @@ class AssetDetails(QObject):
 
     def __init__(self, model):
         QObject.__init__(self)
-        self.model = model
-        self._asset = self.model.character.find_asset(34)
-        self.asset_locations = LocationModel(self._asset.by_locations)
-        self.asset_buy_orders = BuyOrdersModel(self._asset.buy_orders)
+        self.__model = model
+        self.__displayed_asset_id = None
+        self.__internal = None
+        self.asset_locations = LocationModel(self.__model)
+        self.asset_buy_orders = BuyOrdersModel(self.__model)
+
+    @Slot()
+    def refresh(self):
+        self.__internal = self.model.character.find_asset(self.__displayed_asset_id)
+        self.nameChanged.emit()
+        self.minimumStockChanged.emit()
+        self.asset_locations.refresh()
+        self.asset_buy_orders.refresh()
 
     @Property(str, notify=nameChanged)
     def name(self):
-        return self._asset.name
+        return self.__internal.name
 
     @Property(str, notify=minimumStockChanged)
     def minimumStock(self):
         try:
-            mStock = self._asset.minimum_stock
+            mStock = self.__internal.minimum_stock
             if mStock is None:
                 return "0"
             return str(mStock)
@@ -48,7 +57,7 @@ class AssetDetails(QObject):
     @Slot(str)
     def setMinimumStock(self, minimum_stock):
         if not minimum_stock:
-            self.model.character.save_asset_minimum_stock(self._asset.id, 0)
+            self.model.character.save_asset_minimum_stock(self.__internal.id, 0)
             return
         last_char = minimum_stock[-1:]
         power = 0
@@ -59,28 +68,16 @@ class AssetDetails(QObject):
             if power is None:
                 power = 0
         final_minimum_stock = int(numberStr) * 10 ** power
-        self._asset.minimum_stock = final_minimum_stock
-        self.model.character.save_asset_minimum_stock(self._asset.id, final_minimum_stock)
-
-    @Slot()
-    def reloadUI(self):
-        self.nameChanged.emit()
-        self.minimumStockChanged.emit()
-
-    def refreshAsset(self):
-        self.loadAsset(self._asset.id)
+        self.__internal.minimum_stock = final_minimum_stock
+        self.model.character.save_asset_minimum_stock(self.__internal.id, final_minimum_stock)
 
     @Slot(int)
-    def loadAsset(self, asset_id):
+    def set_displayed_asset_id(self, asset_id):
         logging.info(f"Reload asset details: {asset_id}")
-        asset = self.model.character.find_asset(asset_id)
-        self.setAsset(asset)
-
-    def setAsset(self, asset):
-        self._asset = asset
-        self.asset_locations.setModel(self._asset.by_locations)
-        self.asset_buy_orders.setModel(self._asset.buy_orders)
-        self.reloadUI()
+        self.__displayed_asset_id = asset_id
+        self.asset_locations.set_displayed_asset_id(asset_id)
+        self.asset_buy_orders.set_displayed_asset_id(asset_id)
+        self.refresh()
 
     @Slot(int, int)
     def showInBrowser(self, location_type, location_id):

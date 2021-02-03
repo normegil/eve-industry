@@ -11,34 +11,23 @@ class SettingsController(QObject):
         self.model = model
         self.view = view
 
-        groups = self.model.universe.all_character_groups()
-        ids = self.model.character.load_warehouse_displayed_asset()
+        not_displayed_model = GroupsModel(self.model, False)
+        self.not_displayed_group_model = GroupsModelSorter()
+        self.not_displayed_group_model.setSourceModel(not_displayed_model)
+        self.not_displayed_group_model.setSortRole(GroupsModel.NameRole)
+        self.not_displayed_group_model.sort(0)
 
-        displayed = []
-        not_displayed = []
-        for group in groups:
-            if group.id in ids:
-                displayed.append(group.id)
-            else:
-                not_displayed.append(group.id)
-
-        groups_model = GroupsModel(groups, not_displayed)
-        self.notDisplayedGroupModel = GroupsModelSorter()
-        self.notDisplayedGroupModel.setSourceModel(groups_model)
-        self.notDisplayedGroupModel.setSortRole(GroupsModel.NameRole)
-        self.notDisplayedGroupModel.sort(0)
-
-        self.displayedGroupModel = GroupsModelSorter()
-        displayedModel = GroupsModel(groups, displayed)
-        displayedModel.setOnGroupAdded(lambda id_: self.model.character.add_warehouse_displayed_asset(id_))
-        displayedModel.setOnGroupRemoved(lambda id_: self.model.character.remove_warehouse_displayed_asset(id_))
-        self.displayedGroupModel.setSourceModel(displayedModel)
-        self.displayedGroupModel.setSortRole(GroupsModel.NameRole)
-        self.displayedGroupModel.sort(0)
+        displayed_model = GroupsModel(self.model, True)
+        displayed_model.setOnGroupAdded(lambda id_: self.model.character.add_warehouse_displayed_asset(id_))
+        displayed_model.setOnGroupRemoved(lambda id_: self.model.character.remove_warehouse_displayed_asset(id_))
+        self.displayed_group_model = GroupsModelSorter()
+        self.displayed_group_model.setSourceModel(displayed_model)
+        self.displayed_group_model.setSortRole(GroupsModel.NameRole)
+        self.displayed_group_model.sort(0)
 
         self.view.engine.rootContext().setContextProperty(
             ContextProperties.SETTINGS_WAREHOUSE_GROUPS_NOT_DISPLAYED.value,
-            self.notDisplayedGroupModel)
+            self.not_displayed_group_model)
         self.view.engine.rootContext().setContextProperty(
             ContextProperties.SETTINGS_WAREHOUSE_GROUPS_DISPLAYED.value,
-            self.displayedGroupModel)
+            self.displayed_group_model)

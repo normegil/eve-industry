@@ -1,9 +1,7 @@
-from PySide2.QtCore import Qt, QModelIndex
-
-from controller.general import ResetableModelList
+from PySide2.QtCore import Qt, QModelIndex, QAbstractListModel
 
 
-class LocationAbstractModelList(ResetableModelList):
+class LocationAbstractModelList(QAbstractListModel):
     StationRole = Qt.UserRole + 1011
     StationIDRole = Qt.UserRole + 1012
     SystemRole = Qt.UserRole + 1013
@@ -13,8 +11,8 @@ class LocationAbstractModelList(ResetableModelList):
     RegionRole = Qt.UserRole + 1017
     RegionIDRole = Qt.UserRole + 1018
 
-    def __init__(self, model: [] = None):
-        ResetableModelList.__init__(self, model)
+    def __init__(self):
+        QAbstractListModel.__init__(self)
 
     def roleNames(self):
         return {
@@ -28,24 +26,22 @@ class LocationAbstractModelList(ResetableModelList):
             LocationAbstractModelList.StationIDRole: b'stationIdentifier',
         }
 
-    def data(self, index: QModelIndex, role: int = ...):
-        if index.isValid():
-            item = self.model[index.row()]
-            if item.station is None:
-                return None
-            if role == LocationAbstractModelList.StationRole:
-                return item.station.name
-            elif role == LocationAbstractModelList.SystemRole:
-                return item.station.system.name
-            elif role == LocationAbstractModelList.ConstellationRole:
-                return item.station.system.constellation.name
-            elif role == LocationAbstractModelList.RegionRole:
-                return item.station.system.constellation.region.name
-            elif role == LocationAbstractModelList.StationIDRole:
-                return item.station.id
-            elif role == LocationAbstractModelList.SystemIDRole:
-                return item.station.system.id
-            elif role == LocationAbstractModelList.ConstellationIDRole:
-                return item.station.system.constellation.id
-            elif role == LocationAbstractModelList.RegionIDRole:
-                return item.station.system.constellation.region.id
+    def data(self, item, role: int = ...):
+        if item.station is None:
+            return None
+        if role == LocationAbstractModelList.StationRole:
+            return item.station.name
+        elif role == LocationAbstractModelList.SystemRole:
+            return item.station.system.name
+        elif role == LocationAbstractModelList.ConstellationRole:
+            return item.station.system.constellation.name
+        elif role == LocationAbstractModelList.RegionRole:
+            return item.station.system.constellation.region.name
+        elif role == LocationAbstractModelList.StationIDRole:
+            return item.station.id
+        elif role == LocationAbstractModelList.SystemIDRole:
+            return item.station.system.id
+        elif role == LocationAbstractModelList.ConstellationIDRole:
+            return item.station.system.constellation.id
+        elif role == LocationAbstractModelList.RegionIDRole:
+            return item.station.system.constellation.region.id

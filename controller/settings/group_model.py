@@ -1,32 +1,36 @@
-from PySide2.QtCore import Qt, QModelIndex, Slot, QSortFilterProxyModel
-
-from controller.general import ResetableModelList
+from PySide2.QtCore import Qt, QModelIndex, Slot, QSortFilterProxyModel, QAbstractListModel
 
 
 # noinspection PyPep8Naming
-class GroupsModel(ResetableModelList):
+class GroupsModel(QAbstractListModel):
     IDRole = Qt.UserRole + 1
     NameRole = Qt.UserRole + 2
 
-    def __init__(self, model=None, displayed_ids=None):
-        ResetableModelList.__init__(self, model)
-        self.onGroupAdded = neutralFunction
-        self.onGroupRemoved = neutralFunction
-        if displayed_ids is None:
-            self.displayed_ids = []
+    def __init__(self, model, showDisplayed: bool):
+        QAbstractListModel.__init__(self, model)
+        self.__model = model
+        self.__onGroupAdded = neutral_function
+        self.__onGroupRemoved = neutral_function
+        self.__showDisplayed = showDisplayed
+        self.__internal = []
+        self.refresh()
+
+    def refresh(self):
+        if self.__showDisplayed:
+            self.__internal = self.__model.character.all_displayed_groups()
         else:
-            self.displayed_ids = displayed_ids
+            self.__internal = self.__model.character.all_not_displayed_groups()
 
     def setOnGroupAdded(self, onGroupAdded):
-        self.onGroupAdded = onGroupAdded
+        self.__onGroupAdded = onGroupAdded
 
     def setOnGroupRemoved(self, onGroupRemoved):
-        self.onGroupRemoved = onGroupRemoved
+        self.__onGroupRemoved = onGroupRemoved
 
     def rowCount(self, parent=QModelIndex()):
         if parent.isValid():
             return 0
-        return len(self.displayed_ids)
+        return len(self.__internal)
 
     def roleNames(self):
         return {
@@ -36,40 +40,21 @@ class GroupsModel(ResetableModelList):
 
     def data(self, index: QModelIndex, role=Qt.DisplayRole):
         if index.isValid():
-            row = self.displayed_ids[index.row()]
+            group = self.__internal[index.row()]
             if role == GroupsModel.IDRole:
-                return row
+                return group.id
             elif role == GroupsModel.NameRole:
-                return self.__find_model_group(row).name
+                return group.name
 
     @Slot(int)
     def addItem(self, id_: int):
-        count = self.rowCount()
-        self.beginInsertRows(QModelIndex(), count, count)
-        self.displayed_ids.append(id_)
-        self.endInsertRows()
         self.onGroupAdded(id_)
+        self.refresh()
 
     @Slot(int)
     def removeItem(self, id_):
-        index = self.__find_displayed_group_index(id_)
-        if index is not None:
-            self.beginRemoveRows(QModelIndex(), index, index)
-            del self.displayed_ids[index]
-            self.endRemoveRows()
         self.onGroupRemoved(id_)
-
-    def __find_model_group(self, searched_id: int):
-        for group in self.model:
-            if group.id == searched_id:
-                return group
-        return None
-
-    def __find_displayed_group_index(self, searched_id: int):
-        for index, id_ in enumerate(self.displayed_ids):
-            if id_ == searched_id:
-                return index
-        return None
+        self.refresh()
 
 
 # noinspection PyPep8Naming
@@ -77,14 +62,19 @@ class GroupsModelSorter(QSortFilterProxyModel):
     def __init__(self):
         QSortFilterProxyModel.__init__(self)
 
+    def refresh(self):
+        self.sourceModel().refresh()
+
     @Slot(int)
     def addItem(self, id_: int):
         self.sourceModel().addItem(id_)
+        self.refresh()
 
     @Slot(int)
     def removeItem(self, id_: int):
         self.sourceModel().removeItem(id_)
+        self.refresh()
 
 
-def neutralFunction(id_):
+def neutral_function(id_):
     pass

@@ -7,8 +7,18 @@ from .location_model_list import LocationAbstractModelList
 class LocationModel(LocationAbstractModelList):
     QuantityRole = Qt.UserRole + 6
 
-    def __init__(self, model=None):
-        LocationAbstractModelList.__init__(self, model)
+    def __init__(self, model):
+        LocationAbstractModelList.__init__(self)
+        self.__model = model
+        self.__displayed_asset_id = None
+        self.__internal = None
+
+    def set_displayed_asset_id(self, asset_id):
+        self.__displayed_asset_id = asset_id
+        self.refresh()
+
+    def refresh(self):
+        self.__internal = self.__model.character.asset_locations(self.__displayed_asset_id)
 
     def roleNames(self):
         return {**super().roleNames(), **{
@@ -17,9 +27,14 @@ class LocationModel(LocationAbstractModelList):
 
     def data(self, index: QModelIndex, role: int = ...):
         if index.isValid():
-            row = self.model[index.row()]
+            location = self.__internal[index.row()]
             if role == LocationModel.QuantityRole:
-                q = row.quantity
+                q = location.quantity
                 return f"{q:n}"
             else:
-                return super().data(index, role)
+                return super().data(location, role)
+
+    def rowCount(self, parent=QModelIndex()):
+        if parent.isValid():
+            return 0
+        return len(self.__internal)

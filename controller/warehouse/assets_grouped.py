@@ -1,20 +1,24 @@
-from PySide2.QtCore import Qt, QModelIndex
+from PySide2.QtCore import Qt, QModelIndex, QAbstractListModel
 
-from controller.general import ResetableModelList, format_integer, format_real
+from controller.general import format_integer, format_real
 
 
-class AssetGroupsModel(ResetableModelList):
+# noinspection PyPep8Naming
+class AssetGroupsModel(QAbstractListModel):
     NameRole = Qt.UserRole + 1
     AssetsRole = Qt.UserRole + 2
     IDRole = Qt.UserRole + 3
 
-    def __init__(self, model=None, accepted_group_ids=None):
-        ResetableModelList.__init__(self, model)
-        self.filteredModel = []
-        if accepted_group_ids is None:
-            accepted_group_ids = []
-        self.accepted_group_ids = accepted_group_ids
-        self.__refreshFilteredData()
+    def __init__(self, model):
+        QAbstractListModel.__init__(self)
+        self.__model = model
+        self.__internal = []
+        self.refresh()
+
+    def rowCount(self, parent=QModelIndex()):
+        if parent.isValid():
+            return 0
+        return len(self.__internal)
 
     def roleNames(self):
         return {
@@ -25,44 +29,30 @@ class AssetGroupsModel(ResetableModelList):
 
     def data(self, index: QModelIndex, role=Qt.DisplayRole):
         if index.isValid():
-            row = self.filteredModel[index.row()]
+            group = self.__internal[index.row()]
             if role == AssetGroupsModel.IDRole:
-                return row.id
+                return group.id
             if role == AssetGroupsModel.NameRole:
-                return row.name
+                return group.name
             elif role == AssetGroupsModel.AssetsRole:
-                return ItemsModel(row.assets)
+                return ItemsModel(group.assets)
 
-    def setModel(self, model):
-        self.model = model
-        self.__refreshFilteredData()
-
-    def setAcceptedGroupIDs(self, accepted_group_ids):
-        self.accepted_group_ids = accepted_group_ids
-        self.__refreshFilteredData()
-
-    def __refreshFilteredData(self):
+    def refresh(self):
+        groups = self.__model.character.all_displayed_groups()
         self.beginResetModel()
-        self.filteredModel = []
-        for group in self.model:
-            if group.id in self.accepted_group_ids:
-                self.filteredModel.append(group)
+        self.__internal = groups
         self.endResetModel()
 
-    def rowCount(self, parent=QModelIndex()):
-        if parent.isValid():
-            return 0
-        return len(self.filteredModel)
 
-
-class ItemsModel(ResetableModelList):
+class ItemsModel(QAbstractListModel):
     NameRole = Qt.UserRole + 1
     QuantityRole = Qt.UserRole + 2
     PriceRole = Qt.UserRole + 3
     IDRole = Qt.UserRole + 4
 
-    def __init__(self, model=None):
-        ResetableModelList.__init__(self, model)
+    def __init__(self, model):
+        QAbstractListModel.__init__(self)
+        self.__internal = model
 
     def roleNames(self):
         return {
@@ -72,17 +62,22 @@ class ItemsModel(ResetableModelList):
             ItemsModel.PriceRole: b'price',
         }
 
+    def rowCount(self, parent=QModelIndex()):
+        if parent.isValid():
+            return 0
+        return len(self.__internal)
+
     def data(self, index, role=Qt.DisplayRole):
         if index.isValid():
-            row = self.model[index.row()]
+            item = self.__internal[index.row()]
             if role == ItemsModel.IDRole:
-                return row.id
+                return item.id
             elif role == ItemsModel.NameRole:
-                return row.name
+                return item.name
             elif role == ItemsModel.QuantityRole:
-                return format_integer(row.quantity)
+                return format_integer(item.quantity)
             elif role == ItemsModel.PriceRole:
-                avg = row.average_price_per_unit
+                avg = item.average_price_per_unit
                 if avg is None:
                     return "???"
                 return format_real(avg)
