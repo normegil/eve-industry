@@ -95,6 +95,15 @@ class Characters:
                     buy_list.append(asset)
         return buy_list
 
+    def all_blueprints(self):
+        blueprints = []
+        for category in self.categories:
+            if category.name == "Blueprint":
+                for group in category.groups:
+                    for asset in group.assets:
+                        blueprints.append(asset)
+        return blueprints
+
 
 def load_average_price_per_unit(asset):
     avg = asset.average_price_per_unit

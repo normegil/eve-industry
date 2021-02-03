@@ -4,7 +4,8 @@ __pycache__
 lib/
 pyvenv.cfg
 
-data/
+data/*
+!data/static/
 cfg/application.py
 bin/
 share/
