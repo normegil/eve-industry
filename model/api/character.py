@@ -87,6 +87,14 @@ class Characters:
     def remove_displayed_groups_ids(self, group_id: int):
         self.character_dao.remove_displayed_groups_ids(group_id)
 
+    def asset_buy_list(self):
+        buy_list = []
+        for group in self.all_displayed_groups():
+            for asset in group.assets:
+                if asset.minimum_stock is not None and asset.minimum_stock - asset.quantity > 0:
+                    buy_list.append(asset)
+        return buy_list
+
 
 def load_average_price_per_unit(asset):
     avg = asset.average_price_per_unit

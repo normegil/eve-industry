@@ -19,6 +19,10 @@ Item {
         target: warehouseAssetDetails
     }
 
+    Component.onCompleted: {
+        warehouseAssetDetails.refresh()
+    }
+
     Text {
         id: detailsTitle
 

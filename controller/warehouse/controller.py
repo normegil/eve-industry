@@ -2,6 +2,7 @@ from PySide2.QtCore import QObject, Slot, Signal, Property
 
 from controller.general import ContextProperties
 from .assets_grouped import AssetGroupsModel
+from .buy_list import BuyList
 from .details import AssetDetails
 
 pageSources = {
@@ -23,6 +24,7 @@ class WarehouseController(QObject):
 
         self.assets_grouped = AssetGroupsModel(self.__model)
         self.current_asset = AssetDetails(self.__model)
+        self.buy_list = BuyList(self.__model)
 
         self.view.engine.rootContext().setContextProperty(ContextProperties.WAREHOUSE_CONTROLLER.value, self)
         self.view.engine.rootContext().setContextProperty(ContextProperties.WAREHOUSE_ASSETS_GROUPS.value,
@@ -33,6 +35,8 @@ class WarehouseController(QObject):
                                                           self.current_asset.asset_locations)
         self.view.engine.rootContext().setContextProperty(ContextProperties.WAREHOUSE_ASSET_DETAILS_BUY_ORDERS.value,
                                                           self.current_asset.asset_buy_orders)
+        self.view.engine.rootContext().setContextProperty(ContextProperties.WAREHOUSE_ASSETS_BUY_LIST.value,
+                                                          self.buy_list)
 
     @Slot()
     def refreshData(self):

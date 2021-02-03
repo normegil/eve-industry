@@ -1,47 +1,41 @@
-from PySide2.QtCore import Qt, QModelIndex
-
-from controller.general import ResetableModelList, format_integer, format_real
+from PySide2.QtCore import Qt, QModelIndex, QAbstractListModel, Slot
 
 
-class AssetGroupsModel(ResetableModelList):
+class BuyList(QAbstractListModel):
     NameRole = Qt.UserRole + 1
     QuantityRole = Qt.UserRole + 2
 
-    def __init__(self, model=None):
-        ResetableModelList.__init__(self, model)
-        self.filteredModel = []
-        self.__refreshFilteredData()
+    def __init__(self, model):
+        QAbstractListModel.__init__(self)
+        self.__model = model
+        self.__internal = []
+        self.refresh()
+
+    @Slot()
+    def refresh(self):
+        self.beginResetModel()
+        self.__internal = self.__model.character.asset_buy_list()
+        self.endResetModel()
 
     def roleNames(self):
         return {
-            AssetGroupsModel.NameRole: b'name',
-            AssetGroupsModel.QuantityRole: b'quantity'
+            BuyList.NameRole: b'name',
+            BuyList.QuantityRole: b'quantity'
         }
 
     def data(self, index: QModelIndex, role=Qt.DisplayRole):
         if index.isValid():
-            item = self.filteredModel[index.row()]
-            if role == AssetGroupsModel.NameRole:
-                return item.name
-            elif role == AssetGroupsModel.QuantityRole:
-                return self.__missing_quantity(item)
-
-    def __missing_quantity(self, item):
-        return item.minimumStock - item.quantity
-
-    def setModel(self, model):
-        self.model = model
-        self.__refreshFilteredData()
-
-    def __refreshFilteredData(self):
-        self.beginResetModel()
-        self.filteredModel = []
-        for item in self.model:
-            if self.__missing_quantity(item) > 0:
-                self.filteredModel.append(item)
-        self.endResetModel()
+            asset = self.__internal[index.row()]
+            if role == BuyList.NameRole:
+                return asset.name
+            elif role == BuyList.QuantityRole:
+                return missing_quantity(asset)
 
     def rowCount(self, parent=QModelIndex()):
         if parent.isValid():
             return 0
-        return len(self.filteredModel)
+        return len(self.__internal)
+
+
+def missing_quantity(asset):
+    return asset.minimum_stock - asset.quantity

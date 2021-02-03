@@ -78,4 +78,8 @@ Item {
         radius: 5
         color: Colors.grey7
     }
+
+    Component.onCompleted: {
+        warehouseAssetsBuyList.refresh()
+    }
 }

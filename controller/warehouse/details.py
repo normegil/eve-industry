@@ -77,7 +77,6 @@ class AssetDetails(QObject):
         self.__displayed_asset_id = asset_id
         self.asset_locations.set_displayed_asset_id(asset_id)
         self.asset_buy_orders.set_displayed_asset_id(asset_id)
-        self.refresh()
 
     @Slot(int, int)
     def showInBrowser(self, location_type, location_id):
