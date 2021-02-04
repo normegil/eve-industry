@@ -23,7 +23,7 @@ class BuyOrdersModel(LocationAbstractModelList):
 
     def refresh(self):
         self.beginResetModel()
-        self.__internal = self.__model.character.asset_buy_orders(self.__displayed_asset_id)
+        self.__internal = self.__model.warehouse.asset_buy_orders(self.__displayed_asset_id)
         self.endResetModel()
 
     def roleNames(self):

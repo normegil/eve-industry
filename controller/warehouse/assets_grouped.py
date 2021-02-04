@@ -42,7 +42,7 @@ class AssetGroupsModel(QAbstractListModel):
                 return model
 
     def refresh(self):
-        groups = self.__model.character.all_displayed_groups()
+        groups = self.__model.warehouse.displayed_groups()
         self.beginResetModel()
         self.__internal = groups
         self.endResetModel()

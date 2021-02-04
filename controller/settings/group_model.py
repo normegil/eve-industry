@@ -16,9 +16,9 @@ class GroupsModel(QAbstractListModel):
     def refresh(self):
         self.beginResetModel()
         if self.__showDisplayed:
-            self.__internal = self.__model.character.all_displayed_groups_ids()
+            self.__internal = self.__model.warehouse.displayed_groups_ids()
         else:
-            self.__internal = self.__model.character.all_not_displayed_groups_ids()
+            self.__internal = self.__model.warehouse.not_displayed_groups_ids()
         self.endResetModel()
 
     def rowCount(self, parent=QModelIndex()):
@@ -38,7 +38,7 @@ class GroupsModel(QAbstractListModel):
             if role == GroupsModel.IDRole:
                 return id_
             elif role == GroupsModel.NameRole:
-                return self.__model.character.load_group(id_).name
+                return self.__model.warehouse.group(id_).name
 
     @Slot(int)
     def addItem(self, id_: int):
@@ -48,7 +48,7 @@ class GroupsModel(QAbstractListModel):
             self.__internal.append(id_)
             self.endInsertRows()
         if self.__showDisplayed:
-            self.__model.character.add_displayed_groups_ids(id_)
+            self.__model.warehouse.add_displayed_groups_ids(id_)
 
     @Slot(int)
     def removeItem(self, id_):
@@ -58,7 +58,7 @@ class GroupsModel(QAbstractListModel):
             del self.__internal[index]
             self.endResetModel()
         if self.__showDisplayed:
-            self.__model.character.remove_displayed_groups_ids(id_)
+            self.__model.warehouse.remove_displayed_groups_ids(id_)
 
 
 def find_id_index(ids, searched_id):

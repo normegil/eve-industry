@@ -34,7 +34,7 @@ class AssetDetails(QObject):
 
     @Slot()
     def refresh(self):
-        self.__internal = self.__model.character.find_asset(self.__displayed_asset_id)
+        self.__internal = self.__model.warehouse.asset(self.__displayed_asset_id)
         self.nameChanged.emit()
         self.minimumStockChanged.emit()
         self.asset_locations.refresh()

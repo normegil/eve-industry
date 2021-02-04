@@ -16,6 +16,3 @@ class CharacterCache:
         self.cache["character.id"] = char.id
         self.cache["character.name"] = char.name
         return char
-
-    def load_assets(self, character_id):
-        return self.api.load_assets(character_id)

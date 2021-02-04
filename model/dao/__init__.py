@@ -1,3 +1,5 @@
+from .assets import AssetsDAO
 from .character import CharacterDAO
-from .universe import UniverseDAO
 from .market import MarketDAO
+from .universe import UniverseDAO
+from .warehouse import WarehouseDAO

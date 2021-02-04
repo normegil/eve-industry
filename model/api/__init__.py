@@ -1,2 +1,2 @@
-from .character import Characters
+from .warehouse import Warehouse
 from .universe import Universe

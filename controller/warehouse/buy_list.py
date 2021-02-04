@@ -14,7 +14,7 @@ class BuyList(QAbstractListModel):
     @Slot()
     def refresh(self):
         self.beginResetModel()
-        self.__internal = self.__model.character.asset_buy_list()
+        self.__internal = self.__model.warehouse.buy_list()
         self.endResetModel()
 
     def roleNames(self):
