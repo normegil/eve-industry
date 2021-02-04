@@ -31,5 +31,16 @@ Item {
             left: parent.left
             right: parent.right
         }
+
+        ListView {
+            anchors.fill: parent
+            model: blueprintList
+            delegate: Text {
+                text: name
+                color: Colors.grey1
+                font.family: FontFamilies.family0
+                font.pixelSize : FontSizes.size3
+            }
+        }
     }
 }

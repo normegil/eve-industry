@@ -9,6 +9,7 @@ class BlueprintList(QAbstractListModel):
         QAbstractListModel.__init__(self)
         self.__model = model
         self.__internal = []
+        self.refresh()
 
     def refresh(self):
         self.beginResetModel()
