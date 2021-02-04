@@ -2,7 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtGraphicalEffects 1.0
 
-import "../../components/controls"
+import "../../components/blueprints"
 import "../../predefined" 1.0
 
 Item {
@@ -35,11 +35,8 @@ Item {
         ListView {
             anchors.fill: parent
             model: blueprintList
-            delegate: Text {
-                text: name
-                color: Colors.grey1
-                font.family: FontFamilies.family0
-                font.pixelSize : FontSizes.size3
+            delegate: BlueprintTypeRow {
+                title: name
             }
         }
     }

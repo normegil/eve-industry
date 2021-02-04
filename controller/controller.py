@@ -22,7 +22,7 @@ class Controller(QObject):
         QObject.__init__(self)
         self.model = model
         self.view = view
-        self._pageSource = pageSources["warehouse"]
+        self._pageSource = pageSources["blueprints"]
         self.warehouse_controller = WarehouseController(self.model, self.view)
         self.blueprint_controller = BlueprintsController(self.model, self.view)
         self.settings_controller = SettingsController(self.model, self.view)
