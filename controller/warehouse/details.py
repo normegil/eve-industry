@@ -57,7 +57,7 @@ class AssetDetails(QObject):
     @Slot(str)
     def setMinimumStock(self, minimum_stock):
         if not minimum_stock:
-            self.__model.character.save_asset_minimum_stock(self.__internal.id, 0)
+            self.__model.warehouse.set_asset_minimum_stock(self.__internal.id, 0)
             return
         last_char = minimum_stock[-1:]
         power = 0
@@ -69,7 +69,7 @@ class AssetDetails(QObject):
                 power = 0
         final_minimum_stock = int(numberStr) * 10 ** power
         self.__internal.minimum_stock = final_minimum_stock
-        self.__model.character.save_asset_minimum_stock(self.__internal.id, final_minimum_stock)
+        self.__model.warehouse.set_asset_minimum_stock(self.__internal.id, final_minimum_stock)
 
     @Slot(int)
     def set_displayed_asset_id(self, asset_id):

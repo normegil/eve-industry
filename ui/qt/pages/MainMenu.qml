@@ -10,6 +10,7 @@ Rectangle {
     width: 75
     color: Colors.grey6
 
+    property int iconsSize: FontSizes.size3
     property int buttonWidth: menu.width
     property int buttonHeight: menu.width - 10
 
@@ -35,14 +36,11 @@ Rectangle {
             mainController.changePage("warehouse")
         }
 
-        contentItem: Text {
-            text: "" // LA Warehouse
-            color: warehouseBtn.down ? Colors.grey0 : Colors.grey2
-            font.family: FontFamilies.icons0
-            font.pixelSize: FontSizes.size6
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-        }
+        icon.source:"../../resources/icons/warehouse-solid.svg"
+        icon.width: iconsSize
+        icon.height: iconsSize
+        icon.color: warehouseBtn.down ? Colors.grey0 : Colors.grey2
+        antialiasing: true
     }
 
     Rectangle {
@@ -58,7 +56,7 @@ Rectangle {
     }
 
     Button {
-        id: industryBtn
+        id: blueprintBtn
         height: buttonHeight
         width: buttonWidth
         anchors {
@@ -67,17 +65,47 @@ Rectangle {
 
         flat: true
         onClicked: {
+            warehouseController.refresh()
+            mainController.changePage("blueprints")
+        }
+
+        icon.source:"../../resources/icons/file-contract-solid.svg"
+        icon.width: iconsSize
+        icon.height: iconsSize
+        icon.color: blueprintBtn.down ? Colors.grey0 : Colors.grey2
+        antialiasing: true
+    }
+
+    Rectangle {
+        id: blueprintBorder
+        width: buttonWidth
+        anchors {
+            top: blueprintBtn.bottom
+            left: parent.left
+        }
+        height: 2
+        border.width: 1
+        border.color: Colors.grey7
+    }
+
+    Button {
+        id: industryBtn
+        height: buttonHeight
+        width: buttonWidth
+        anchors {
+            top: blueprintBorder.bottom
+        }
+
+        flat: true
+        onClicked: {
             mainController.changePage("industry")
         }
 
-        contentItem: Text {
-            text: "" // LA Industry
-            color: industryBtn.down ? Colors.grey0 : Colors.grey2
-            font.family: FontFamilies.icons0
-            font.pixelSize: FontSizes.size6
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-        }
+        icon.source:"../../resources/icons/industry-solid.svg"
+        icon.width: iconsSize
+        icon.height: iconsSize
+        icon.color: industryBtn.down ? Colors.grey0 : Colors.grey2
+        antialiasing: true
     }
 
     Rectangle {
@@ -105,14 +133,11 @@ Rectangle {
             mainController.changePage("science")
         }
 
-        contentItem: Text {
-            text: "" // LA Flask
-            color: scienceBtn.down ? Colors.grey0 : Colors.grey2
-            font.family: FontFamilies.icons0
-            font.pixelSize: FontSizes.size6
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-        }
+        icon.source:"../../resources/icons/flask-solid.svg"
+        icon.width: iconsSize
+        icon.height: iconsSize
+        icon.color: scienceBtn.down ? Colors.grey0 : Colors.grey2
+        antialiasing: true
     }
 
     Rectangle {
@@ -140,14 +165,11 @@ Rectangle {
             mainController.changePage("market")
         }
 
-        contentItem: Text {
-            text: "" // LA Chart Area
-            color: marketBtn.down ? Colors.grey0 : Colors.grey2
-            font.family: FontFamilies.icons0
-            font.pixelSize: FontSizes.size6
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-        }
+        icon.source:"../../resources/icons/chart-line-solid.svg"
+        icon.width: iconsSize
+        icon.height: iconsSize
+        icon.color: marketBtn.down ? Colors.grey0 : Colors.grey2
+        antialiasing: true
     }
 
     Rectangle {
@@ -189,13 +211,10 @@ Rectangle {
             mainController.changePage("settings")
         }
 
-        contentItem: Text {
-            text: "" // LA Cog
-            color: settingsBtn.down ? Colors.grey0 : Colors.grey2
-            font.family: FontFamilies.icons0
-            font.pixelSize: FontSizes.size6
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-        }
+        icon.source:"../../resources/icons/cogs-solid.svg"
+        icon.width: iconsSize
+        icon.height: iconsSize
+        icon.color: settingsBtn.down ? Colors.grey0 : Colors.grey2
+        antialiasing: true
     }
 }

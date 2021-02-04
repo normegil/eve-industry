@@ -40,8 +40,8 @@ class WarehouseController(QObject):
 
     @Slot()
     def refreshData(self):
-        self.__model.character.refresh()
-        self.current_asset.refreshAsset()
+        self.__model.warehouse.refresh()
+        self.current_asset.refresh()
 
     @Slot()
     def refresh(self):

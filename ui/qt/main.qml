@@ -12,7 +12,7 @@ Window {
     visible: true
     title: qsTr("Eve Industry")
 
-    minimumHeight: 300
+    minimumHeight: 500
     minimumWidth: 1300
 
     color: Colors.grey8
