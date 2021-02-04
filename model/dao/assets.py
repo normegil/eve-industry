@@ -18,6 +18,9 @@ class AssetsDAO:
     def owned(self, character_id):
         assets = self.assets_api.owned(character_id)
 
+        for asset in assets:
+            self.__load_type(asset)
+
         orders = self.market_dao.load_character_order_history(character_id)
         buy_order_in_assets(assets, orders)
 
@@ -33,7 +36,7 @@ class AssetsDAO:
         assets = self.owned(character_id)
         categories = []
         for asset in assets:
-            found_category = find_category(categories, asset.group.category)
+            found_category = find_category(categories, asset.group.category.id)
             if found_category is None:
                 found_category = asset.group.category
                 categories.append(found_category)
