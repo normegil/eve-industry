@@ -5,9 +5,11 @@ from PySide2.QtCore import QObject, Signal, Slot, Property
 from controller.general import ContextProperties
 from controller.settings import SettingsController
 from controller.warehouse import WarehouseController
+from controller.blueprints import BlueprintsController
 
 pageSources = {
     "warehouse": "pages/warehouse/Warehouse.qml",
+    "blueprints": "pages/blueprints/Blueprints.qml",
     "settings": "pages/settings/Settings.qml"
 }
 
@@ -20,9 +22,9 @@ class Controller(QObject):
         QObject.__init__(self)
         self.model = model
         self.view = view
-
         self._pageSource = pageSources["warehouse"]
         self.warehouse_controller = WarehouseController(self.model, self.view)
+        self.blueprint_controller = BlueprintsController(self.model, self.view)
         self.settings_controller = SettingsController(self.model, self.view)
         self.view.engine.rootContext().setContextProperty(ContextProperties.MAIN_CONTROLLER.value, self)
 
