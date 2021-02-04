@@ -8,6 +8,10 @@ import "../../predefined" 1.0
 Item {
     anchors.fill: parent
 
+    Connections {
+        target: warehouseAssetsBuyList
+    }
+
     Text {
         id: title
 
@@ -42,7 +46,7 @@ Item {
             clip: true
             anchors.fill: parent
 
-            ListView {
+            TextEdit {
                 anchors {
                     top: parent.top
                     bottom: parent.bottom
@@ -54,16 +58,14 @@ Item {
                     leftMargin: 10
                     rightMargin: 10
                 }
-                spacing: 5
 
-                model: warehouseAssetsBuyList
-                delegate: Text {
-                    text: name + " "  + quantity
-                    color: Colors.grey1
-                    font.family: FontFamilies.family0
-                    font.weight: Font.Normal
-                    font.pixelSize : FontSizes.size2
-                }
+                text: warehouseAssetsBuyList.buylist
+                color: Colors.grey1
+                font.family: FontFamilies.family0
+                font.weight: Font.Normal
+                font.pixelSize : FontSizes.size3
+                readOnly: true
+                selectByMouse: true
             }
         }
     }
@@ -77,9 +79,5 @@ Item {
         verticalOffset: 3
         radius: 5
         color: Colors.grey7
-    }
-
-    Component.onCompleted: {
-        warehouseAssetsBuyList.refresh()
     }
 }
