@@ -12,11 +12,16 @@ class Warehouse:
         self.assets_dao = assets_dao
         self.current_character = None
         self.owned_categories = []
+        self.owned_blueprints = []
         self.refresh()
 
     def refresh(self):
         self.current_character = self.character_dao.load()
         self.owned_categories = self.assets_dao.owned_in_categories(self.current_character.id)
+        self.owned_blueprints = self.assets_dao.blueprints(self.current_character.id)
+
+    def blueprints(self):
+        return self.owned_blueprints
 
     def groups(self):
         groups = []

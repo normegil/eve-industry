@@ -2,9 +2,6 @@ class WarehouseDAO:
     def __init__(self, warehouse_db):
         self.warehouse_db = warehouse_db
 
-    def blueprints(self, character_id):
-        pass
-
     def displayed_groups_ids(self):
         return self.warehouse_db.displayed_groups_ids()
 

@@ -9,28 +9,33 @@ from model.entities.assets import Assets, find_asset
 
 
 class AssetsDAO:
-    def __init__(self, assets_db: AssetsDB, assets_api: AssetsAPI, market_dao, universe_dao):
+    def __init__(self, assets_db: AssetsDB, assets_api: AssetsAPI, character_api, market_dao, universe_dao):
         self.assets_api = assets_api
         self.assets_db = assets_db
+        self.character_api = character_api
         self.market_dao = market_dao
         self.universe_dao = universe_dao
 
+    def blueprints(self, character_id):
+        bps = self.character_api.blueprints(character_id)
+        for bp in bps:
+            self.__init_asset_properties(bp)
+        return bps
+
     def owned(self, character_id):
         assets = self.assets_api.owned(character_id)
-
-        for asset in assets:
-            self.__load_type(asset)
-
         orders = self.market_dao.load_character_order_history(character_id)
         buy_order_in_assets(assets, orders)
-
         for asset in assets:
-            self.__load_type(asset)
-            self.__load_locations(asset.by_locations)
-            self.__load_locations(asset.buy_orders)
-            self.__load_minimum_stock(asset)
+            self.__init_asset_properties(asset)
 
         return assets
+
+    def __init_asset_properties(self, asset):
+        self.__load_type(asset)
+        self.__load_locations(asset.by_locations)
+        self.__load_locations(asset.buy_orders)
+        self.__load_minimum_stock(asset)
 
     def owned_in_categories(self, character_id):
         assets = self.owned(character_id)
@@ -54,7 +59,7 @@ class AssetsDAO:
         asset.minimum_stock = self.assets_db.load_minimum_stock(asset.id)
 
     def __load_type(self, asset: Assets):
-        type_ = self.universe_dao.load_type(asset.type_id)
+        type_ = self.universe_dao.load_type(asset.id)
         asset.merge_with(type_)
 
     def __load_locations(self, asset_locations):

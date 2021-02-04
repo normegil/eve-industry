@@ -16,3 +16,6 @@ class CharacterCache:
         self.cache["character.id"] = char.id
         self.cache["character.name"] = char.name
         return char
+
+    def blueprints(self, character_id):
+        return self.api.blueprints(character_id)
