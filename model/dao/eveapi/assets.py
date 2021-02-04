@@ -3,7 +3,7 @@ import json
 import requests
 
 from cfg import eve_api
-from model.entities.assets import Assets, AssetLocation
+from model.entities.assets import Assets, AssetLocation, find_asset
 
 
 class AssetsAPI:
@@ -31,10 +31,3 @@ class AssetsAPI:
             found_asset.by_locations.append(
                 AssetLocation(asset["item_id"], asset["location_id"], asset["location_type"], asset["quantity"]))
         return assets_grouped
-
-
-def find_asset(assets, searched_id):
-    for asset in assets:
-        if asset.id == searched_id:
-            return asset
-    return None

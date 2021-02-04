@@ -16,7 +16,7 @@ class Warehouse:
 
     def refresh(self):
         self.current_character = self.character_dao.load()
-        self.owned_categories = self.warehouse_dao.assets(self.current_character.id)
+        self.owned_categories = self.assets_dao.owned_in_categories(self.current_character.id)
 
     def groups(self):
         groups = []

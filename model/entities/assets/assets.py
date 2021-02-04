@@ -58,3 +58,10 @@ class AssetLocation:
         self.location_id = location_id
         self.quantity = quantity
         self.station = None
+
+
+def find_asset(assets, searched_id):
+    for asset in assets:
+        if asset.id == searched_id:
+            return asset
+    return None

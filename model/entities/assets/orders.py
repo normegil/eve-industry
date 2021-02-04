@@ -1,13 +1,16 @@
 import datetime
+
 from dateutil.relativedelta import relativedelta
 
 
 class Order:
-    def __init__(self, order_id, issued, location_id, price_per_unit, duration, type_id, volume_remain, volume_total,
+    def __init__(self, order_id, issued, location_id, price_per_unit, duration, type_id, volume_remain,
+                 volume_total,
                  is_buy_order=False):
         self.id = order_id
         self.is_buy_order = is_buy_order
         self.issued = issued
+        self.location_type = "station"
         self.location_id = location_id
         self.price_per_unit = price_per_unit
         self.duration = duration
