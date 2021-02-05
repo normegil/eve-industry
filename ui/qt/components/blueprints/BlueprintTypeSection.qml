@@ -46,7 +46,6 @@ Item {
             systemID: systemIdentifier
             stationName: station
             stationID: stationIdentifier
-            itemQuantity: quantity
         }
     }
 }
