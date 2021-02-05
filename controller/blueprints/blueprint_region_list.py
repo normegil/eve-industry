@@ -15,7 +15,7 @@ class BlueprintRegionList(QAbstractListModel):
 
     def refresh(self):
         self.beginResetModel()
-        self.__internal = [{"id": 1, "name": "My"}, {"id": 2, "name": "Test"}, {"id": 3, "name": "Bla"}]
+        self.__internal = self.__model.universe.regions()
         self.endResetModel()
 
     def rowCount(self, parent: QModelIndex = ...) -> int:
@@ -34,6 +34,6 @@ class BlueprintRegionList(QAbstractListModel):
         if index.isValid():
             region = self.__internal[index.row()]
             if role == BlueprintRegionList.IDRole:
-                return region["id"]
+                return region.id
             elif role == BlueprintRegionList.NameRole:
-                return region["name"]
+                return region.name

@@ -1,8 +1,16 @@
 from model.entities.types import Type
 
+
 class UniverseDAO:
     def __init__(self, universe_api):
         self.universe_api = universe_api
+
+    def load_regions(self):
+        ids = self.universe_api.load_regions_ids()
+        regions = []
+        for id_ in ids:
+            regions.append(self.load_region(id_))
+        return regions
 
     def load_region(self, region_id):
         return self.universe_api.load_region(region_id)

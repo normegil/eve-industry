@@ -5,6 +5,9 @@ class Universe:
     def __init__(self, universe_dao: UniverseDAO):
         self.universe_dao = universe_dao
 
+    def regions(self):
+        return self.universe_dao.load_regions()
+
     def region(self, region_id: int):
         return self.universe_dao.load_region(region_id)
 

@@ -1,6 +1,6 @@
 import logging
 
-from PySide2.QtCore import QObject, Slot
+from PySide2.QtCore import QObject, Slot, QSortFilterProxyModel
 
 from controller.general import ContextProperties
 from .blueprint_list import BlueprintList
@@ -13,7 +13,12 @@ class BlueprintsController(QObject):
         self.__model = model
         self.__view = view
         self.blueprint_list = BlueprintList(model)
-        self.region_list = BlueprintRegionList(model)
+
+        self.region_list = QSortFilterProxyModel()
+        self.region_list.setSourceModel(BlueprintRegionList(model))
+        self.region_list.setSortRole(BlueprintRegionList.NameRole)
+        self.region_list.sort(0)
+
         self.__view.engine.rootContext().setContextProperty(ContextProperties.BLUEPRINT_CONTROLLER.value, self)
         self.__view.engine.rootContext().setContextProperty(ContextProperties.BLUEPRINT_LIST.value, self.blueprint_list)
         self.__view.engine.rootContext().setContextProperty(ContextProperties.BLUEPRINT_REGION_LIST.value,

@@ -8,6 +8,16 @@ class UniverseCache:
         self.cache = cache
         self.api = api
 
+    def load_regions_ids(self):
+        base_key = f"region.ids"
+        ids = self.cache[base_key]
+        if ids is not None:
+            region_ids = ids.split(";")
+            return region_ids
+        regions_ids = self.api.load_regions_ids()
+        self.cache[base_key] = ";".join(str(region_id) for region_id in regions_ids)
+        return regions_ids
+
     def load_region(self, region_id):
         base_key = f"region.{region_id}"
         id_ = self.cache[base_key + ".id"]

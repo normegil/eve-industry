@@ -1,7 +1,7 @@
 import json
+import logging
 
 import requests
-import logging
 
 from cfg import eve_api
 from model.entities import Race
@@ -15,6 +15,15 @@ class UniverseAPI:
     def __init__(self, tokens):
         self.tokens = tokens
 
+    def load_regions_ids(self):
+        logging.info(f"Requesting region ids")
+        resp = requests.get(self.base_url + "regions/",
+                            headers={'Authorization': F"Bearer {self.tokens.access_token}"})
+        if resp.status_code >= 300:
+            raise RuntimeError(f"Wrong response code: {str(resp.status_code)} - {region_id}")
+
+        return json.loads(resp.content)
+
     def load_region(self, region_id):
         logging.info(f"Requesting region: {region_id}")
         resp = requests.get(self.base_url + "regions/" + str(region_id),
@@ -23,7 +32,10 @@ class UniverseAPI:
             raise RuntimeError(f"Wrong response code: {str(resp.status_code)} - {region_id}")
 
         region = json.loads(resp.content)
-        return Region(region["region_id"], region["name"], region["description"])
+        description = ""
+        if hasattr(region, "description"):
+            description = region["description"]
+        return Region(region["region_id"], region["name"], description)
 
     def load_constellation(self, constellation_id):
         logging.info(f"Requesting constellation: {constellation_id}")
