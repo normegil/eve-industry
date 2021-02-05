@@ -37,6 +37,7 @@ Item {
             model: blueprintList
             delegate: BlueprintTypeRow {
                 title: name
+                individuals: locations
             }
         }
     }

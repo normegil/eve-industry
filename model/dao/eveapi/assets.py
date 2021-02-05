@@ -3,8 +3,8 @@ import json
 import requests
 
 from cfg import eve_api
-from model.entities.assets import Asset, IndividualAsset, find_asset, AssetLocation, AssetLocationStation, \
-    AssetLocationItem
+from model.entities.assets import Asset, IndividualAsset, find_asset
+from .location import init_location
 
 
 class AssetsAPI:
@@ -29,14 +29,7 @@ class AssetsAPI:
                     found_asset = Asset(asset["type_id"])
                 assets_grouped.append(found_asset)
 
-            location_id = asset["location_id"]
-            location_type = asset["location_type"]
-            location = AssetLocation(location_type, location_id)
-            if location_type == "station":
-                location = AssetLocationStation(location_type, location_id)
-            elif location_type == "item":
-                location = AssetLocationItem(location_type, location_id)
-
+            location = init_location(asset["location_type"], asset["location_id"])
             individual_asset = IndividualAsset(asset["item_id"], location, asset["quantity"])
             individual_asset.set_parent(found_asset)
             found_asset.by_locations.append(individual_asset)

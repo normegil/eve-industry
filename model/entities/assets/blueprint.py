@@ -7,8 +7,8 @@ class Blueprint(Asset):
 
 
 class IndividualBlueprint(IndividualAsset):
-    def __init__(self, asset_id, location_id, location_type, quantity, runs, material_efficiency, time_efficiency):
-        IndividualAsset.__init__(self, asset_id, location_id, location_type)
+    def __init__(self, asset_id, location, quantity, runs, material_efficiency, time_efficiency):
+        IndividualAsset.__init__(self, asset_id, location)
         self.quantity = quantity
         self.runs = runs
         self.material_efficiency = material_efficiency

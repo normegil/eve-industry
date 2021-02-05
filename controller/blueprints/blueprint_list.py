@@ -25,7 +25,8 @@ class BlueprintList(QAbstractListModel):
 
     def roleNames(self) -> typing.Dict:
         return {
-            BlueprintList.NameRole: b'name'
+            BlueprintList.NameRole: b'name',
+            BlueprintList.LocationsRole: b'locations'
         }
 
     def data(self, index: QModelIndex, role: int = ...) -> typing.Any:
@@ -33,14 +34,16 @@ class BlueprintList(QAbstractListModel):
             blueprint = self.__internal[index.row()]
             if role == BlueprintList.NameRole:
                 return blueprint.name
+            elif role == BlueprintList.LocationsRole:
+                return BlueprintIndividualList(blueprint.by_locations)
 
 
-class BlueprintLocationList(QAbstractListModel):
-    NameRole = Qt.UserRole + 1
+class BlueprintIndividualList(QAbstractListModel):
+    RunsRole = Qt.UserRole + 1
 
-    def __init__(self, locations):
+    def __init__(self, individuals):
         QAbstractListModel.__init__(self)
-        self.__internal = locations
+        self.__internal = individuals
 
     def rowCount(self, parent: QModelIndex = ...) -> int:
         if parent.isValid():
@@ -49,10 +52,11 @@ class BlueprintLocationList(QAbstractListModel):
 
     def roleNames(self) -> typing.Dict:
         return {
-            BlueprintLocationList.NameRole: b"name"
+            BlueprintIndividualList.RunsRole: b"runs"
         }
 
     def data(self, index: QModelIndex, role: int = ...) -> typing.Any:
         if index.isValid():
-            location = self.__internal[index.row()]
-            # ...
+            individual = self.__internal[index.row()]
+            if role == BlueprintIndividualList.RunsRole:
+                return individual.runs

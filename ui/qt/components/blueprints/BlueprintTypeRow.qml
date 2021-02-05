@@ -6,7 +6,7 @@ import "../../predefined" 1.0
 
 Item {
     property string title
-    property var locations
+    property var individuals: ListModel{}
 
     height: titleIdentifier.height + locationList.height
 
@@ -33,6 +33,14 @@ Item {
         delegate: Rectangle {
             color: Colors.grey9
             height: 45
+
+            Text {
+                text: runs + " runs left"
+                color: Colors.grey2
+                font.family: FontFamilies.family0
+                font.weight: Font.Normal
+                font.pixelSize : FontSizes.size1
+            }
         }
     }
 }
