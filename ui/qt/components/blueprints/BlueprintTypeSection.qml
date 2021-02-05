@@ -38,6 +38,7 @@ Item {
         }
         model: locations
         delegate: BlueprintTypeRow {
+            runLeft: runs
             regionName: region
             regionID: regionIdentifier
             constellationName: constellation

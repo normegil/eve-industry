@@ -8,7 +8,9 @@ import "../../predefined" 1.0
 Item {
 
     implicitHeight: 45
-    implicitWidth: 380
+    implicitWidth: 800
+
+    property int runLeft: 0
 
     property int regionID: -1
     property string regionName: "???"
@@ -27,95 +29,144 @@ Item {
         anchors.fill: parent
         color: Colors.grey9
 
-        ItemLocationText {
-            id: systemNameBlueprintTypeRow
+        Item {
+            id: locationColumn
 
+            width: 500
             anchors {
-                left: parent.left
-                leftMargin: 10
                 top: parent.top
-                topMargin: 5
-            }
-
-            name: systemName
-            locationType: LocationsType.system
-            locationID: systemID
-            fontSize : FontSizes.size3
-        }
-
-        Text {
-            id: systemConstellationSeparator
-
-            anchors {
-                left: systemNameBlueprintTypeRow.right
-                leftMargin: 5
-                top: parent.top
-                topMargin: 8
-            }
-
-            text: separator
-            color: separatorColor
-            verticalAlignment: Text.AlignVCenter
-            font.family: fontFamily
-            font.weight: Font.Normal
-            font.pixelSize : FontSizes.size0
-        }
-
-        ItemLocationText {
-            id: constellationNameBlueprintTypeRow
-
-            anchors {
-                left: systemConstellationSeparator.right
-                leftMargin: 5
-                top: parent.top
-                topMargin: 8
-            }
-
-            name: constellationName
-            locationType: LocationsType.constellation
-            locationID: constellationID
-        }
-
-        Text {
-            id: constellationRegionSeparator
-
-            anchors {
-                left: constellationNameBlueprintTypeRow.right
-                leftMargin: 5
-                top: parent.top
-                topMargin: 8
-            }
-
-            text: separator
-            color: separatorColor
-            verticalAlignment: Text.AlignVCenter
-            font.family: fontFamily
-            font.weight: Font.Normal
-            font.pixelSize : FontSizes.size0
-        }
-
-        ItemLocationText {
-            anchors {
-                left: constellationRegionSeparator.right
-                leftMargin: 5
-                top: parent.top
-                topMargin: 8
-            }
-            name: regionName
-            locationType: LocationsType.region
-            locationID: regionID
-        }
-
-        ItemLocationText {
-            anchors {
-                left: parent.left
-                leftMargin: 10
                 bottom: parent.bottom
-                bottomMargin: 5
+                left: parent.left
             }
-            name: stationName
-            locationType: LocationsType.station
-            locationID: stationID
+
+            ItemLocationText {
+                id: systemNameBlueprintTypeRow
+
+                anchors {
+                    left: parent.left
+                    leftMargin: 10
+                    top: parent.top
+                    topMargin: 5
+                }
+
+                name: systemName
+                locationType: LocationsType.system
+                locationID: systemID
+                fontSize : FontSizes.size3
+            }
+
+            Text {
+                id: systemConstellationSeparator
+
+                anchors {
+                    left: systemNameBlueprintTypeRow.right
+                    leftMargin: 5
+                    top: parent.top
+                    topMargin: 8
+                }
+
+                text: separator
+                color: separatorColor
+                verticalAlignment: Text.AlignVCenter
+                font.family: FontFamilies.family0
+                font.weight: Font.Normal
+                font.pixelSize : FontSizes.size0
+            }
+
+            ItemLocationText {
+                id: constellationNameBlueprintTypeRow
+
+                anchors {
+                    left: systemConstellationSeparator.right
+                    leftMargin: 5
+                    top: parent.top
+                    topMargin: 8
+                }
+
+                name: constellationName
+                locationType: LocationsType.constellation
+                locationID: constellationID
+            }
+
+            Text {
+                id: constellationRegionSeparator
+
+                anchors {
+                    left: constellationNameBlueprintTypeRow.right
+                    leftMargin: 5
+                    top: parent.top
+                    topMargin: 8
+                }
+
+                text: separator
+                color: separatorColor
+                verticalAlignment: Text.AlignVCenter
+                font.family: FontFamilies.family0
+                font.weight: Font.Normal
+                font.pixelSize : FontSizes.size0
+            }
+
+            ItemLocationText {
+                anchors {
+                    left: constellationRegionSeparator.right
+                    leftMargin: 5
+                    top: parent.top
+                    topMargin: 8
+                }
+                name: regionName
+                locationType: LocationsType.region
+                locationID: regionID
+            }
+
+            ItemLocationText {
+                anchors {
+                    left: parent.left
+                    leftMargin: 10
+                    bottom: parent.bottom
+                    bottomMargin: 5
+                }
+                name: stationName
+                locationType: LocationsType.station
+                locationID: stationID
+            }
+        }
+
+        Item {
+            id: runsColumn
+            width: 100
+            anchors {
+                top: parent.top
+                bottom: parent.bottom
+                left: locationColumn.right
+            }
+
+            Text {
+                id: runsNbText
+                anchors {
+                    top: parent.top
+                    right: parent.right
+                    rightMargin: 30
+                    topMargin: 5
+                }
+                text: runLeft
+                color: Colors.grey1
+                font.family: FontFamilies.family0
+                font.pixelSize : FontSizes.size1
+            }
+
+            Text {
+                id: runsNbText
+                anchors {
+                    top: parent.top
+                    left: runsNbText.left
+                    topMargin: 5
+                    leftMargin: 3
+                }
+                text: "runs left"
+                color: Colors.grey3
+                font.family: FontFamilies.family0
+                font.pixelSize : FontSizes.size0
+            }
         }
     }
 }
