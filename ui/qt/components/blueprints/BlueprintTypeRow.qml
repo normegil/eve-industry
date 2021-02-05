@@ -8,7 +8,7 @@ Item {
     property string title
     property var locations
 
-    height: titleIdentifier.height + locationList.count * locationBlueprintBg.height
+    height: titleIdentifier.height + locationList.height
 
     Text {
         id: titleIdentifier
@@ -31,7 +31,6 @@ Item {
         }
         model: locations
         delegate: Rectangle {
-            id: locationBlueprintBg
             color: Colors.grey9
             height: 45
         }
