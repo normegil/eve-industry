@@ -11,6 +11,8 @@ Item {
     implicitWidth: 800
 
     property int runLeft: 0
+    property int timeEfficiency: 0
+    property int materialEfficiency: 0
 
     property int regionID: -1
     property string regionName: "???"
@@ -32,7 +34,7 @@ Item {
         Item {
             id: locationColumn
 
-            width: 500
+            width: 400
             anchors {
                 top: parent.top
                 bottom: parent.bottom
@@ -133,7 +135,7 @@ Item {
 
         Item {
             id: runsColumn
-            width: 25
+            width: 100
             anchors {
                 top: parent.top
                 bottom: parent.bottom
@@ -171,6 +173,74 @@ Item {
             }
         }
 
+        Item {
+            id: efficiencyColumn
+            width: 100
+            anchors {
+                top: parent.top
+                bottom: parent.bottom
+                left: runsColumn.right
+            }
 
+            Text {
+                id: materialEfficiencyText
+                anchors {
+                    top: parent.top
+                    right: parent.right
+                    rightMargin: 30
+                    topMargin: 8
+                }
+                text: "-" + materialEfficiency + " %"
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignBottom
+                color: Colors.grey1
+                font.family: FontFamilies.family0
+                font.pixelSize : FontSizes.size1
+            }
+
+            Text {
+                anchors {
+                    left: materialEfficiencyText.right
+                    leftMargin: 4
+                    top: parent.top
+                    topMargin: 10
+                }
+                text: "materials"
+                verticalAlignment: Text.AlignBottom
+                color: Colors.grey4
+                font.family: FontFamilies.family0
+                font.pixelSize : FontSizes.size0
+            }
+
+            Text {
+                id: timeEfficiencyText
+                anchors {
+                    bottom: parent.bottom
+                    bottomMargin: 8
+                    right: parent.right
+                    rightMargin: 30
+                }
+                text: "-" + timeEfficiency + " %"
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignBottom
+                color: Colors.grey1
+                font.family: FontFamilies.family0
+                font.pixelSize : FontSizes.size1
+            }
+
+            Text {
+                anchors {
+                    left: timeEfficiencyText.right
+                    leftMargin: 4
+                    bottom: parent.bottom
+                    bottomMargin: 8
+                }
+                text: "time"
+                verticalAlignment: Text.AlignBottom
+                color: Colors.grey4
+                font.family: FontFamilies.family0
+                font.pixelSize : FontSizes.size0
+            }
+        }
     }
 }

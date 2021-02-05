@@ -36,6 +36,8 @@ Item {
         model: locations
         delegate: BlueprintTypeRow {
             runLeft: runs
+            timeEfficiency: time
+            materialEfficiency: mats
             regionName: region
             regionID: regionIdentifier
             constellationName: constellation

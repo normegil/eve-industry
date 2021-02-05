@@ -43,6 +43,8 @@ class BlueprintList(QAbstractListModel):
 
 class BlueprintIndividualList(LocationAbstractModelList):
     RunsRole = Qt.UserRole + 1
+    TimeRole = Qt.UserRole + 2
+    MaterialsRole = Qt.UserRole + 3
 
     def __init__(self, individuals):
         LocationAbstractModelList.__init__(self)
@@ -56,6 +58,8 @@ class BlueprintIndividualList(LocationAbstractModelList):
     def roleNames(self) -> typing.Dict:
         return {**super().roleNames(), **{
             BlueprintIndividualList.RunsRole: b"runs",
+            BlueprintIndividualList.TimeRole: b"time",
+            BlueprintIndividualList.MaterialsRole: b"mats",
         }}
 
     def data(self, index: QModelIndex, role: int = ...) -> typing.Any:
@@ -63,5 +67,9 @@ class BlueprintIndividualList(LocationAbstractModelList):
             individual = self.__internal[index.row()]
             if role == BlueprintIndividualList.RunsRole:
                 return individual.runs
+            elif role == BlueprintIndividualList.TimeRole:
+                return individual.time_efficiency
+            elif role == BlueprintIndividualList.MaterialsRole:
+                return individual.material_efficiency
             else:
                 return super().data(individual, role)
