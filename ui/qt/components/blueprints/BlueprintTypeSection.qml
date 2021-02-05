@@ -9,10 +9,7 @@ Item {
     property var individuals: ListModel{}
 
     height: titleIdentifier.height + locationList.height + 20
-    anchors {
-        left: parent.left
-        right: parent.right
-    }
+    width: 1000
 
     Text {
         id: titleIdentifier

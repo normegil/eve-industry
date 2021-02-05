@@ -12,6 +12,7 @@ Text {
     property color nameColorHover: Colors.grey0
 
     property int fontSize: FontSizes.size1
+    property string fontFamily: FontFamilies.family0
 
     property int locationType: -1
     property int locationID: -1
