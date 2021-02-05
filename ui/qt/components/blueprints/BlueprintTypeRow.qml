@@ -133,7 +133,7 @@ Item {
 
         Item {
             id: runsColumn
-            width: 100
+            width: 25
             anchors {
                 top: parent.top
                 bottom: parent.bottom
@@ -146,27 +146,31 @@ Item {
                     top: parent.top
                     right: parent.right
                     rightMargin: 30
-                    topMargin: 5
+                    topMargin: 8
                 }
                 text: runLeft
+                horizontalAlignment: Text.AlignRight
+                verticalAlignment: Text.AlignBottom
                 color: Colors.grey1
                 font.family: FontFamilies.family0
                 font.pixelSize : FontSizes.size1
             }
 
             Text {
-                id: runsNbText
                 anchors {
+                    left: runsNbText.right
+                    leftMargin: 4
                     top: parent.top
-                    left: runsNbText.left
-                    topMargin: 5
-                    leftMargin: 3
+                    topMargin: 10
                 }
                 text: "runs left"
-                color: Colors.grey3
+                verticalAlignment: Text.AlignBottom
+                color: Colors.grey4
                 font.family: FontFamilies.family0
                 font.pixelSize : FontSizes.size0
             }
         }
+
+
     }
 }
