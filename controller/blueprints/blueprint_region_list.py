@@ -1,3 +1,4 @@
+import re
 import typing
 
 from PySide2.QtCore import QAbstractListModel, QModelIndex, Qt
@@ -14,8 +15,12 @@ class BlueprintRegionList(QAbstractListModel):
         self.refresh()
 
     def refresh(self):
+        regions = self.__model.universe.regions()
         self.beginResetModel()
-        self.__internal = self.__model.universe.regions()
+        self.__internal = []
+        for region in regions:
+            if re.search("^[A-Za-z ]*$", region.name):
+                self.__internal.append(region)
         self.endResetModel()
 
     def rowCount(self, parent: QModelIndex = ...) -> int:
