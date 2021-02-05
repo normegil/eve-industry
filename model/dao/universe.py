@@ -41,6 +41,11 @@ class UniverseDAO:
 
         return station
 
+    def load_structure(self, structure_id):
+        structure = self.universe_api.load_structure(structure_id)
+        structure.set_universe_dao(self)
+        return structure
+
     def load_type(self, type_id) -> Type:
         type_ = self.universe_api.load_type(type_id)
         group = self.load_group(type_.group_id)

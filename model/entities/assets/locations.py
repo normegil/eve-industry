@@ -2,6 +2,8 @@ import logging
 
 from .asset import find_item
 
+MAX_INT = 2147483647
+
 
 class AssetLocation:
     def __init__(self, location_type, location_id):
@@ -26,7 +28,10 @@ class AssetLocationStation(AssetLocation):
     @property
     def station(self):
         if self.__station is None:
-            self.__station = self.__universe_dao.load_stations(self.id)
+            if self.id < MAX_INT:
+                self.__station = self.__universe_dao.load_stations(self.id)
+            else:
+                self.__station = self.__universe_dao.load_structure(self.id)
         return self.__station
 
 

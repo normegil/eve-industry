@@ -5,7 +5,7 @@ import logging
 
 from cfg import eve_api
 from model.entities import Race
-from model.entities.locations import Region, Constellation, Station, System
+from model.entities.locations import Region, Constellation, Station, System, Structure
 from model.entities.types import Type, Group, Category
 
 
@@ -84,6 +84,17 @@ class UniverseAPI:
         s.type_id = station["type_id"]
         s.race_id = station["race_id"]
         return s
+
+    def load_structure(self, structure_id):
+        logging.info(f"Requesting structure: {structure_id}")
+        resp = requests.get(self.base_url + "structures/" + str(structure_id),
+                            headers={'Authorization': F"Bearer {self.tokens.access_token}"})
+        if resp.status_code >= 300:
+            raise RuntimeError(f"Wrong response code: {str(resp.status_code)} - {structure_id}")
+
+        structure = json.loads(resp.content)
+        return Structure(structure_id, structure["name"], structure["solar_system_id"], structure["type_id"],
+                         structure["owner_id"])
 
     def load_type(self, type_id):
         logging.info(f"Requesting type: {type_id}")

@@ -1,5 +1,5 @@
 from model.entities import Race
-from model.entities.locations import Region, Constellation, Station, System
+from model.entities.locations import Region, Constellation, Station, System, Structure
 from model.entities.types import Type, Group, Category
 
 
@@ -106,6 +106,31 @@ class UniverseCache:
         self.cache[base_key + ".type_id"] = station.type_id
         self.cache[base_key + ".system_id"] = station.system_id
         return station
+
+    def load_structure(self, structure_id):
+        base_key = f"structure.{structure_id}"
+        id_ = self.cache[base_key + ".id"]
+        if id_ is not None:
+            name = self.cache[base_key + ".name"]
+            if name is None:
+                return None  # Invalid query
+            system_id = self.cache[base_key + ".system_id"]
+            type_id = self.cache[base_key + ".type_id"]
+            owner_id = self.cache[base_key + ".owner_id"]
+            return Structure(int(id_), name, system_id, type_id, owner_id)
+
+        structure = None
+        try:
+            structure = self.api.load_structure(structure_id)
+        except RuntimeError:
+            self.cache[base_key + ".id"] = structure_id
+            return None
+        self.cache[base_key + ".id"] = structure.id
+        self.cache[base_key + ".name"] = structure.name
+        self.cache[base_key + ".system_id"] = structure.system_id
+        self.cache[base_key + ".type_id"] = structure.type_id
+        self.cache[base_key + ".owner_id"] = structure.owner_id
+        return structure
 
     def load_type(self, type_id):
         base_key = f"type.{type_id}"
