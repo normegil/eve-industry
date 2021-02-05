@@ -1,7 +1,7 @@
 from PySide2.QtCore import QModelIndex, Qt
 
 from controller.general import format_integer, format_real, format_datetime
-from .location_model_list import LocationAbstractModelList
+from controller.general import LocationAbstractModelList
 
 
 class BuyOrdersModel(LocationAbstractModelList):

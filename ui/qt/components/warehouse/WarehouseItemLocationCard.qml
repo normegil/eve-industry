@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtGraphicalEffects 1.0
 
+import "../controls"
 import "../../predefined" 1.0
 
 Item {
@@ -33,7 +34,7 @@ Item {
 
         color: Colors.grey9
 
-        WarehouseItemLocationText {
+        ItemLocationText {
             id: systemNameWarehouseItemLocationCard
 
             anchors {
@@ -67,7 +68,7 @@ Item {
             font.pixelSize : FontSizes.size0
         }
 
-        WarehouseItemLocationText {
+        ItemLocationText {
             id: constellationNameWarehouseItemLocationCard
 
             anchors {
@@ -100,7 +101,7 @@ Item {
             font.pixelSize : FontSizes.size0
         }
 
-        WarehouseItemLocationText {
+        ItemLocationText {
             anchors {
                 left: constellationRegionSeparator.right
                 leftMargin: 5
@@ -112,7 +113,7 @@ Item {
             locationID: regionID
         }
 
-        WarehouseItemLocationText {
+        ItemLocationText {
             anchors {
                 left: parent.left
                 leftMargin: 10

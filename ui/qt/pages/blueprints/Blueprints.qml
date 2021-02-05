@@ -25,8 +25,10 @@ Item {
     }
 
     ScrollView {
+        clip: true
         anchors {
             top: title.bottom
+            topMargin: 10
             bottom: parent.bottom
             left: parent.left
             right: parent.right
@@ -35,7 +37,7 @@ Item {
         ListView {
             anchors.fill: parent
             model: blueprintList
-            delegate: BlueprintTypeRow {
+            delegate: BlueprintTypeSection {
                 title: name
                 individuals: locations
             }

@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
+import "../controls"
 import "../../predefined" 1.0
 
 Item {
@@ -68,7 +69,7 @@ Item {
             property int vMargin: 13
             property int topMarginAdjuster: 3
 
-            WarehouseItemLocationText {
+            ItemLocationText {
                 id: systemNameWarehouseItemLocationCard
                 name: systemName
                 locationType: LocationsType.system
@@ -100,7 +101,7 @@ Item {
                 }
             }
 
-            WarehouseItemLocationText {
+            ItemLocationText {
                 id: constellationNameWarehouseItemLocationCard
                 name: constellationName
                 locationType: LocationsType.constellation
@@ -132,7 +133,7 @@ Item {
                 }
             }
 
-            WarehouseItemLocationText {
+            ItemLocationText {
                 name: regionName
                 locationType: LocationsType.region
                 locationID: regionID
@@ -144,7 +145,7 @@ Item {
                 }
             }
 
-            WarehouseItemLocationText {
+            ItemLocationText {
                 name: stationName
                 locationType: LocationsType.station
                 locationID: stationID

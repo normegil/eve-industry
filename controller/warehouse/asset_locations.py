@@ -1,6 +1,6 @@
 from PySide2.QtCore import QModelIndex, Qt
 
-from .location_model_list import LocationAbstractModelList
+from controller.general import LocationAbstractModelList
 
 
 # noinspection PyPep8Naming
