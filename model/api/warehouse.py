@@ -1,7 +1,7 @@
 from typing import Optional
 
 from model.dao import WarehouseDAO, CharacterDAO, AssetsDAO
-from model.entities.assets import Assets
+from model.entities.assets import Asset
 from model.entities.types import Group
 
 
@@ -55,7 +55,7 @@ class Warehouse:
                     assets.append(asset)
         return assets
 
-    def asset(self, type_id) -> Optional[Assets]:
+    def asset(self, type_id) -> Optional[Asset]:
         for category in self.owned_categories:
             for group in category.groups:
                 for asset in group.assets:

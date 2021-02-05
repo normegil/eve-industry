@@ -1,6 +1,7 @@
 import datetime
 
 from dateutil.relativedelta import relativedelta
+from .locations import AssetLocationStation
 
 
 class Order:
@@ -10,8 +11,7 @@ class Order:
         self.id = order_id
         self.is_buy_order = is_buy_order
         self.issued = issued
-        self.location_type = "station"
-        self.location_id = location_id
+        self.location = AssetLocationStation("station", location_id)
         self.price_per_unit = price_per_unit
         self.duration = duration
         self.type_id = type_id

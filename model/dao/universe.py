@@ -1,3 +1,5 @@
+from model.entities.types import Type
+
 class UniverseDAO:
     def __init__(self, universe_api):
         self.universe_api = universe_api
@@ -39,7 +41,7 @@ class UniverseDAO:
 
         return station
 
-    def load_type(self, type_id):
+    def load_type(self, type_id) -> Type:
         type_ = self.universe_api.load_type(type_id)
         group = self.load_group(type_.group_id)
         type_.group = group

@@ -27,21 +27,21 @@ class LocationAbstractModelList(QAbstractListModel):
         }
 
     def data(self, item, role: int = ...):
-        if item.station is None:
+        if item.location.station is None:
             return None
         if role == LocationAbstractModelList.StationRole:
-            return item.station.name
+            return item.location.station.name
         elif role == LocationAbstractModelList.SystemRole:
-            return item.station.system.name
+            return item.location.station.system.name
         elif role == LocationAbstractModelList.ConstellationRole:
-            return item.station.system.constellation.name
+            return item.location.station.system.constellation.name
         elif role == LocationAbstractModelList.RegionRole:
-            return item.station.system.constellation.region.name
+            return item.location.station.system.constellation.region.name
         elif role == LocationAbstractModelList.StationIDRole:
-            return item.station.id
+            return item.location.station.id
         elif role == LocationAbstractModelList.SystemIDRole:
-            return item.station.system.id
+            return item.location.station.system.id
         elif role == LocationAbstractModelList.ConstellationIDRole:
-            return item.station.system.constellation.id
+            return item.location.station.system.constellation.id
         elif role == LocationAbstractModelList.RegionIDRole:
-            return item.station.system.constellation.region.id
+            return item.location.station.system.constellation.region.id

@@ -4,7 +4,7 @@ import requests
 
 from cfg import eve_api
 from model.entities import Character
-from model.entities.assets import Blueprint, BlueprintLocation, find_asset
+from model.entities.assets import Blueprint, IndividualBlueprint, find_asset
 
 
 class CharacterAPI:
@@ -39,7 +39,7 @@ class CharacterAPI:
                 blueprints.append(found_blueprint)
 
             found_blueprint.by_locations.append(
-                BlueprintLocation(blueprint["item_id"], blueprint["location_id"], blueprint["location_flag"],
-                                  blueprint["quantity"], blueprint["runs"], blueprint["material_efficiency"],
-                                  blueprint["time_efficiency"]))
+                IndividualBlueprint(blueprint["item_id"], blueprint["location_id"], blueprint["location_flag"],
+                                    blueprint["quantity"], blueprint["runs"], blueprint["material_efficiency"],
+                                    blueprint["time_efficiency"]))
         return blueprints
