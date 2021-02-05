@@ -70,11 +70,11 @@ Item {
                 }
                 model: blueprintRegionList
                 textRole: "name"
-                valueRole: "id"
+                valueRole: "identifier"
                 font.family: FontFamilies.family0
                 font.pixelSize : FontSizes.size2
-                onActivated: function(id) {
-                    blueprintController.setCurrentRegion(id)
+                onActivated: {
+                    blueprintController.setCurrentRegion(currentValue)
                 }
             }
         }
