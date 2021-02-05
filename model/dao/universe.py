@@ -2,8 +2,9 @@ from model.entities.types import Type
 
 
 class UniverseDAO:
-    def __init__(self, universe_api):
+    def __init__(self, universe_api, industry_api):
         self.universe_api = universe_api
+        self.industry_api = industry_api
 
     def load_regions(self):
         ids = self.universe_api.load_regions_ids()
