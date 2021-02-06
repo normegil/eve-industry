@@ -7,9 +7,6 @@ import "../../predefined" 1.0
 
 Item {
 
-    implicitHeight: 45
-    implicitWidth: 835
-
     property int runLeft: 0
     property int timeEfficiency: 0
     property int materialEfficiency: 0
@@ -33,6 +30,9 @@ Item {
     property int iconWidth: 18
     property int iconHeight: iconWidth
 
+    implicitHeight: 45
+    implicitWidth: 1235
+
     Item {
         id: bgContainer
         anchors.fill: parent
@@ -40,7 +40,7 @@ Item {
 
         Rectangle {
             id: mainBackground
-            width: 800
+            width: 1200
             anchors {
                 left: parent.left
                 top: parent.top
@@ -253,6 +253,46 @@ Item {
                         bottomMargin: 8
                     }
                     text: "time"
+                    verticalAlignment: Text.AlignBottom
+                    color: Colors.grey4
+                    font.family: FontFamilies.family0
+                    font.pixelSize : FontSizes.size0
+                }
+            }
+
+            Item {
+                id: costColumn
+                width: 200
+                anchors {
+                    top: parent.top
+                    bottom: parent.bottom
+                    left: runsColumn.right
+                }
+
+                Text {
+                    id: costText
+                    anchors {
+                        top: parent.top
+                        right: parent.right
+                        rightMargin: 30
+                        topMargin: 8
+                    }
+                    text: cost
+                    horizontalAlignment: Text.AlignRight
+                    verticalAlignment: Text.AlignBottom
+                    color: Colors.grey1
+                    font.family: FontFamilies.family0
+                    font.pixelSize : FontSizes.size1
+                }
+
+                Text {
+                    anchors {
+                        left: costText.right
+                        leftMargin: 4
+                        top: parent.top
+                        topMargin: 10
+                    }
+                    text: "ISK/run"
                     verticalAlignment: Text.AlignBottom
                     color: Colors.grey4
                     font.family: FontFamilies.family0

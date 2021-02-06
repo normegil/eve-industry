@@ -29,7 +29,7 @@ Item {
     }
 
     Item {
-        width: 850
+        width: 1350
         anchors {
             top: title.bottom
             bottom: parent.bottom

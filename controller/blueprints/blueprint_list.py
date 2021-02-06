@@ -38,16 +38,18 @@ class BlueprintList(QAbstractListModel):
             if role == BlueprintList.NameRole:
                 return blueprint.name
             elif role == BlueprintList.LocationsRole:
-                return BlueprintIndividualList(blueprint.by_locations)
+                return BlueprintIndividualList(self.__model, blueprint.by_locations)
 
 
 class BlueprintIndividualList(LocationAbstractModelList):
     RunsRole = Qt.UserRole + 1
     TimeRole = Qt.UserRole + 2
     MaterialsRole = Qt.UserRole + 3
+    CostRole = Qt.UserRole + 4
 
-    def __init__(self, individuals):
+    def __init__(self, model, individuals):
         LocationAbstractModelList.__init__(self)
+        self.__model = model
         self.__internal = individuals
 
     def rowCount(self, parent: QModelIndex = ...) -> int:
@@ -60,6 +62,7 @@ class BlueprintIndividualList(LocationAbstractModelList):
             BlueprintIndividualList.RunsRole: b"runs",
             BlueprintIndividualList.TimeRole: b"time",
             BlueprintIndividualList.MaterialsRole: b"mats",
+            BlueprintIndividualList.CostRole: b"cost",
         }}
 
     def data(self, index: QModelIndex, role: int = ...) -> typing.Any:
@@ -71,5 +74,7 @@ class BlueprintIndividualList(LocationAbstractModelList):
                 return individual.time_efficiency
             elif role == BlueprintIndividualList.MaterialsRole:
                 return individual.material_efficiency
+            elif role == BlueprintIndividualList.CostRole:
+                return self.__model.blueprints.total_price(individual)
             else:
                 return super().data(individual, role)
