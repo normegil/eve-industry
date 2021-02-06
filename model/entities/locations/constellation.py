@@ -11,6 +11,7 @@ class Constellation:
     def set_universe_dao(self, universe_dao):
         self.__universe_dao = universe_dao
 
+    @property
     def region(self):
         if self.__region is None:
             self.__region = self.__universe_dao.load_region(self.region_id)

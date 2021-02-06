@@ -14,8 +14,10 @@ class BlueprintsController(QObject):
         self.__view = view
         self.blueprint_list = BlueprintList(model)
 
+        current_system = self.__model.character.current_system()
+
         self.region_list = QSortFilterProxyModel()
-        self.region_list.setSourceModel(BlueprintRegionList(model))
+        self.region_list.setSourceModel(BlueprintRegionList(model, current_system.constellation.region.id))
         self.region_list.setSortRole(BlueprintRegionList.NameRole)
         self.region_list.sort(0)
 

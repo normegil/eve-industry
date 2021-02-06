@@ -47,23 +47,28 @@ Item {
 
             Text {
                 id: locationLabel
-                width: 75
+                width: 150
                 anchors {
                     top: parent.top
                     topMargin: 3
                     left: parent.left
                     leftMargin: 40
                 }
-                text: "Location:"
+                text: "Manufacturing location:"
                 color: Colors.grey4
                 font.family: FontFamilies.family0
                 font.pixelSize : FontSizes.size2
+            }
+
+            Connections {
+                target: blueprintRegionList
             }
 
             ComboBox {
                 id: regionBox
                 height: 25
                 width: 200
+                currentValue: blueprintRegionList.initialValue
                 anchors {
                     top: parent.top
                     left: locationLabel.right

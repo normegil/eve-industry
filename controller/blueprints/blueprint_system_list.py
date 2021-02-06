@@ -1,6 +1,6 @@
 import typing
 
-from PySide2.QtCore import QAbstractListModel, QModelIndex, Qt
+from PySide2.QtCore import QAbstractListModel, QModelIndex, Qt, Slot
 
 
 class BlueprintSystemsList(QAbstractListModel):
@@ -15,6 +15,7 @@ class BlueprintSystemsList(QAbstractListModel):
         self.__internal = []
         self.refresh()
 
+    @Slot(int)
     def set_region(self, region_id):
         self.__region_id = region_id
         self.refresh()

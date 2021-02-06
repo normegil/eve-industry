@@ -1,17 +1,20 @@
 import re
 import typing
 
-from PySide2.QtCore import QAbstractListModel, QModelIndex, Qt
+from PySide2.QtCore import QAbstractListModel, QModelIndex, Qt, Property, Signal
 
 
 class BlueprintRegionList(QAbstractListModel):
+    initialValueChanged = Signal
+
     IDRole = Qt.UserRole + 1
     NameRole = Qt.UserRole + 2
 
-    def __init__(self, model):
+    def __init__(self, model, initialValue):
         QAbstractListModel.__init__(self)
         self.__model = model
         self.__internal = []
+        self.__initialValue = initialValue
         self.refresh()
 
     def refresh(self):
@@ -22,6 +25,10 @@ class BlueprintRegionList(QAbstractListModel):
             if re.search("^[A-Za-z ]*$", region.name):
                 self.__internal.append(region)
         self.endResetModel()
+
+    @Property(int, notify=initialValueChanged)
+    def initialValue(self):
+        return self.__initialValue
 
     def rowCount(self, parent: QModelIndex = ...) -> int:
         if parent.isValid():
