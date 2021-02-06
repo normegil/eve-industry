@@ -11,11 +11,11 @@ class Model:
     def __init__(self, db, cache, tokens):
         character_api = CharacterCache(TimeoutCacheAdapter(cache, relativedelta(minutes=5)), CharacterAPI(tokens))
         location_api = LocationAPI(tokens)
-        industry_api = IndustryCache(TimeoutCacheAdapter(cache, relativedelta(minutes=5)), IndustryAPI(tokens))
+        industry_api = IndustryCache(TimeoutCacheAdapter(cache, relativedelta(days=1)), IndustryAPI(tokens))
 
         market_dao = MarketDAO(MarketAPI(tokens))
         universe_dao = UniverseDAO(
-            UniverseCache(TimeoutCacheAdapter(cache, relativedelta(month=2)), UniverseAPI(tokens)), industry_api)
+            UniverseCache(TimeoutCacheAdapter(cache, relativedelta(months=2)), UniverseAPI(tokens)), industry_api)
         assets_dao = AssetsDAO(AssetsDB(db), AssetsAPI(tokens), character_api, market_dao, universe_dao)
         character_dao = CharacterDAO(character_api, location_api)
         warehouse_dao = WarehouseDAO(WarehouseDB(db))

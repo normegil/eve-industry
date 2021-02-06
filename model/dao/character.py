@@ -8,4 +8,4 @@ class CharacterDAO:
 
     def load_current_system_id(self):
         char = self.load()
-        self.__location_api.load_current_system_id(char.id)
+        return self.__location_api.load_current_system_id(char.id)

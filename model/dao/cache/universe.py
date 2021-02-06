@@ -32,7 +32,7 @@ class UniverseCache:
         self.cache[base_key + ".id"] = region.id
         self.cache[base_key + ".name"] = region.name
         self.cache[base_key + ".description"] = region.description
-        self.cache[base_key + ".constellation_ids"] = ";".join(region.constellation_ids)
+        self.cache[base_key + ".constellation_ids"] = ";".join(str(id_) for id_ in region.constellation_ids)
         return region
 
     def load_constellation(self, constellation_id):
@@ -48,7 +48,7 @@ class UniverseCache:
         self.cache[base_key + ".id"] = constellation.id
         self.cache[base_key + ".name"] = constellation.name
         self.cache[base_key + ".region_id"] = constellation.region_id
-        self.cache[base_key + ".system_ids"] = ";".join(constellation.system_ids)
+        self.cache[base_key + ".system_ids"] = ";".join(str(id_) for id_ in constellation.system_ids)
         return constellation
 
     def load_system(self, system_id):

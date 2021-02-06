@@ -25,8 +25,28 @@ class IndustryAPI:
         costs = []
         for indices in content:
             cost_indices = indices["cost_indices"]
-            costs.append(SystemCosts(indices["solar_system_id"], cost_indices["manufacturing"],
-                                     cost_indices["researching_time_efficiency"],
-                                     cost_indices["researching_material_efficiency"], cost_indices["copying"],
-                                     cost_indices["invention"], cost_indices["reaction"]))
+            manufacturing = None
+            researching_time_efficiency = None
+            researching_material_efficiency = None
+            copying = None
+            invention = None
+            reaction = None
+            for i in cost_indices:
+                key = i["activity"]
+                value = i["cost_index"]
+                if key == "manufacturing":
+                    manufacturing = value
+                elif key == "researching_time_efficiency":
+                    researching_time_efficiency = value
+                elif key == "researching_material_efficiency":
+                    researching_material_efficiency = value
+                elif key == "copying":
+                    copying = value
+                elif key == "invention":
+                    invention = value
+                elif key == "reaction":
+                    reaction = value
+
+            costs.append(SystemCosts(indices["solar_system_id"], manufacturing, researching_time_efficiency,
+                                     researching_material_efficiency, copying, invention, reaction))
         return costs

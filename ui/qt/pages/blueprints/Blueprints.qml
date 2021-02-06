@@ -61,14 +61,13 @@ Item {
             }
 
             Connections {
-                target: blueprintRegionList
+                target: blueprintController
             }
 
             ComboBox {
                 id: regionBox
                 height: 25
                 width: 200
-                currentValue: blueprintRegionList.initialValue
                 anchors {
                     top: parent.top
                     left: locationLabel.right
@@ -80,6 +79,9 @@ Item {
                 font.pixelSize : FontSizes.size2
                 onActivated: {
                     blueprintController.setCurrentRegion(currentValue)
+                }
+                Component.onCompleted: {
+                    regionBox.currentIndex = blueprintController.initialRegionIndex
                 }
             }
         }

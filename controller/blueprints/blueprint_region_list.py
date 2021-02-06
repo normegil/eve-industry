@@ -5,16 +5,14 @@ from PySide2.QtCore import QAbstractListModel, QModelIndex, Qt, Property, Signal
 
 
 class BlueprintRegionList(QAbstractListModel):
-    initialValueChanged = Signal
-
     IDRole = Qt.UserRole + 1
     NameRole = Qt.UserRole + 2
 
-    def __init__(self, model, initialValue):
+    def __init__(self, model, initial_value):
         QAbstractListModel.__init__(self)
         self.__model = model
         self.__internal = []
-        self.__initialValue = initialValue
+        self.__initial_value = initial_value
         self.refresh()
 
     def refresh(self):
@@ -26,9 +24,11 @@ class BlueprintRegionList(QAbstractListModel):
                 self.__internal.append(region)
         self.endResetModel()
 
-    @Property(int, notify=initialValueChanged)
-    def initialValue(self):
-        return self.__initialValue
+    def initialIndex(self):
+        for index, region in enumerate(self.__internal):
+            if region.id == self.__initial_value:
+                return index
+        return None
 
     def rowCount(self, parent: QModelIndex = ...) -> int:
         if parent.isValid():

@@ -7,39 +7,31 @@ class IndustryCache:
         self.api = api
 
     def load_cost_indices(self):
-        base_key = "costs_indices"
-        ids_str = self.cache[base_key + ".all.id"]
-        if ids_str is not None:
-            ids = ids_str.split(";")
-            costs = []
-            for id_ in ids:
-                cost_base_key = base_key + f".{id_}"
-                costs.append(SystemCosts(self.cache[cost_base_key + ".id"],
-                                         self.cache[cost_base_key + ".manufacturing"],
-                                         self.cache[cost_base_key + ".researching_time_efficiency"],
-                                         self.cache[cost_base_key + ".researching_material_efficiency"],
-                                         self.cache[cost_base_key + ".copying"],
-                                         self.cache[cost_base_key + ".invention"],
-                                         self.cache[cost_base_key + ".reaction"]))
-        costs = self.api.load_cost_indices()
-        ids = []
-        for cost in costs:
-            ids.append(cost.system_id)
-            cost_base_key = base_key + f".{cost.system_id}"
-            self.cache[cost_base_key + ".id"] = cost.system_id
-            self.cache[cost_base_key + ".manufacturing"] = cost.manufacturing
-            self.cache[cost_base_key + ".researching_time_efficiency"] = cost.researching_time_efficiency
-            self.cache[cost_base_key + ".researching_material_efficiency"] = cost.researching_material_efficiency
-            self.cache[cost_base_key + ".copying"] = cost.copying
-            self.cache[cost_base_key + ".invention"] = cost.invention
-            self.cache[cost_base_key + ".reaction"] = cost.reaction
-        ids_str = ";".join(ids)
-        self.cache[base_key + ".all.id"] = ids_str
-        return costs
+        return self.api.load_cost_indices()
 
     def load_system_cost_indices(self, system_id):
+        base_key = f"costs_indices.{system_id}"
+        system_id = self.cache[base_key + ".id"]
+        if system_id is not None:
+            manufacturing = self.cache[base_key + ".manufacturing"]
+            time_efficiency = self.cache[base_key + ".researching_time_efficiency"]
+            material_efficiency = self.cache[base_key + ".researching_material_efficiency"]
+            copying = self.cache[base_key + ".copying"]
+            invention = self.cache[base_key + ".invention"]
+            reaction = self.cache[base_key + ".reaction"]
+            return SystemCosts(system_id, manufacturing, time_efficiency, material_efficiency, copying, invention,
+                               reaction)
         costs = self.load_cost_indices()
-        return find_cost(costs, system_id)
+        cost = find_cost(costs, system_id)
+        cost_base_key = f"costs_indices.{cost.system_id}"
+        self.cache[cost_base_key + ".id"] = cost.system_id
+        self.cache[cost_base_key + ".manufacturing"] = cost.manufacturing
+        self.cache[cost_base_key + ".researching_time_efficiency"] = cost.researching_time_efficiency
+        self.cache[cost_base_key + ".researching_material_efficiency"] = cost.researching_material_efficiency
+        self.cache[cost_base_key + ".copying"] = cost.copying
+        self.cache[cost_base_key + ".invention"] = cost.invention
+        self.cache[cost_base_key + ".reaction"] = cost.reaction
+        return cost
 
 
 def find_cost(costs, system_id):
