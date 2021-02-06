@@ -4,7 +4,17 @@ from .asset import Asset, IndividualAsset
 class Blueprint(Asset):
     def __init__(self, type_id):
         Asset.__init__(self, type_id)
-        self.manufacturing = None
+        self.__manufacturing = None
+        self.__blueprints_db = None
+
+    def set_blueprint_db(self, blueprint_db):
+        self.__blueprints_db = blueprint_db
+
+    @property
+    def manufacturing(self):
+        if self.__manufacturing is None:
+            self.__manufacturing = self.__blueprints_db.load_manufacturing(self.id)
+        return self.__manufacturing
 
 
 class IndividualBlueprint(IndividualAsset):

@@ -1,6 +1,6 @@
 import yaml
 
-from model.entities.assets import Blueprint, Material, Product, Manufacturing
+from model.entities.assets import Material, Product, Manufacturing
 
 
 class BlueprintsStatic:
@@ -9,7 +9,7 @@ class BlueprintsStatic:
             loaded_data = yaml.safe_load(file)
             blueprints = []
             for bp in loaded_data:
-                blueprint = Blueprint(bp)
+                blueprint = StaticBlueprint(bp)
                 bp_data = loaded_data[bp]
                 bp_activities = bp_data["activities"]
                 if hasattr(bp_activities, "manufacturing"):
@@ -26,3 +26,9 @@ class BlueprintsStatic:
                     blueprint.manufacturing = Manufacturing(bp_manufacturing["time"], materials, products)
                     blueprints.append(blueprint)
             return blueprints
+
+
+class StaticBlueprint:
+    def __init__(self, type_id):
+        self.id = type_id
+        self.manufacturing = None

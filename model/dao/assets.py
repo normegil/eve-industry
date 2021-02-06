@@ -10,18 +10,21 @@ from model.entities.assets import Asset, find_asset
 
 
 class AssetsDAO:
-    def __init__(self, assets_db: AssetsDB, assets_api: AssetsAPI, character_api, market_dao, universe_dao):
+    def __init__(self, assets_db: AssetsDB, assets_api: AssetsAPI, character_api, blueprint_db, market_dao,
+                 universe_dao):
         self.assets_api = assets_api
         self.assets_db = assets_db
         self.character_api = character_api
         self.market_dao = market_dao
         self.universe_dao = universe_dao
+        self.__blueprint_db = blueprint_db
 
     def blueprints(self, character_id):
         assets = self.owned(character_id)
         bps = self.character_api.blueprints(character_id)
         for bp in bps:
             self.__init_asset_properties(bp, assets)
+            bp.set_blueprint_db(self.__blueprint_db)
         return bps
 
     def owned(self, character_id):

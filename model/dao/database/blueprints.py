@@ -1,4 +1,4 @@
-from model.entities.assets import Blueprint, Manufacturing, Material, Product
+from model.entities.assets import Manufacturing, Material, Product
 
 
 class BlueprintsDB:
@@ -22,14 +22,13 @@ class BlueprintsDB:
         cursor.execute("INSERT INTO blueprint_details (id, manufacturing_time) VALUES (?, ?)",
                        (static_blueprints.id, static_blueprints.manufacturing.time))
 
-    def load_static(self, blueprint_id: int):
+    def load_manufacturing(self, blueprint_id: int):
         cursor = self.__db.cursor()
 
         details_result = cursor.execute("SELECT manufacturing_time FROM blueprint_details WHERE id = ?",
                                         (blueprint_id,)).fetchone()
         if details_result is None:
             return None
-        bp = Blueprint(blueprint_id)
         materials_result = cursor.execute(
             "SELECT type_id, quantity FROM manufacturing_materials WHERE blueprint_id = ?",
             (blueprint_id,)).fetchone()
@@ -41,6 +40,6 @@ class BlueprintsDB:
         products = []
         for prod_res in products_result:
             products.append(Product(prod_res[0], prod_res[1]))
-        bp.manufacturing = Manufacturing(details_result[0], materials, products)
+        manufacturing = Manufacturing(details_result[0], materials, products)
         cursor.close()
-        return bp
+        return manufacturing
