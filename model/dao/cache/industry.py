@@ -1,7 +1,7 @@
 from model.entities.industry import SystemCosts
 
 
-class UniverseCache:
+class IndustryCache:
     def __init__(self, cache, api):
         self.cache = cache
         self.api = api

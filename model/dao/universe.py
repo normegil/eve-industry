@@ -24,8 +24,12 @@ class UniverseDAO:
 
     def load_system(self, system_id):
         system = self.universe_api.load_system(system_id)
+        cost = self.industry_api.load_system_cost_indices(system.id)
+        system.merge_with(cost)
+
         constellation = self.load_constellation(system.constellation_id)
         system.constellation = constellation
+
         return system
 
     def load_races(self):
