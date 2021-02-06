@@ -35,7 +35,10 @@ class UniverseAPI:
         description = ""
         if hasattr(region, "description"):
             description = region["description"]
-        return Region(region["region_id"], region["name"], description)
+        cons_ids = []
+        for cons_id in region["constellations"]:
+            cons_ids.append(cons_id)
+        return Region(region["region_id"], region["name"], description, constellation_ids=cons_ids)
 
     def load_constellation(self, constellation_id):
         logging.info(f"Requesting constellation: {constellation_id}")
@@ -45,9 +48,11 @@ class UniverseAPI:
             raise RuntimeError(f"Wrong response code: {str(resp.status_code)} - {constellation_id}")
 
         constellation = json.loads(resp.content)
-        c = Constellation(constellation["constellation_id"], constellation["name"])
-        c.region_id = constellation["region_id"]
-        return c
+        sys_ids = []
+        for sys_id in constellation["systems"]:
+            sys_ids.append(sys_id)
+        return Constellation(constellation["constellation_id"], constellation["name"], constellation["region_id"],
+                             sys_ids)
 
     def load_system(self, system_id):
         logging.info(f"Requesting system: {system_id}")

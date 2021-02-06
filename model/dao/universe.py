@@ -14,12 +14,13 @@ class UniverseDAO:
         return regions
 
     def load_region(self, region_id):
-        return self.universe_api.load_region(region_id)
+        region = self.universe_api.load_region(region_id)
+        region.set_universe_dao(self)
+        return region
 
     def load_constellation(self, constellation_id):
         constellation = self.universe_api.load_constellation(constellation_id)
-        region = self.load_region(constellation.region_id)
-        constellation.region = region
+        constellation.set_universe_dao(self)
         return constellation
 
     def load_system(self, system_id):

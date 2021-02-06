@@ -24,12 +24,15 @@ class UniverseCache:
         if id_ is not None:
             name = self.cache[base_key + ".name"]
             description = self.cache[base_key + ".description"]
-            return Region(int(id_), name, description)
+            cons_ids_str = self.cache[base_key + ".constellation_ids"]
+            cons_ids = cons_ids_str.split(";")
+            return Region(int(id_), name, description, constellation_ids=cons_ids)
 
         region = self.api.load_region(region_id)
         self.cache[base_key + ".id"] = region.id
         self.cache[base_key + ".name"] = region.name
         self.cache[base_key + ".description"] = region.description
+        self.cache[base_key + ".constellation_ids"] = ";".join(region.constellation_ids)
         return region
 
     def load_constellation(self, constellation_id):
@@ -38,14 +41,14 @@ class UniverseCache:
         if id_ is not None:
             name = self.cache[base_key + ".name"]
             region_id = self.cache[base_key + ".region_id"]
-            c = Constellation(int(id_), name)
-            c.region_id = region_id
-            return c
-
+            system_ids_str = self.cache[base_key + ".system_ids"]
+            system_ids = system_ids_str.split(";")
+            return Constellation(int(id_), name, region_id, system_ids)
         constellation = self.api.load_constellation(constellation_id)
         self.cache[base_key + ".id"] = constellation.id
         self.cache[base_key + ".name"] = constellation.name
         self.cache[base_key + ".region_id"] = constellation.region_id
+        self.cache[base_key + ".system_ids"] = ";".join(constellation.system_ids)
         return constellation
 
     def load_system(self, system_id):

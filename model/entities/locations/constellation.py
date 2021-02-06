@@ -1,12 +1,29 @@
 class Constellation:
-    def __init__(self, character_id=None, name=None, region=None):
-        self.id = character_id
+    def __init__(self, id_, name, region_id, system_ids):
+        self.id = id_
         self.name = name
-        self.region = region
-        self.systems = []
+        self.region_id = region_id
+        self.__region = None
+        self.system_ids = system_ids
+        self.__systems = None
+        self.__universe_dao = None
 
-    def add_system(self, system):
-        self.systems.append(system)
+    def set_universe_dao(self, universe_dao):
+        self.__universe_dao = universe_dao
+
+    def region(self):
+        if self.__region is None:
+            self.__region = self.__universe_dao.load_region(self.region_id)
+        return self.__region
+
+    @property
+    def systems(self):
+        if self.__systems is None:
+            self.__systems = []
+            for sys_id in self.system_ids:
+                system = self.__universe_dao.load_system(sys_id)
+                self.__systems.append(system)
+        return self.__systems
 
     def system(self, system_id):
         for system in self.systems:
