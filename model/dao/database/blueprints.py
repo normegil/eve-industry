@@ -5,8 +5,14 @@ class BlueprintsDB:
     def __init__(self, db):
         self.__db = db
 
-    def save_static(self, static_blueprints):
+    def save_all_static(self, static_blueprints):
         cursor = self.__db.cursor()
+        for bp in static_blueprints:
+            self.__save_static(bp, cursor)
+        self.__db.commit()
+        cursor.close()
+
+    def __save_static(self, static_blueprints, cursor):
         for mat in static_blueprints.manufacturing.materials:
             cursor.execute("INSERT INTO manufacturing_materials (blueprint_id, type_id, quantity) VALUES (?, ?, ?)",
                            (static_blueprints.id, mat.type_id, mat.quantity))
@@ -15,8 +21,6 @@ class BlueprintsDB:
                            (static_blueprints.id, prod.type_id, prod.quantity))
         cursor.execute("INSERT INTO blueprint_details (id, manufacturing_time) VALUES (?, ?)",
                        (static_blueprints.id, static_blueprints.manufacturing.time))
-        self.__db.commit()
-        cursor.close()
 
     def load_static(self, blueprint_id: int):
         cursor = self.__db.cursor()
@@ -26,8 +30,9 @@ class BlueprintsDB:
         if details_result is None:
             return None
         bp = Blueprint(blueprint_id)
-        materials_result = cursor.execute("SELECT type_id, quantity FROM manufacturing_materials WHERE blueprint_id = ?",
-                                          (blueprint_id,)).fetchone()
+        materials_result = cursor.execute(
+            "SELECT type_id, quantity FROM manufacturing_materials WHERE blueprint_id = ?",
+            (blueprint_id,)).fetchone()
         materials = []
         for mat_res in materials_result:
             materials.append(Material(mat_res[0], mat_res[1]))

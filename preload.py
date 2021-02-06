@@ -14,4 +14,4 @@ if __name__ == "__main__":
     with sqlite3.connect("data/static.db") as dbconn:
         Versioner(dbconn, static_versions).upgrade()
         blueprints = BlueprintsStatic().load()
-        BlueprintsDB(dbconn).save_static(blueprints)
+        BlueprintsDB(dbconn).save_all_static(blueprints)
