@@ -17,7 +17,7 @@ class Universe:
     def system(self, system_id: int):
         return self.universe_dao.load_system(system_id)
 
-    def system_from_region(self, region_id: int):
+    def systems_from_region(self, region_id: int):
         region = self.universe_dao.load_region(region_id)
         systems = []
         for constellation in region.constellations:
