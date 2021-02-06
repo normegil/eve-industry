@@ -1,6 +1,11 @@
 class CharacterDAO:
-    def __init__(self, character_api):
-        self.character_api = character_api
+    def __init__(self, character_api, location_api):
+        self.__character_api = character_api
+        self.__location_api = location_api
 
     def load(self):
-        return self.character_api.load()
+        return self.__character_api.load()
+
+    def load_current_system_id(self):
+        char = self.load()
+        self.__location_api.load_current_system_id(char.id)

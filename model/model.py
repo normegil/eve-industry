@@ -1,19 +1,25 @@
+from dateutil.relativedelta import relativedelta
+
 from model.dao import CharacterDAO, MarketDAO, UniverseDAO, AssetsDAO, WarehouseDAO
-from model.dao.cache import CharacterCache, UniverseCache
+from model.dao.cache import CharacterCache, UniverseCache, IndustryCache, TimeoutCacheAdapter
 from model.dao.database import WarehouseDB, AssetsDB
-from model.dao.eveapi import CharacterAPI, MarketAPI, UniverseAPI, AssetsAPI
-from .api import Warehouse, Universe
+from model.dao.eveapi import CharacterAPI, MarketAPI, UniverseAPI, AssetsAPI, LocationAPI, IndustryAPI
+from .api import Warehouse, Universe, Character
 
 
 class Model:
     def __init__(self, db, cache, tokens):
-        character_api = CharacterCache(cache, CharacterAPI(tokens))
+        character_api = CharacterCache(TimeoutCacheAdapter(cache, relativedelta(minutes=5)), CharacterAPI(tokens))
+        location_api = LocationAPI(tokens)
+        industry_api = IndustryCache(TimeoutCacheAdapter(cache, relativedelta(minutes=5)), IndustryAPI(tokens))
 
         market_dao = MarketDAO(MarketAPI(tokens))
-        universe_dao = UniverseDAO(UniverseCache(cache, UniverseAPI(tokens)))
+        universe_dao = UniverseDAO(
+            UniverseCache(TimeoutCacheAdapter(cache, relativedelta(month=2)), UniverseAPI(tokens)), industry_api)
         assets_dao = AssetsDAO(AssetsDB(db), AssetsAPI(tokens), character_api, market_dao, universe_dao)
-        character_dao = CharacterDAO(character_api)
+        character_dao = CharacterDAO(character_api, location_api)
         warehouse_dao = WarehouseDAO(WarehouseDB(db))
 
         self.warehouse = Warehouse(warehouse_dao, character_dao, assets_dao)
+        self.character = Character(character_dao, universe_dao)
         self.universe = Universe(universe_dao)
