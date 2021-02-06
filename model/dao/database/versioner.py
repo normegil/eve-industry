@@ -3,16 +3,15 @@ import time
 from datetime import datetime
 from sqlite3 import Connection, Cursor
 
-from .versioning import upgrades
-
 
 class Versioner:
-    def __init__(self, db: Connection):
+    def __init__(self, db: Connection, versions):
         self._db = db
+        self.__versions = versions
 
     def upgrade(self):
         current_version = self.__load_db_version()
-        for upgrade in upgrades(current_version):
+        for upgrade in self.__load_upgrades(current_version):
             cursor = self._db.cursor()
             logging.info(f"Upgrading to {current_version + 1}")
             upgrade(cursor)
@@ -33,6 +32,12 @@ class Versioner:
             "SELECT version FROM versions ORDER BY datetime(changed_datetime) DESC LIMIT 1;").fetchone()
         cursor.close()
         return version_result[0]
+
+    def __load_upgrades(self, current_version):
+        first_version_to_apply = current_version + 1
+        if len(self.__versions) <= first_version_to_apply:
+            return []
+        return self.__versions[first_version_to_apply:]
 
 
 def update_version(cursor: Cursor, version: int):
