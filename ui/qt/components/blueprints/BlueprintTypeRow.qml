@@ -262,11 +262,11 @@ Item {
 
             Item {
                 id: costColumn
-                width: 200
+                width: 250
                 anchors {
                     top: parent.top
                     bottom: parent.bottom
-                    left: runsColumn.right
+                    left: efficiencyColumn.right
                 }
 
                 Text {
