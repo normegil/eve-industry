@@ -78,11 +78,26 @@ Item {
                 font.family: FontFamilies.family0
                 font.pixelSize : FontSizes.size2
                 onActivated: {
-                    blueprintController.setCurrentRegion(currentValue)
+                    blueprintSystemList.setRegion(currentValue)
                 }
                 Component.onCompleted: {
                     regionBox.currentIndex = blueprintController.initialRegionIndex
                 }
+            }
+
+            ComboBox {
+                id: systemBox
+                height: 25
+                width: 400
+                anchors {
+                    top: parent.top
+                    left: regionBox.right
+                }
+                model: blueprintSystemList
+                textRole: "name"
+                valueRole: "identifier"
+                font.family: FontFamilies.family0
+                font.pixelSize : FontSizes.size2
             }
         }
 
