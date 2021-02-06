@@ -77,6 +77,6 @@ class Tokens:
             raise RuntimeError("Wrong response code: " + str(resp.status_code))
 
         tokens = json.loads(resp.content)
-        self.access_token = tokens["access_token"]
-        self.refresh_token = tokens["refresh_token"]
+        self.__access_token = tokens["access_token"]
+        self.__refresh_token = tokens["refresh_token"]
         self.access_token_validity = self.__compute_token_validity(tokens["expires_in"])
