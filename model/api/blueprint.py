@@ -1,6 +1,6 @@
-import logging
 import math
 
+from cfg import market
 from model.entities.assets import Blueprint, IndividualBlueprint
 
 
@@ -10,8 +10,9 @@ class BlueprintModelAPI:
 
     def total_price(self, individual_blueprint: IndividualBlueprint, region_id):
         blueprint: Blueprint = individual_blueprint.parent
-        return self.materials_prices(blueprint.manufacturing.materials, region_id,
-                                     individual_blueprint.material_efficiency)
+        low_price, high_price = self.materials_prices(blueprint.manufacturing.materials, region_id,
+                                                      individual_blueprint.material_efficiency)
+        return low_price + (low_price * market.fee / 100), high_price + (high_price * market.fee / 100)
 
     def materials_prices(self, materials, region_id, material_efficiency):
         high_total_materials_cost = 0
