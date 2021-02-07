@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 from dateutil import parser
 
 
-class SQLLiteDictAdapter:
+class DictAdapter:
     def __init__(self, sqllitedict):
         self.sqllitedict = sqllitedict
 

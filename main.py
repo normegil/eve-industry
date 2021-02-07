@@ -7,7 +7,7 @@ from sqlitedict import SqliteDict
 
 from controller import Controller
 from model import Model
-from model.dao.cache import SQLLiteDictAdapter
+from model.dao.cache import DictAdapter
 from model.dao.database import Versioner
 from model.dao.database.versioning.static import upgrades as staticdb_versions
 from model.dao.database.versioning.user import upgrades as userdb_versions
@@ -28,7 +28,7 @@ if __name__ == "__main__":
                 if not t.load():
                     auth = EveAuth()
                     t = auth.authenticate()
-                model = Model(userdb_conn, staticdb_conn, SQLLiteDictAdapter(cache_conn), t)
+                model = Model(userdb_conn, staticdb_conn, DictAdapter(cache_conn), t)
                 view = QtView(sys.argv)
                 controller = Controller(model, view)
                 sys.exit(view.exec_())
