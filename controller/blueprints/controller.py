@@ -10,6 +10,7 @@ from .blueprint_system_list import BlueprintSystemsList, BlueprintSystemsSorter
 
 class BlueprintsController(QObject):
     initialRegionIndexChanged = Signal()
+    initialSystemIndexChanged = Signal()
 
     def __init__(self, model, view):
         QObject.__init__(self)
@@ -19,7 +20,7 @@ class BlueprintsController(QObject):
         current_system = self.__model.character.current_system()
         initial_region_id = current_system.constellation.region.id
 
-        self.blueprint_list = BlueprintList(model, initial_region_id)
+        self.blueprint_list = BlueprintList(model, current_system.id)
 
         self.blueprint_region_list = BlueprintRegionList(model, initial_region_id)
         self.blueprint_system_list = BlueprintSystemsSorter(BlueprintSystemsList(model, initial_region_id))
@@ -38,3 +39,7 @@ class BlueprintsController(QObject):
     @Property(int, notify=initialRegionIndexChanged)
     def initialRegionIndex(self):
         return self.blueprint_region_list.initialIndex()
+
+    @Property(int, notify=initialSystemIndexChanged)
+    def initialSystemIndex(self):
+        return self.blueprint_system_list.initialIndex()

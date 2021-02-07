@@ -7,3 +7,6 @@ class MarketDAO:
 
     def load_orders(self, region_id, type_id):
         return self.market_api.load_orders(region_id, type_id)
+
+    def load_price(self, type_id):
+        return self.market_api.load_price(type_id)

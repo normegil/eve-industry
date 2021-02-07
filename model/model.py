@@ -26,4 +26,4 @@ class Model:
         self.warehouse = Warehouse(warehouse_dao, character_dao, assets_dao)
         self.character = Character(character_dao, universe_dao)
         self.universe = Universe(universe_dao)
-        self.blueprints = BlueprintModelAPI(self.warehouse)
+        self.blueprints = BlueprintModelAPI(self.warehouse, universe_dao)

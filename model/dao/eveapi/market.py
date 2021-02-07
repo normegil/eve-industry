@@ -41,6 +41,23 @@ class MarketAPI:
             page += 1
         return orders
 
+    def load_prices(self):
+        logging.info(f"Requesting prices")
+        resp = requests.get(eve_api.esi_base_address + "/markets/prices",
+                            headers={'Authorization': F"Bearer {self.tokens.access_token}"})
+        if resp.status_code >= 300:
+            raise RuntimeError("Wrong response code: " + str(resp.status_code))
+        content = json.loads(resp.content)
+        prices_dict = {}
+        for price in content:
+            new_p = {}
+            if "adjusted_price" in price:
+                new_p["adjusted_price"] = price["adjusted_price"]
+            if "average_price" in price:
+                new_p["average_price"] = price["average_price"]
+            prices_dict[price["type_id"]] = new_p
+        return prices_dict
+
     def __to_orders(self, content_json):
         orders = []
         for order_json in content_json:

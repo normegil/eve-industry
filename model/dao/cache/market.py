@@ -47,3 +47,44 @@ class MarketCache:
             self.__cache[order_base_key + ".is_buy_order"] = order.is_buy_order
         self.__cache[base_key + ".all.id"] = ";".join(str(id_) for id_ in order_ids)
         return orders
+
+    def load_prices(self):
+        base_key = "prices"
+        ids_str = self.__cache[base_key + ".all.id"]
+        if ids_str is not None:
+            ids = ids_str.split(";")
+            prices = {}
+            for id_ in ids:
+                prices[id_] = self.__load_price(id_)
+            return prices
+        prices = self.api.load_prices()
+        price_ids = []
+        for id_ in prices:
+            price_ids.append(id_)
+            self.__save_price(id_, prices)
+        self.__cache[base_key + ".all.id"] = ";".join(str(id_) for id_ in price_ids)
+        return prices
+
+    def load_price(self, type_id):
+        base_key = f"prices.{type_id}"
+        id_ = self.__cache[base_key + ".id"]
+        if id_ is not None:
+            return self.__load_price(id_)
+        prices = self.load_prices()
+        return prices[type_id]
+
+    def __load_price(self, id_):
+        price_base_key = f"prices.{id_}"
+        adjusted_price = self.__cache[price_base_key + ".adjusted_price"]
+        average_price = self.__cache[price_base_key + ".average_price"]
+        return {
+            "average_price": average_price,
+            "adjusted_price": adjusted_price
+        }
+
+    def __save_price(self, id_, prices):
+        price_base_key = f"prices.{id_}"
+        self.__cache[price_base_key + ".id"] = id_
+        self.__cache[price_base_key + ".adjusted_price"] = prices[id_]["adjusted_price"]
+        if "average_price" in prices[id_]:
+            self.__cache[price_base_key + ".average_price"] = prices[id_]["average_price"]

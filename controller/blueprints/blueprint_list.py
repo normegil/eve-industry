@@ -10,17 +10,17 @@ class BlueprintList(QAbstractListModel):
     NameRole = Qt.UserRole + 1
     LocationsRole = Qt.UserRole + 2
 
-    def __init__(self, model, region_id):
+    def __init__(self, model, system_id):
         QAbstractListModel.__init__(self)
         self.__model = model
         self.__internal = []
-        self.__region_id = region_id
+        self.__system = self.__model.universe.system(system_id)
         self.refresh()
 
     @Slot(str)
-    def setRegion(self, region_id):
+    def setSystem(self, system_id):
         self.beginResetModel()
-        self.__region_id = int(region_id)
+        self.__system = self.__model.universe.system(int(system_id))
         self.endResetModel()
 
     def refresh(self):
@@ -46,7 +46,7 @@ class BlueprintList(QAbstractListModel):
             if role == BlueprintList.NameRole:
                 return blueprint.name
             elif role == BlueprintList.LocationsRole:
-                return BlueprintIndividualList(self.__model, blueprint.by_locations, self.__region_id)
+                return BlueprintIndividualList(self.__model, blueprint.by_locations, self.__system)
 
 
 class BlueprintIndividualList(LocationAbstractModelList):
@@ -58,11 +58,11 @@ class BlueprintIndividualList(LocationAbstractModelList):
     HighProductRole = Qt.UserRole + 6
     LowProductRole = Qt.UserRole + 7
 
-    def __init__(self, model, individuals, region_id):
+    def __init__(self, model, individuals, system):
         LocationAbstractModelList.__init__(self)
         self.__model = model
         self.__internal = individuals
-        self.__region_id = region_id
+        self.__system = system
 
     def rowCount(self, parent: QModelIndex = ...) -> int:
         if parent.isValid():
@@ -90,22 +90,22 @@ class BlueprintIndividualList(LocationAbstractModelList):
             elif role == BlueprintIndividualList.MaterialsRole:
                 return individual.material_efficiency
             elif role == BlueprintIndividualList.LowCostRole:
-                low_cost, high_cost = self.__model.blueprints.total_price(individual, self.__region_id)
+                low_cost, high_cost = self.__model.blueprints.total_price(individual, self.__system.id)
                 return format_real(low_cost)
             elif role == BlueprintIndividualList.HighCostRole:
-                low_cost, high_cost = self.__model.blueprints.total_price(individual, self.__region_id)
+                low_cost, high_cost = self.__model.blueprints.total_price(individual, self.__system.id)
                 return format_real(high_cost)
             elif role == BlueprintIndividualList.LowProductRole:
                 product = individual.parent.manufacturing.products[0]
                 products_id = product.type_id
                 asset = self.__model.warehouse.asset(products_id)
-                price = asset.highest_regional_buy_price(self.__region_id).price_per_unit
+                price = asset.highest_regional_buy_price(self.__system.constellation.region_id).price_per_unit
                 return format_real(product.quantity * price)
             elif role == BlueprintIndividualList.HighProductRole:
                 product = individual.parent.manufacturing.products[0]
                 products_id = product.type_id
                 asset = self.__model.warehouse.asset(products_id)
-                price = asset.lowest_regional_sell_price(self.__region_id).price_per_unit
+                price = asset.lowest_regional_sell_price(self.__system.constellation.region_id).price_per_unit
                 return format_real(product.quantity * price)
             else:
                 return super().data(individual, role)

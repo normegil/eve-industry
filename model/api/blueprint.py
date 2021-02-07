@@ -5,14 +5,27 @@ from model.entities.assets import Blueprint, IndividualBlueprint
 
 
 class BlueprintModelAPI:
-    def __init__(self, warehouse):
+    def __init__(self, warehouse, universe_dao):
         self.__warehouse = warehouse
+        self.__universe_dao = universe_dao
 
-    def total_price(self, individual_blueprint: IndividualBlueprint, region_id):
+    def total_price(self, individual_blueprint: IndividualBlueprint, system_id):
         blueprint: Blueprint = individual_blueprint.parent
-        low_price, high_price = self.materials_prices(blueprint.manufacturing.materials, region_id,
+        system = self.__universe_dao.load_system(system_id)
+        low_price, high_price = self.materials_prices(blueprint.manufacturing.materials, system.constellation.region_id,
                                                       individual_blueprint.material_efficiency)
+        fee = self.job_fee(blueprint.manufacturing.materials, system)
+        installation_cost = fee + (fee * market.fee / 100)
+        low_price += installation_cost
+        high_price += installation_cost
         return low_price + (low_price * market.fee / 100), high_price + (high_price * market.fee / 100)
+
+    def job_fee(self, materials, system):
+        base_job_cost = 0
+        for material in materials:
+            asset = self.__warehouse.asset(material.type_id)
+            base_job_cost += material.quantity * asset.adjusted_price
+        return base_job_cost * system.manufacturing
 
     def materials_prices(self, materials, region_id, material_efficiency):
         high_total_materials_cost = 0

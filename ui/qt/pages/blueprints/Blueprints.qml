@@ -79,7 +79,6 @@ Item {
                 font.pixelSize : FontSizes.size2
                 onActivated: {
                     blueprintSystemList.setRegion(currentValue)
-                    blueprintList.setRegion(currentValue)
                 }
                 Component.onCompleted: {
                     regionBox.currentIndex = blueprintController.initialRegionIndex
@@ -99,6 +98,12 @@ Item {
                 valueRole: "identifier"
                 font.family: FontFamilies.family0
                 font.pixelSize : FontSizes.size2
+                onActivated: {
+                    blueprintList.setSystem(currentValue)
+                }
+                Component.onCompleted: {
+                    blueprintList.setSystem(currentValue)
+                }
             }
         }
 

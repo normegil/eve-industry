@@ -6,6 +6,8 @@ class Asset:
         self.buy_orders = []
         self.__type = None
         self.__minimum_stock = None
+        self.__average_price = None
+        self.__adjusted_price = None
         self.__region_orders = {}
         self.__asset_db = asset_db
         self.__universe_dao = universe_dao
@@ -90,6 +92,23 @@ class Asset:
             if self.__minimum_stock is None:
                 self.__minimum_stock = 0
         return self.__minimum_stock
+
+    @property
+    def average_price(self):
+        if self.__average_price is None:
+            self.__load_prices()
+        return self.__average_price
+
+    @property
+    def adjusted_price(self):
+        if self.__adjusted_price is None:
+            self.__load_prices()
+        return self.__adjusted_price
+
+    def __load_prices(self):
+        prices = self.__market_dao.load_price(self.id)
+        self.__average_price = prices["average_price"]
+        self.__adjusted_price = prices["adjusted_price"]
 
     def regional_orders(self, region_id, include_buy_orders=True, include_sell_orders=True):
         if region_id not in self.__region_orders:
