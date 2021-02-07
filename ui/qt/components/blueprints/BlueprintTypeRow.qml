@@ -270,14 +270,14 @@ Item {
                 }
 
                 Text {
-                    id: costText
+                    id: lowCostText
                     anchors {
                         top: parent.top
                         right: parent.right
                         rightMargin: 30
                         topMargin: 8
                     }
-                    text: cost
+                    text: lowcost
                     horizontalAlignment: Text.AlignRight
                     verticalAlignment: Text.AlignBottom
                     color: Colors.grey1
@@ -287,12 +287,42 @@ Item {
 
                 Text {
                     anchors {
-                        left: costText.right
+                        left: lowCostText.right
                         leftMargin: 4
                         top: parent.top
                         topMargin: 10
                     }
-                    text: "ISK/run"
+                    text: "ISK/run (Low)"
+                    verticalAlignment: Text.AlignBottom
+                    color: Colors.grey4
+                    font.family: FontFamilies.family0
+                    font.pixelSize : FontSizes.size0
+                }
+
+                Text {
+                    id: highCostText
+                    anchors {
+                        bottom: parent.bottom
+                        bottomMargin: 8
+                        right: parent.right
+                        rightMargin: 30
+                    }
+                    text: highcost
+                    horizontalAlignment: Text.AlignRight
+                    verticalAlignment: Text.AlignBottom
+                    color: Colors.grey1
+                    font.family: FontFamilies.family0
+                    font.pixelSize : FontSizes.size1
+                }
+
+                Text {
+                    anchors {
+                        left: highCostText.right
+                        leftMargin: 4
+                        bottom: parent.bottom
+                        bottomMargin: 8
+                    }
+                    text: "ISK/run (High)"
                     verticalAlignment: Text.AlignBottom
                     color: Colors.grey4
                     font.family: FontFamilies.family0

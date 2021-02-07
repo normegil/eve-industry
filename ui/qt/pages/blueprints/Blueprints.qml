@@ -79,6 +79,7 @@ Item {
                 font.pixelSize : FontSizes.size2
                 onActivated: {
                     blueprintSystemList.setRegion(currentValue)
+                    blueprintList.setRegion(currentValue)
                 }
                 Component.onCompleted: {
                     regionBox.currentIndex = blueprintController.initialRegionIndex

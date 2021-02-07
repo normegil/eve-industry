@@ -11,15 +11,15 @@ class IndustryCache:
 
     def load_system_cost_indices(self, system_id):
         base_key = f"costs_indices.{system_id}"
-        system_id = self.cache[base_key + ".id"]
-        if system_id is not None:
+        cost_system_id = self.cache[base_key + ".id"]
+        if cost_system_id is not None:
             manufacturing = self.cache[base_key + ".manufacturing"]
             time_efficiency = self.cache[base_key + ".researching_time_efficiency"]
             material_efficiency = self.cache[base_key + ".researching_material_efficiency"]
             copying = self.cache[base_key + ".copying"]
             invention = self.cache[base_key + ".invention"]
             reaction = self.cache[base_key + ".reaction"]
-            return SystemCosts(system_id, manufacturing, time_efficiency, material_efficiency, copying, invention,
+            return SystemCosts(cost_system_id, manufacturing, time_efficiency, material_efficiency, copying, invention,
                                reaction)
         costs = self.load_cost_indices()
         cost = find_cost(costs, system_id)

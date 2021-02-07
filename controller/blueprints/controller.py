@@ -15,11 +15,12 @@ class BlueprintsController(QObject):
         QObject.__init__(self)
         self.__model = model
         self.__view = view
-        self.blueprint_list = BlueprintList(model)
 
         current_system = self.__model.character.current_system()
-
         initial_region_id = current_system.constellation.region.id
+
+        self.blueprint_list = BlueprintList(model, initial_region_id)
+
         self.blueprint_region_list = BlueprintRegionList(model, initial_region_id)
         self.blueprint_system_list = BlueprintSystemsSorter(BlueprintSystemsList(model, initial_region_id))
 
