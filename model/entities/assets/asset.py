@@ -98,7 +98,7 @@ class Asset:
         for order in self.__region_orders[region_id]:
             if order.is_buy_order and include_buy_orders:
                 orders.append(order)
-            elif include_sell_orders:
+            elif not order.is_buy_order and include_sell_orders:
                 orders.append(order)
         return orders
 

@@ -26,8 +26,10 @@ class BlueprintModelAPI:
                 stock_cost = 0
                 if asset.average_price_per_unit is not None:
                     stock_cost = asset.quantity * asset.average_price_per_unit
+                highest_region_buy = asset.highest_regional_buy_price(region_id)
                 low_total_materials_cost = stock_cost + (
-                        material.quantity - asset.quantity) * asset.highest_regional_buy_price(region_id).price_per_unit
+                        material.quantity - asset.quantity) * highest_region_buy.price_per_unit
+                lowest_sell_order = asset.lowest_regional_sell_price(region_id)
                 high_total_materials_cost = stock_cost + (
-                        material.quantity - asset.quantity) * asset.lowest_regional_sell_price(region_id).price_per_unit
+                        material.quantity - asset.quantity) * lowest_sell_order.price_per_unit
         return low_total_materials_cost, high_total_materials_cost
