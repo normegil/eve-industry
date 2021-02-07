@@ -1,4 +1,5 @@
 import logging
+import math
 
 from model.entities.assets import Blueprint, IndividualBlueprint
 
@@ -10,15 +11,17 @@ class BlueprintModelAPI:
     def total_price(self, individual_blueprint: IndividualBlueprint, region_id):
         logging.info(f"Computing blueprint costs: {individual_blueprint.asset_id} - {region_id}")
         blueprint: Blueprint = individual_blueprint.parent
-        return self.materials_prices(blueprint.manufacturing.materials, region_id)
+        return self.materials_prices(blueprint.manufacturing.materials, region_id,
+                                     individual_blueprint.material_efficiency)
 
-    def materials_prices(self, materials, region_id):
+    def materials_prices(self, materials, region_id, material_efficiency):
         high_total_materials_cost = 0
         low_total_materials_cost = 0
         for material in materials:
             asset = self.__warehouse.asset(material.type_id)
-            if material.quantity < asset.quantity:
-                material_price = material.quantity * asset.average_price_per_unit
+            required_quantity = math.ceil(material.quantity - (material.quantity * material_efficiency / 100))
+            if required_quantity < asset.quantity:
+                material_price = required_quantity * asset.average_price_per_unit
                 high_total_materials_cost += material_price
                 low_total_materials_cost += material_price
                 continue
@@ -27,9 +30,9 @@ class BlueprintModelAPI:
                 if asset.average_price_per_unit is not None:
                     stock_cost = asset.quantity * asset.average_price_per_unit
                 highest_region_buy = asset.highest_regional_buy_price(region_id)
-                low_total_materials_cost = stock_cost + (
-                        material.quantity - asset.quantity) * highest_region_buy.price_per_unit
+                low_total_materials_cost += stock_cost + (
+                        required_quantity - asset.quantity) * highest_region_buy.price_per_unit
                 lowest_sell_order = asset.lowest_regional_sell_price(region_id)
-                high_total_materials_cost = stock_cost + (
-                        material.quantity - asset.quantity) * lowest_sell_order.price_per_unit
+                high_total_materials_cost += stock_cost + (
+                        required_quantity - asset.quantity) * lowest_sell_order.price_per_unit
         return low_total_materials_cost, high_total_materials_cost
