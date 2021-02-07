@@ -12,7 +12,7 @@ class Model:
         character_api = CharacterCache(TimeoutCacheAdapter(cache, relativedelta(minutes=5)), CharacterAPI(tokens))
         location_api = LocationAPI(tokens)
         industry_api = IndustryCache(DictAdapter({}), IndustryCache(TimeoutCacheAdapter(cache, relativedelta(days=1)),
-                                                       IndustryAPI(tokens)))
+                                                       IndustryAPI(tokens)), all_cost_indices_in_cache=True)
 
         market_dao = MarketDAO(MarketCache(DictAdapter({}), MarketCache(TimeoutCacheAdapter(cache, relativedelta(hours=1)), MarketAPI(tokens))))
         universe_dao = UniverseDAO(

@@ -106,7 +106,7 @@ class Asset:
         regional_buy_orders = self.regional_orders(region_id, include_sell_orders=False)
         highest_order = None
         for buy_order in regional_buy_orders:
-            if highest_order is None or highest_order.price_per_unit > buy_order.price_per_unit:
+            if highest_order is None or highest_order.price_per_unit < buy_order.price_per_unit:
                 highest_order = buy_order
         return highest_order
 
@@ -114,7 +114,7 @@ class Asset:
         regional_sell_orders = self.regional_orders(region_id, include_buy_orders=False)
         lowest_order = None
         for sell_order in regional_sell_orders:
-            if lowest_order is None or lowest_order.price_per_unit < sell_order.price_per_unit:
+            if lowest_order is None or lowest_order.price_per_unit > sell_order.price_per_unit:
                 lowest_order = sell_order
         return lowest_order
 
