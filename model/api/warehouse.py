@@ -9,7 +9,7 @@ class Warehouse:
     def __init__(self, warehouse_dao: WarehouseDAO, character_dao: CharacterDAO, assets_dao: AssetsDAO):
         self.warehouse_dao = warehouse_dao
         self.character_dao = character_dao
-        self.assets_dao = assets_dao
+        self.__assets_dao = assets_dao
         self.current_character = None
         self.owned_categories = []
         self.owned_blueprints = []
@@ -17,8 +17,8 @@ class Warehouse:
 
     def refresh(self):
         self.current_character = self.character_dao.load()
-        self.owned_categories = self.assets_dao.owned_in_categories(self.current_character.id)
-        self.owned_blueprints = self.assets_dao.blueprints(self.current_character.id)
+        self.owned_categories = self.__assets_dao.owned_in_categories(self.current_character.id)
+        self.owned_blueprints = self.__assets_dao.blueprints(self.current_character.id)
 
     def blueprints(self):
         return self.owned_blueprints
@@ -55,13 +55,13 @@ class Warehouse:
                     assets.append(asset)
         return assets
 
-    def asset(self, type_id) -> Optional[Asset]:
+    def asset(self, type_id) -> Asset:
         for category in self.owned_categories:
             for group in category.groups:
                 for asset in group.assets:
                     if asset.id == type_id:
                         return asset
-        return None
+        return self.__assets_dao.asset(type_id)
 
     def group(self, id_) -> Optional[Group]:
         for category in self.owned_categories:
@@ -86,7 +86,7 @@ class Warehouse:
         asset = self.asset(asset_id)
         if asset is not None:
             asset.minimum_stock = minimum_stock
-        self.assets_dao.save_minimum_stock(asset_id, minimum_stock)
+        self.__assets_dao.save_minimum_stock(asset_id, minimum_stock)
 
     def displayed_groups_ids(self):
         return self.warehouse_dao.displayed_groups_ids()

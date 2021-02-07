@@ -12,5 +12,8 @@ class BlueprintModelAPI:
     def materials_prices(self, materials):
         total_materials_cost = 0
         for material in materials:
-            total_materials_cost += material.quantity
+            asset = self.__warehouse.asset(material.type_id)
+            if asset is None:
+                continue
+            total_materials_cost += material.quantity * asset.average_price_per_unit
         return total_materials_cost

@@ -18,18 +18,42 @@ class MarketAPI:
             raise RuntimeError("Wrong response code: " + str(resp.status_code))
 
         content = json.loads(resp.content)
+        return self.__to_orders(content)
+
+    def load_orders(self, region_id, type_id):
         orders = []
-        for order in content:
-            issued_str = order["issued"]
-            issued_ = parser.parse(issued_str)
-            if "is_buy_order" in order:
-                o = Order(order["order_id"], issued_, order["location_id"], order["price"], order["duration"],
-                          order["type_id"], order["volume_remain"], order["volume_total"], order["is_buy_order"])
-            else:
-                o = Order(order["order_id"], issued_, order["location_id"], order["price"], order["duration"],
-                          order["type_id"], order["volume_remain"], order["volume_total"])
-
-            o.original = order
-            orders.append(o)
-
+        status_code = None
+        while status_code is None or status_code != 404:
+            page = 1
+            resp = requests.get(
+                eve_api.esi_base_address + f"/markets/{region_id}/orders/?page={page}&type_id={type_id}",
+                headers={'Authorization': F"Bearer {self.tokens.access_token}"})
+            if resp.status_code != 404:
+                continue
+            if resp.status_code >= 300:
+                raise RuntimeError("Wrong response code: " + str(resp.status_code))
+            content = json.loads(resp.content)
+            orders.extend(self.__to_orders(content))
         return orders
+
+    def __to_orders(self, content_json):
+        orders = []
+        for order_json in content_json:
+            o = self.__to_order(order_json)
+            orders.append(o)
+        return orders
+
+    def __to_order(self, order_dict):
+        issued_str = order_dict["issued"]
+        issued_ = parser.parse(issued_str)
+        if "is_buy_order" in order_dict:
+            o = Order(order_dict["order_id"], issued_, order_dict["location_id"], order_dict["price"],
+                      order_dict["duration"],
+                      order_dict["type_id"], order_dict["volume_remain"], order_dict["volume_total"],
+                      order_dict["is_buy_order"])
+        else:
+            o = Order(order_dict["order_id"], issued_, order_dict["location_id"], order_dict["price"],
+                      order_dict["duration"],
+                      order_dict["type_id"], order_dict["volume_remain"], order_dict["volume_total"])
+        o.original = order_dict
+        return o

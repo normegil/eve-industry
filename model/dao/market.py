@@ -4,3 +4,6 @@ class MarketDAO:
 
     def load_character_order_history(self, character_id):
         return self.market_api.load_character_order_history(character_id)
+
+    def load_orders(self, region_id, type_id):
+        return self.market_api.load_orders(region_id, type_id)

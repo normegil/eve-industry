@@ -1,14 +1,24 @@
 class Asset:
-    def __init__(self, type_id, is_blueprint_copy=False):
+    def __init__(self, type_id, is_blueprint_copy=False, asset_db=None, market_dao=None, universe_dao=None):
         self.id = type_id
         self.is_blueprint_copy = is_blueprint_copy
-        self.__universe_dao = None
         self.by_locations = []
         self.buy_orders = []
         self.__type = None
+        self.__minimum_stock = None
+        self.__region_orders = None
+        self.__asset_db = asset_db
+        self.__universe_dao = universe_dao
+        self.__market_dao = market_dao
 
     def set_universe_dao(self, universe_dao):
         self.__universe_dao = universe_dao
+
+    def set_market_dao(self, market_dao):
+        self.__market_dao = market_dao
+
+    def set_asset_db(self, asset_db):
+        self.__asset_db = asset_db
 
     @property
     def name(self):
@@ -72,6 +82,25 @@ class Asset:
         if quantity_buyed == 0:
             return None
         return self.total_price_buyed / quantity_buyed
+
+    @property
+    def minimum_stock(self):
+        if self.__minimum_stock is None:
+            self.__minimum_stock = self.__asset_db.load_minimum_stock(self.id)
+            if self.__minimum_stock is None:
+                self.__minimum_stock = 0
+        return self.__minimum_stock
+
+    def region_orders(self, region_id, include_buy_orders=True, include_sell_orders=True):
+        if self.__region_orders is None:
+            self.__region_orders = self.__market_dao.load_orders(region_id, self.id)
+        orders = []
+        for order in self.__region_orders:
+            if order.is_buy_order and include_buy_orders:
+                orders.append(order)
+            elif include_sell_orders:
+                orders.append(order)
+        return orders
 
 
 class IndividualAsset:

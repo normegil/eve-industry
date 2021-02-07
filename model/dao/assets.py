@@ -13,10 +13,10 @@ class AssetsDAO:
     def __init__(self, assets_db: AssetsDB, assets_api: AssetsAPI, character_api, blueprint_db, market_dao,
                  universe_dao):
         self.assets_api = assets_api
-        self.assets_db = assets_db
+        self.__assets_db = assets_db
         self.character_api = character_api
-        self.market_dao = market_dao
-        self.universe_dao = universe_dao
+        self.__market_dao = market_dao
+        self.__universe_dao = universe_dao
         self.__blueprint_db = blueprint_db
 
     def blueprints(self, character_id):
@@ -30,7 +30,7 @@ class AssetsDAO:
     def owned(self, character_id):
         bef = current_milli_time()
         assets = self.assets_api.owned(character_id)
-        orders = self.market_dao.load_character_order_history(character_id)
+        orders = self.__market_dao.load_character_order_history(character_id)
         buy_order_in_assets(assets, orders)
 
         for asset in assets:
@@ -39,16 +39,21 @@ class AssetsDAO:
         logging.info(f"Owned: {aft - bef}ms")
         return assets
 
+    def asset(self, asset_id):
+        asset = Asset(asset_id, universe_dao=self.__universe_dao, asset_db=self.__assets_db)
+        self.__init_asset_properties(asset, [])
+
     def __init_asset_properties(self, asset, assets):
-        asset.set_universe_dao(self.universe_dao)
-        asset.minimum_stock = self.assets_db.load_minimum_stock(asset.id)
+        asset.set_asset_db(self.__assets_db)
+        asset.set_universe_dao(self.__universe_dao)
+        asset.set_market_dao(self.__market_dao)
         self.__finalise_location_init(asset.by_locations, assets)
         self.__finalise_location_init(asset.buy_orders, assets)
 
     def __finalise_location_init(self, individuals, assets):
         for individual in individuals:
             if hasattr(individual.location, "set_universe_dao"):
-                individual.location.set_universe_dao(self.universe_dao)
+                individual.location.set_universe_dao(self.__universe_dao)
             if hasattr(individual.location, "set_assets"):
                 individual.location.set_assets(assets)
 
@@ -71,7 +76,7 @@ class AssetsDAO:
         return categories
 
     def save_minimum_stock(self, asset_id: int, minimum_stock: int):
-        self.assets_db.save_minimum_stock(asset_id, minimum_stock)
+        self.__assets_db.save_minimum_stock(asset_id, minimum_stock)
 
 
 def buy_order_in_assets(assets, orders: []) -> []:

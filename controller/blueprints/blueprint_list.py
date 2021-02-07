@@ -3,6 +3,7 @@ import typing
 from PySide2.QtCore import QAbstractListModel, QModelIndex, Qt
 
 from controller.general import LocationAbstractModelList
+from controller.general import format_real
 
 
 class BlueprintList(QAbstractListModel):
@@ -75,6 +76,6 @@ class BlueprintIndividualList(LocationAbstractModelList):
             elif role == BlueprintIndividualList.MaterialsRole:
                 return individual.material_efficiency
             elif role == BlueprintIndividualList.CostRole:
-                return self.__model.blueprints.total_price(individual)
+                return format_real(self.__model.blueprints.total_price(individual))
             else:
                 return super().data(individual, role)
