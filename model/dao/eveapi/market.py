@@ -1,4 +1,5 @@
 import json
+import logging
 
 import requests
 from dateutil import parser
@@ -12,6 +13,7 @@ class MarketAPI:
         self.tokens = tokens
 
     def load_character_order_history(self, character_id):
+        logging.info(f"Requesting character orders history")
         resp = requests.get(eve_api.esi_base_address + "/characters/" + str(character_id) + "/orders/history",
                             headers={'Authorization': F"Bearer {self.tokens.access_token}"})
         if resp.status_code >= 300:
@@ -21,19 +23,22 @@ class MarketAPI:
         return self.__to_orders(content)
 
     def load_orders(self, region_id, type_id):
+        logging.info(f"Requesting orders [Region:{region_id};Type:{type_id}]")
         orders = []
         status_code = None
+        page = 1
         while status_code is None or status_code != 404:
-            page = 1
             resp = requests.get(
                 eve_api.esi_base_address + f"/markets/{region_id}/orders/?page={page}&type_id={type_id}",
                 headers={'Authorization': F"Bearer {self.tokens.access_token}"})
-            if resp.status_code != 404:
+            status_code = resp.status_code
+            if resp.status_code == 404:
                 continue
             if resp.status_code >= 300:
                 raise RuntimeError("Wrong response code: " + str(resp.status_code))
             content = json.loads(resp.content)
             orders.extend(self.__to_orders(content))
+            page += 1
         return orders
 
     def __to_orders(self, content_json):

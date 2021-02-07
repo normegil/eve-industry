@@ -42,6 +42,7 @@ class AssetsDAO:
     def asset(self, asset_id):
         asset = Asset(asset_id, universe_dao=self.__universe_dao, asset_db=self.__assets_db)
         self.__init_asset_properties(asset, [])
+        return asset
 
     def __init_asset_properties(self, asset, assets):
         asset.set_asset_db(self.__assets_db)
