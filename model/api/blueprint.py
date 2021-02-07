@@ -9,7 +9,6 @@ class BlueprintModelAPI:
         self.__warehouse = warehouse
 
     def total_price(self, individual_blueprint: IndividualBlueprint, region_id):
-        logging.info(f"Computing blueprint costs: {individual_blueprint.asset_id} - {region_id}")
         blueprint: Blueprint = individual_blueprint.parent
         return self.materials_prices(blueprint.manufacturing.materials, region_id,
                                      individual_blueprint.material_efficiency)
