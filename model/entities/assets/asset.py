@@ -6,7 +6,7 @@ class Asset:
         self.buy_orders = []
         self.__type = None
         self.__minimum_stock = None
-        self.__region_orders = None
+        self.__region_orders = {}
         self.__asset_db = asset_db
         self.__universe_dao = universe_dao
         self.__market_dao = market_dao
@@ -91,16 +91,32 @@ class Asset:
                 self.__minimum_stock = 0
         return self.__minimum_stock
 
-    def region_orders(self, region_id, include_buy_orders=True, include_sell_orders=True):
-        if self.__region_orders is None:
-            self.__region_orders = self.__market_dao.load_orders(region_id, self.id)
+    def regional_orders(self, region_id, include_buy_orders=True, include_sell_orders=True):
+        if region_id not in self.__region_orders:
+            self.__region_orders[region_id] = self.__market_dao.load_orders(region_id, self.id)
         orders = []
-        for order in self.__region_orders:
+        for order in self.__region_orders[region_id]:
             if order.is_buy_order and include_buy_orders:
                 orders.append(order)
             elif include_sell_orders:
                 orders.append(order)
         return orders
+
+    def highest_regional_buy_price(self, region_id):
+        regional_buy_orders = self.regional_orders(region_id, include_sell_orders=False)
+        highest_order = None
+        for buy_order in regional_buy_orders:
+            if highest_order is None or highest_order.price_per_unit > buy_order.price_per_unit:
+                highest_order = buy_order
+        return highest_order
+
+    def lowest_regional_sell_price(self, region_id):
+        regional_sell_orders = self.regional_orders(region_id, include_buy_orders=False)
+        lowest_order = None
+        for sell_order in regional_sell_orders:
+            if lowest_order is None or lowest_order.price_per_unit < sell_order.price_per_unit:
+                lowest_order = sell_order
+        return lowest_order
 
 
 class IndividualAsset:
