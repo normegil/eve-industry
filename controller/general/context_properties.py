@@ -15,6 +15,7 @@ class ContextProperties(Enum):
     BLUEPRINT_LIST = "blueprintList"
     BLUEPRINT_REGION_LIST = "blueprintRegionList"
     BLUEPRINT_SYSTEM_LIST = "blueprintSystemList"
+    BLUEPRINT_DETAIL_CONTROLLER = "blueprintDetailController"
 
     SETTINGS_WAREHOUSE_GROUPS_NOT_DISPLAYED = "settingsWarehouseGroupsNotDisplayed"
     SETTINGS_WAREHOUSE_GROUPS_DISPLAYED = "settingsWarehouseGroupsDisplayed"

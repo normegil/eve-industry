@@ -6,6 +6,7 @@ from controller.general import ContextProperties
 from .blueprint_list import BlueprintList
 from .blueprint_region_list import BlueprintRegionList
 from .blueprint_system_list import BlueprintSystemsList, BlueprintSystemsSorter
+from .details import BlueprintDetailController
 
 
 class BlueprintsController(QObject):
@@ -25,12 +26,16 @@ class BlueprintsController(QObject):
         self.blueprint_region_list = BlueprintRegionList(model, initial_region_id)
         self.blueprint_system_list = BlueprintSystemsSorter(BlueprintSystemsList(model, initial_region_id))
 
+        self.blueprint_detail = BlueprintDetailController()
+
         self.__view.engine.rootContext().setContextProperty(ContextProperties.BLUEPRINT_CONTROLLER.value, self)
         self.__view.engine.rootContext().setContextProperty(ContextProperties.BLUEPRINT_LIST.value, self.blueprint_list)
         self.__view.engine.rootContext().setContextProperty(ContextProperties.BLUEPRINT_REGION_LIST.value,
                                                             self.blueprint_region_list)
         self.__view.engine.rootContext().setContextProperty(ContextProperties.BLUEPRINT_SYSTEM_LIST.value,
                                                             self.blueprint_system_list)
+        self.__view.engine.rootContext().setContextProperty(ContextProperties.BLUEPRINT_DETAIL_CONTROLLER.value,
+                                                           self.blueprint_detail)
 
     @Slot(int)
     def setCurrentRegion(self, id_: int):
